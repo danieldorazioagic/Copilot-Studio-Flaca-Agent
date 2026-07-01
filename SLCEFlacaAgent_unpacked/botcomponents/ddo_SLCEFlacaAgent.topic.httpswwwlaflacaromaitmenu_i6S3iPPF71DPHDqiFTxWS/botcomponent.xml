@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.httpswwwlaflacaromaitmenu_i6S3iPPF71DPHDqiFTxWS">
+  <componenttype>16</componenttype>
+  <description>Contiene la panoramica completa del menu “La Flaca”, con tutte le categorie di piatti disponibili e la struttura generale dell’offerta.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>https://www.laflacaroma.it/menu/</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

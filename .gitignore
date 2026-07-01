@@ -1,0 +1,12 @@
+# Zip delle soluzioni (tenuti in locale come backup, non versionati)
+*.zip
+
+# File temporanei e di sistema
+*.tmp
+*.log
+Thumbs.db
+.DS_Store
+
+# Output di build/deploy
+bin/
+obj/

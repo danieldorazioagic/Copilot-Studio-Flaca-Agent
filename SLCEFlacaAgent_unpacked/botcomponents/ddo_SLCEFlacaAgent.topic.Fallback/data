@@ -1,0 +1,19 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnUnknownIntent
+  id: main
+  actions:
+    - kind: ConditionGroup
+      id: conditionGroup_LktzXw
+      conditions:
+        - id: conditionItem_tlGIVo
+          condition: =System.FallbackCount < 3
+          actions:
+            - kind: SendActivity
+              id: sendMessage_QZreqo
+              activity: Mi dispiace, non so come posso aiutarti. Puoi provare a riformulare la richiesta?
+
+      elseActions:
+        - kind: BeginDialog
+          id: 5aXj5M
+          dialog: ddo_SLCEFlacaAgent.topic.Escalate

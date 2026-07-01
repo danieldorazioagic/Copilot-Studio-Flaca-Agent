@@ -1,0 +1,10 @@
+<environmentvariabledefinition schemaname="ddo_SLCEFlacaAgentUrlSharePoint">
+  <displayname default="SL CE - Flaca Agent | Url SharePoint">
+    <label description="SL CE - Flaca Agent | Url SharePoint" languagecode="1040" />
+  </displayname>
+  <introducedversion>1.0.0.3</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

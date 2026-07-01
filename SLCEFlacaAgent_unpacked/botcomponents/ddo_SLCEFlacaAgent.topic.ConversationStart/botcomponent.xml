@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.ConversationStart">
+  <componenttype>9</componenttype>
+  <description>Questo argomento di sistema si attiva quando l'agente riceve un'attività che indica l'inizio di una nuova conversazione. Se non vuoi che l'agente avvii la conversazione, disabilita questo argomento.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Inizio conversazione</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

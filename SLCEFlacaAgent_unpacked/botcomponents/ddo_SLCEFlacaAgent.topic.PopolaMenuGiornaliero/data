@@ -1,0 +1,198 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Popola Menu Giornaliero
+    triggerQueries:
+      - POPOLA_MENU_GIORNALIERO
+
+  actions:
+    - kind: SetVariable
+      id: setDataOggi
+      variable: Topic.DataOggi
+      value: =Text(Today(), "yyyy-MM-dd")
+
+    - kind: SetVariable
+      id: setQueryMenu
+      variable: Topic.QueryMenu
+      value: Quali sono i piatti del menu di La Flaca? Elencali tutti separati da virgola, solo i nomi senza descrizioni.
+
+    - kind: InvokeFlowAction
+      id: cancellaMenuOggi
+      input:
+        binding:
+          text: =Topic.DataOggi
+        text: =Topic.DataOggi
+      output: {}
+      flowId: af9651ee-3975-f111-ab0d-7c1e52357019
+
+    - kind: SearchAndSummarizeContent
+      id: getMenuPrimi
+      variable: Topic.RawPrimi
+      userInput: =Topic.QueryMenu
+      knowledgeSources:
+        kind: SearchSpecificKnowledgeSources
+        knowledgeSources:
+          - ddo_SLCEFlacaAgent.topic.httpswwwlaflacaromaitprimi_wX3jmGEJDYF0BLBJDEtoI
+
+    - kind: SetVariable
+      id: cleanPrimi
+      variable: Topic.Primi
+      value: =Trim(First(Split(First(Split(Topic.RawPrimi, Char(10)&Char(10))).Value, " [")).Value)
+
+    - kind: ConditionGroup
+      id: checkPrimi
+      conditions:
+        - id: hasPrimi
+          condition: =!IsBlank(Topic.Primi)
+          actions:
+            - kind: InvokeFlowAction
+              id: scriviPrimi
+              input:
+                binding:
+                  text: =Topic.Primi
+                  text_1: =Topic.DataOggi
+                  text_2: Primi
+                text: =Topic.Primi
+                text_1: =Topic.DataOggi
+                text_2: Primi
+              output: {}
+              flowId: 0c130643-6872-f111-ab0d-000d3a693112
+
+    - kind: SearchAndSummarizeContent
+      id: getMenuSecondi
+      variable: Topic.RawSecondi
+      userInput: =Topic.QueryMenu
+      knowledgeSources:
+        kind: SearchSpecificKnowledgeSources
+        knowledgeSources:
+          - ddo_SLCEFlacaAgent.topic.httpswwwlaflacaromaitsecondi_U3TEJ_8hyizsRXnv9qhF6
+
+    - kind: SetVariable
+      id: cleanSecondi
+      variable: Topic.Secondi
+      value: =Trim(First(Split(First(Split(Topic.RawSecondi, Char(10)&Char(10))).Value, " [")).Value)
+
+    - kind: ConditionGroup
+      id: checkSecondi
+      conditions:
+        - id: hasSecondi
+          condition: =!IsBlank(Topic.Secondi)
+          actions:
+            - kind: InvokeFlowAction
+              id: scriviSecondi
+              input:
+                binding:
+                  text: =Topic.Secondi
+                  text_1: =Topic.DataOggi
+                  text_2: Secondi
+                text: =Topic.Secondi
+                text_1: =Topic.DataOggi
+                text_2: Secondi
+              output: {}
+              flowId: 0c130643-6872-f111-ab0d-000d3a693112
+
+    - kind: SearchAndSummarizeContent
+      id: getMenuPizze
+      variable: Topic.RawPizze
+      userInput: =Topic.QueryMenu
+      knowledgeSources:
+        kind: SearchSpecificKnowledgeSources
+        knowledgeSources:
+          - ddo_SLCEFlacaAgent.topic.httpswwwlaflacaromaitpizze_RMYJT7QueFPgv41M3W_4_
+
+    - kind: SetVariable
+      id: cleanPizze
+      variable: Topic.Pizze
+      value: =Trim(First(Split(First(Split(Topic.RawPizze, Char(10)&Char(10))).Value, " [")).Value)
+
+    - kind: ConditionGroup
+      id: checkPizze
+      conditions:
+        - id: hasPizze
+          condition: =!IsBlank(Topic.Pizze)
+          actions:
+            - kind: InvokeFlowAction
+              id: scriviPizze
+              input:
+                binding:
+                  text: =Topic.Pizze
+                  text_1: =Topic.DataOggi
+                  text_2: Pizze
+                text: =Topic.Pizze
+                text_1: =Topic.DataOggi
+                text_2: Pizze
+              output: {}
+              flowId: 0c130643-6872-f111-ab0d-000d3a693112
+
+    - kind: SearchAndSummarizeContent
+      id: getMenuInsalate
+      variable: Topic.RawInsalate
+      userInput: =Topic.QueryMenu
+      knowledgeSources:
+        kind: SearchSpecificKnowledgeSources
+        knowledgeSources:
+          - ddo_SLCEFlacaAgent.topic.httpswwwlaflacaromaitinsalate_zkPhaUCDQY96dJRwGCgV7
+
+    - kind: SetVariable
+      id: cleanInsalate
+      variable: Topic.Insalate
+      value: =Trim(First(Split(First(Split(Topic.RawInsalate, Char(10)&Char(10))).Value, " [")).Value)
+
+    - kind: ConditionGroup
+      id: checkInsalate
+      conditions:
+        - id: hasInsalate
+          condition: =!IsBlank(Topic.Insalate)
+          actions:
+            - kind: InvokeFlowAction
+              id: scriviInsalate
+              input:
+                binding:
+                  text: =Topic.Insalate
+                  text_1: =Topic.DataOggi
+                  text_2: Insalate
+                text: =Topic.Insalate
+                text_1: =Topic.DataOggi
+                text_2: Insalate
+              output: {}
+              flowId: 0c130643-6872-f111-ab0d-000d3a693112
+
+    - kind: SearchAndSummarizeContent
+      id: getMenuBurger
+      variable: Topic.RawBurger
+      userInput: =Topic.QueryMenu
+      knowledgeSources:
+        kind: SearchSpecificKnowledgeSources
+        knowledgeSources:
+          - ddo_SLCEFlacaAgent.topic.httpswwwlaflacaromaitburger_boe8gPB3guMzwYF6PNIDd
+
+    - kind: SetVariable
+      id: cleanBurger
+      variable: Topic.Burger
+      value: =Trim(First(Split(First(Split(Topic.RawBurger, Char(10)&Char(10))).Value, " [")).Value)
+
+    - kind: ConditionGroup
+      id: checkBurger
+      conditions:
+        - id: hasBurger
+          condition: =!IsBlank(Topic.Burger)
+          actions:
+            - kind: InvokeFlowAction
+              id: scriviBurger
+              input:
+                binding:
+                  text: =Topic.Burger
+                  text_1: =Topic.DataOggi
+                  text_2: Burger
+                text: =Topic.Burger
+                text_1: =Topic.DataOggi
+                text_2: Burger
+              output: {}
+              flowId: 0c130643-6872-f111-ab0d-000d3a693112
+
+    - kind: SendActivity
+      id: sendSuccess
+      activity:
+        text: "✅ Menu FlacaMenu aggiornato per {Topic.DataOggi}"

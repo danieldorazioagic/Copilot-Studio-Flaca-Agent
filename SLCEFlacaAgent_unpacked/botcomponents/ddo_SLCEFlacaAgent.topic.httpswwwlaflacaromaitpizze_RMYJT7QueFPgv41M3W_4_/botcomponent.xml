@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.httpswwwlaflacaromaitpizze_RMYJT7QueFPgv41M3W_4_">
+  <componenttype>16</componenttype>
+  <description>Sezione dedicata alle pizze, con diverse varianti di impasto e farciture, incluse opzioni classiche e creative.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>https://www.laflacaroma.it/pizze/</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

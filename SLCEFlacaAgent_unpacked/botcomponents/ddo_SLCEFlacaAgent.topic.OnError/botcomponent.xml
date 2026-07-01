@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.OnError">
+  <componenttype>9</componenttype>
+  <description>Questo argomento di sistema si attiva quando l'agente registra un errore. Quando si usa il riquadro della chat di prova, viene visualizzata la descrizione completa dell'errore.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>In caso di errore</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

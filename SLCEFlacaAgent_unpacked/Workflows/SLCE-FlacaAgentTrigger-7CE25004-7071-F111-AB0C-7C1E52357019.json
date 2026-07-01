@@ -1,0 +1,82 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_microsoftcopilotstudio": {
+        "api": {
+          "name": "shared_microsoftcopilotstudio"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedmicrosoftcopilotstudio_fd8d0"
+        },
+        "runtimeSource": "embedded"
+      },
+      "shared_teams": {
+        "api": {
+          "name": "shared_teams"
+        },
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedteams_ddd0e"
+        },
+        "runtimeSource": "embedded"
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        }
+      },
+      "triggers": {
+        "Recurrence": {
+          "type": "Recurrence",
+          "recurrence": {
+            "frequency": "Day",
+            "interval": 1,
+            "timeZone": "W. Europe Standard Time",
+            "schedule": {
+              "hours": [
+                "9"
+              ],
+              "minutes": [
+                0
+              ]
+            }
+          },
+          "metadata": {
+            "operationMetadataId": "edcdfaa1-c429-4d9f-87a4-80668e37d9e0"
+          }
+        }
+      },
+      "actions": {
+        "Popola_menu_giornaliero": {
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "Copilot": "ddo_SLCEFlacaAgent",
+              "body/message": "POPOLA_MENU_GIORNALIERO"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_microsoftcopilotstudio",
+              "operationId": "ExecuteCopilot",
+              "connectionName": "shared_microsoftcopilotstudio"
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "d590d261-c124-439c-b967-076724a8c922"
+          }
+        }
+      },
+      "description": "Ogni giorno alle 09:00 triggera l'agente per popolare SharePoint FlacaMenu con il menu del giorno (fire-and-forget)"
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

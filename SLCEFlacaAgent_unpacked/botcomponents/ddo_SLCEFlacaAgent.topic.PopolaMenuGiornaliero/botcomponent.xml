@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.PopolaMenuGiornaliero">
+  <componenttype>9</componenttype>
+  <description>Topic interno: si attiva quando riceve il comando POPOLA_MENU_GIORNALIERO. Legge i piatti disponibili da laflacaroma.it e li scrive sulla lista SharePoint FlacaMenu tramite un flusso Power Automate.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>Popola Menu Giornaliero</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

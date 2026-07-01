@@ -1,0 +1,13 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.Escalate">
+  <componenttype>9</componenttype>
+  <description>Questo argomento di sistema viene attivato quando l'utente indica che desidera parlare con un rappresentante.
+Puoi configurare la modalità di gestione del passaggio dall'agente a un essere umano nelle impostazioni dell'agente.
+Se il tuo agente non gestisce le escalation, questo argomento deve essere disabilitato.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Esegui escalation</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

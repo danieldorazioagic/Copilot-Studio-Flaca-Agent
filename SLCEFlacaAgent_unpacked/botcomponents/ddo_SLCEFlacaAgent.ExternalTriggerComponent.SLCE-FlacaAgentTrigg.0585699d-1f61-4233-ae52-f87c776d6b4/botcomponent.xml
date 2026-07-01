@@ -1,0 +1,12 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.ExternalTriggerComponent.SLCE-FlacaAgentTrigg.0585699d-1f61-4233-ae52-f87c776d6b4">
+  <componenttype>17</componenttype>
+  <description>Create a trigger to automatically call your copilot repeatedly</description>
+  <iconurl>https://content.powerapps.com/resource/makerx/static/media/RecurrenceIcon.816b06a2.svg</iconurl>
+  <iscustomizable>0</iscustomizable>
+  <name>SL CE - Flaca Agent | Trigger</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

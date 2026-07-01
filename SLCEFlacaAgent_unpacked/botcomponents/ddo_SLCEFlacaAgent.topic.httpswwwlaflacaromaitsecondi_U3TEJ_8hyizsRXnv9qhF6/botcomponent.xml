@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.httpswwwlaflacaromaitsecondi_U3TEJ_8hyizsRXnv9qhF6">
+  <componenttype>16</componenttype>
+  <description>Sezione dei secondi piatti, con portate principali a base di carne o pesce.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>https://www.laflacaroma.it/secondi/</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

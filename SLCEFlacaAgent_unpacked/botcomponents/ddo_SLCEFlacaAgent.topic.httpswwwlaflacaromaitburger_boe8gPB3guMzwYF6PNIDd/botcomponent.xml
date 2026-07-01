@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.httpswwwlaflacaromaitburger_boe8gPB3guMzwYF6PNIDd">
+  <componenttype>16</componenttype>
+  <description>Sezione dedicata agli hamburger, con proposte a base di carne o alternative, accompagnate da ingredienti e combinazioni particolari.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>https://www.laflacaroma.it/burger/</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

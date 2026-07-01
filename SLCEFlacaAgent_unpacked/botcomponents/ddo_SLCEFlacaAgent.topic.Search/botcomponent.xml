@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.Search">
+  <componenttype>9</componenttype>
+  <description>Crea risposte generative dalle fonti delle informazioni.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Ottimizzazione della conversazione</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

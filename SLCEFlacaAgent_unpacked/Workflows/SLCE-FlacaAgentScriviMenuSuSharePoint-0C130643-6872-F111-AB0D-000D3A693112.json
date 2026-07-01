@@ -1,0 +1,184 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedsharepointonline_31146"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)": {
+          "defaultValue": "https://agictechnology-my.sharepoint.com/personal/daniel_dorazio_agic_it",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ddo_SLCEFlacaAgentUrlSharePoint"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "b8f61c18-7224-4f8a-9c5f-72fbce5df764"
+          },
+          "type": "Request",
+          "kind": "Skills",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "menuCSV",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Piatti del menu separati da virgola",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_1": {
+                  "title": "dataMenu",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Data menu formato yyyy-MM-dd",
+                  "x-ms-content-hint": "TEXT"
+                },
+                "text_2": {
+                  "title": "categoria",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Categoria del menu (es. Primi, Secondi, Pizze)",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Respond_to_the_agent": {
+          "runAfter": {
+            "Ambito": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "81c94f73-dd52-465c-ad3b-a4686da63cc3"
+          },
+          "type": "Response",
+          "kind": "Skills",
+          "inputs": {
+            "statusCode": 200,
+            "body": {},
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "Ambito": {
+          "actions": {
+            "Crea_Nuovi_Piatti": {
+              "foreach": "@split(outputs('Pulisci_MenuCSV'), ',')",
+              "actions": {
+                "Salta_Token_Vuoto": {
+                  "runAfter": {},
+                  "type": "If",
+                  "expression": {
+                    "and": [
+                      {
+                        "greater": [
+                          "@length(trim(items('Crea_Nuovi_Piatti')))",
+                          1
+                        ]
+                      },
+                      {
+                        "not": {
+                          "contains": [
+                            "@createArray('Antipasti','Fritti','Primi','Secondi','Pizze','Insalate','Burger','Dolci','Antipasto','Primo','Secondo','Pizza','Menu','Bevande','Vini')",
+                            "@trim(items('Crea_Nuovi_Piatti'))"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "actions": {
+                    "Crea_Voce_Menu": {
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "d8bca371-bb34-47b6-aab1-b0b0565a29a6"
+                      },
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_sharepointonline_1",
+                          "operationId": "PostItem",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                        },
+                        "parameters": {
+                          "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                          "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                          "item/Title": "@trim(items('Crea_Nuovi_Piatti'))",
+                          "item/DataMenu": "@formatDateTime(triggerBody()?['text_1'], 'yyyy-MM-dd')",
+                          "item/Attivo": true,
+                          "item/Categoria": "@trim(triggerBody()?['text_2'])"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    }
+                  },
+                  "else": {
+                    "actions": {}
+                  }
+                }
+              },
+              "runAfter": {
+                "Pulisci_MenuCSV": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "ced97960-a328-4d11-846f-7b789c4bb13c"
+              },
+              "type": "Foreach"
+            },
+            "Pulisci_MenuCSV": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+              },
+              "type": "Compose",
+              "inputs": "@trim(first(split(first(split(triggerBody()?['text'], decodeUriComponent('%0A%0A'))), '[')))"
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "41199ef5-5b66-4e6a-9be2-78c228fc2b07"
+          },
+          "type": "Scope"
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

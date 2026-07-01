@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.MultipleTopicsMatched">
+  <componenttype>9</componenttype>
+  <description>Questo argomento di sistema si attiva quando l'agente abbina più argomenti al messaggio in arrivo e deve chiedere quale attivare.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Più argomenti corrispondenti</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

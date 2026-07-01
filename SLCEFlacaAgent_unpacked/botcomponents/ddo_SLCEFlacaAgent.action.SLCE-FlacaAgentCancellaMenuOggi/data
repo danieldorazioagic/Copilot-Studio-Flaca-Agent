@@ -1,0 +1,16 @@
+kind: TaskDialog
+action:
+  kind: InvokeFlowTaskAction
+  flowId: af9651ee-3975-f111-ab0d-7c1e52357019
+  connectionProperties:
+    $kind: ConnectionProperties
+    diagnostics:
+    mode: Invoker
+
+inputType:
+  properties:
+    text:
+      type: String
+      title: dataMenu
+
+outputMode: All

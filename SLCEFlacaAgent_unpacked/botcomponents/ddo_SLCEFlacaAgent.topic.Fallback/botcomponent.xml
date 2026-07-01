@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.Fallback">
+  <componenttype>9</componenttype>
+  <description>Questo argomento di sistema viene attivato quando l'espressione dell'utente non corrisponde ad alcun argomento esistente.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Fallback</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

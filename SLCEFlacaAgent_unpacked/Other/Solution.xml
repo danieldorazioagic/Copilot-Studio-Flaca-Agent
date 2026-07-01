@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.2.26061.150" SolutionPackageVersion="9.2" languagecode="1040" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26061.150" OrganizationSchemaType="Full" CRMServerServiceabilityVersion="9.2.26061.00150">
+  <SolutionManifest>
+    <UniqueName>SLCEFlacaAgent</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="SL CE - Flaca Agent" languagecode="1040" />
+    </LocalizedNames>
+    <Descriptions />
+    <Version>1.0.0.19</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>DanielDorazio</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="Daniel Dorazio" languagecode="1040" />
+      </LocalizedNames>
+      <Descriptions />
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+      <CustomizationPrefix>ddo</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>77535</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="29" id="{0c130643-6872-f111-ab0d-000d3a693112}" behavior="0" />
+      <RootComponent type="29" id="{7ce25004-7071-f111-ab0c-7c1e52357019}" behavior="0" />
+      <RootComponent type="29" id="{af9651ee-3975-f111-ab0d-7c1e52357019}" behavior="0" />
+      <RootComponent type="29" id="{d7372fbf-b66b-f111-ab0c-7ced8d2c46cb}" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="ddo_sharedteams_ddd0e" solution="Active" id.connectionreferencelogicalname="ddo_sharedteams_ddd0e" />
+        <Dependent type="29" displayName="SL CE - Flaca Agent | Trigger" id="{7ce25004-7071-f111-ab0c-7c1e52357019}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="ddo_sharedteams_ddd0e" solution="Active" id.connectionreferencelogicalname="ddo_sharedteams_ddd0e" />
+        <Dependent type="29" displayName="SL CE - Flaca Agent | InvioMenuTeams " id="{d7372fbf-b66b-f111-ab0c-7ced8d2c46cb}" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>

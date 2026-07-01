@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.Goodbye">
+  <componenttype>9</componenttype>
+  <description>Questo argomento si attiva quando l'utente pronuncia la formula di saluto finale. Per impostazione predefinita, la conversazione non finisce. Se vuoi terminare la conversazione quando l'utente pronuncia la formula di saluto finale, puoi aggiungere un'azione "Fine della conversazione" all'argomento o reindirizzare all'argomento di sistema "Fine della conversazione".</description>
+  <iscustomizable>0</iscustomizable>
+  <name>A presto</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

@@ -1,0 +1,12 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.EndofConversation">
+  <componenttype>9</componenttype>
+  <description>Questo argomento di sistema viene attivato solo da un'azione di reindirizzamento
+e guida l'utente attraverso la fase di valutazione della propria conversazione con l'agente.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>Fine della conversazione</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

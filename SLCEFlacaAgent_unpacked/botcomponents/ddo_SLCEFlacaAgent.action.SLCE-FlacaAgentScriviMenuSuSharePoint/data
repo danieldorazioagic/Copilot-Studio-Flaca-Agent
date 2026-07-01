@@ -1,0 +1,22 @@
+kind: TaskDialog
+action:
+  kind: InvokeFlowTaskAction
+  flowId: 0c130643-6872-f111-ab0d-000d3a693112
+  connectionProperties:
+    $kind: ConnectionProperties
+    diagnostics:
+    mode: Invoker
+
+inputType:
+  properties:
+    text:
+      type: String
+      title: piattiCSV
+    text_1:
+      type: String
+      title: dataMenu
+    text_2:
+      type: String
+      title: categoria
+
+outputMode: All
