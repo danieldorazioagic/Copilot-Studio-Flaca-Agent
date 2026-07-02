@@ -145,7 +145,7 @@
                 },
                 "Add_Primo": {
                   "runAfter": {
-                    "Inc_Primi": [
+                    "Scrivi_Indice_Primi": [
                       "Succeeded"
                     ]
                   },
@@ -156,6 +156,31 @@
                   "inputs": {
                     "name": "messaggioMenu",
                     "value": "@{variables('contatore')}. @{items('Componi_Primi')?['Title']}<br>"
+                  }
+                },
+                "Scrivi_Indice_Primi": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "PatchItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                      "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                      "id": "@{items('Componi_Primi')?['ID']}",
+                      "item/Indice": "@{variables('contatore')}"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  },
+                  "runAfter": {
+                    "Inc_Primi": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "e1000001-0001-0001-0001-000000000001"
                   }
                 }
               },
@@ -246,7 +271,7 @@
                 },
                 "Add_Secondo": {
                   "runAfter": {
-                    "Inc_Secondi": [
+                    "Scrivi_Indice_Secondi": [
                       "Succeeded"
                     ]
                   },
@@ -257,6 +282,31 @@
                   "inputs": {
                     "name": "messaggioMenu",
                     "value": "@{variables('contatore')}. @{items('Componi_Secondi')?['Title']}<br>"
+                  }
+                },
+                "Scrivi_Indice_Secondi": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "PatchItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                      "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                      "id": "@{items('Componi_Secondi')?['ID']}",
+                      "item/Indice": "@{variables('contatore')}"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  },
+                  "runAfter": {
+                    "Inc_Secondi": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "e1000002-0001-0001-0001-000000000001"
                   }
                 }
               },
@@ -347,7 +397,7 @@
                 },
                 "Add_Pizza": {
                   "runAfter": {
-                    "Inc_Pizze": [
+                    "Scrivi_Indice_Pizze": [
                       "Succeeded"
                     ]
                   },
@@ -358,6 +408,31 @@
                   "inputs": {
                     "name": "messaggioMenu",
                     "value": "@{variables('contatore')}. @{items('Componi_Pizze')?['Title']}<br>"
+                  }
+                },
+                "Scrivi_Indice_Pizze": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "PatchItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                      "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                      "id": "@{items('Componi_Pizze')?['ID']}",
+                      "item/Indice": "@{variables('contatore')}"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  },
+                  "runAfter": {
+                    "Inc_Pizze": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "e1000003-0001-0001-0001-000000000001"
                   }
                 }
               },
@@ -448,7 +523,7 @@
                 },
                 "Add_Insalata": {
                   "runAfter": {
-                    "Inc_Insalate": [
+                    "Scrivi_Indice_Insalate": [
                       "Succeeded"
                     ]
                   },
@@ -459,6 +534,31 @@
                   "inputs": {
                     "name": "messaggioMenu",
                     "value": "@{variables('contatore')}. @{items('Componi_Insalate')?['Title']}<br>"
+                  }
+                },
+                "Scrivi_Indice_Insalate": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "PatchItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                      "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                      "id": "@{items('Componi_Insalate')?['ID']}",
+                      "item/Indice": "@{variables('contatore')}"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  },
+                  "runAfter": {
+                    "Inc_Insalate": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "e1000004-0001-0001-0001-000000000001"
                   }
                 }
               },
@@ -549,7 +649,7 @@
                 },
                 "Add_Burger": {
                   "runAfter": {
-                    "Inc_Burger": [
+                    "Scrivi_Indice_Burger": [
                       "Succeeded"
                     ]
                   },
@@ -560,6 +660,31 @@
                   "inputs": {
                     "name": "messaggioMenu",
                     "value": "@{variables('contatore')}. @{items('Componi_Burger')?['Title']}<br>"
+                  }
+                },
+                "Scrivi_Indice_Burger": {
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "PatchItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                      "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                      "id": "@{items('Componi_Burger')?['ID']}",
+                      "item/Indice": "@{variables('contatore')}"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  },
+                  "runAfter": {
+                    "Inc_Burger": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "e1000005-0001-0001-0001-000000000001"
                   }
                 }
               },
@@ -615,7 +740,7 @@
               "poster": "Flow bot",
               "location": "Group chat",
               "body/recipient": "19:419f41383b41472c9d358157ede138e9@thread.v2",
-              "body/messageBody": "<p>Ciao a tutti ☀️<br>\nEcco il menu di oggi per <strong>La Flaca</strong>:<br><br>\n@{variables('messaggioMenu')}<br>\nRispondete con il <strong>numero</strong> o il <strong>nome</strong> del piatto scelto. Gli ordini chiudono alle 12:00 ⏰</p>"
+              "body/messageBody": "<p>Ciao a tutti ??<br>\nEcco il menu di oggi per <strong>La Flaca</strong>:<br><br>\n@{variables('messaggioMenu')}<br>\nPer ordinare menzionate <strong>@FlacaAgent</strong> con il numero o il nome del piatto ?? Es: <em>@FlacaAgent 8</em> oppure <em>@FlacaAgent Carbonara</em><br>\nGli ordini chiudono alle <strong>12:00</strong> ?</p>"
             },
             "authentication": "@parameters('$authentication')"
           }
