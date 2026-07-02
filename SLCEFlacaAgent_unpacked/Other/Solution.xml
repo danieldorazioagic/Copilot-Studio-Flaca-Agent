@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ImportExportXml version="9.2.26061.150" SolutionPackageVersion="9.2" languagecode="1040" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26061.150" OrganizationSchemaType="Full" CRMServerServiceabilityVersion="9.2.26061.00150">
   <SolutionManifest>
     <UniqueName>SLCEFlacaAgent</UniqueName>
@@ -6,7 +6,7 @@
       <LocalizedName description="SL CE - Flaca Agent" languagecode="1040" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.0.19</Version>
+    <Version>1.0.0.20</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>DanielDorazio</UniqueName>

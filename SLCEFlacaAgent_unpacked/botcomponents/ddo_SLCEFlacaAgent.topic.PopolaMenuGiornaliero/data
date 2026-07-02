@@ -11,7 +11,7 @@ beginDialog:
     - kind: SetVariable
       id: setDataOggi
       variable: Topic.DataOggi
-      value: =Text(Today(), "yyyy-MM-dd")
+      value: =Text(Today() , "yyyy-MM-dd")
 
     - kind: SetVariable
       id: setQueryMenu
@@ -23,7 +23,9 @@ beginDialog:
       input:
         binding:
           text: =Topic.DataOggi
+
         text: =Topic.DataOggi
+
       output: {}
       flowId: af9651ee-3975-f111-ab0d-7c1e52357019
 
@@ -41,6 +43,11 @@ beginDialog:
       variable: Topic.Primi
       value: =Trim(First(Split(First(Split(Topic.RawPrimi, Char(10)&Char(10))).Value, " [")).Value)
 
+    - kind: SetVariable
+      id: setCatPrimi
+      variable: Topic.CategoriaAttuale
+      value: Primi
+
     - kind: ConditionGroup
       id: checkPrimi
       conditions:
@@ -53,10 +60,12 @@ beginDialog:
                 binding:
                   text: =Topic.Primi
                   text_1: =Topic.DataOggi
-                  text_2: Primi
+                  text_2: =Topic.CategoriaAttuale
+
                 text: =Topic.Primi
                 text_1: =Topic.DataOggi
-                text_2: Primi
+                text_2: =Topic.CategoriaAttuale
+
               output: {}
               flowId: 0c130643-6872-f111-ab0d-000d3a693112
 
@@ -74,6 +83,11 @@ beginDialog:
       variable: Topic.Secondi
       value: =Trim(First(Split(First(Split(Topic.RawSecondi, Char(10)&Char(10))).Value, " [")).Value)
 
+    - kind: SetVariable
+      id: setCatSecondi
+      variable: Topic.CategoriaAttuale
+      value: Secondi
+
     - kind: ConditionGroup
       id: checkSecondi
       conditions:
@@ -86,10 +100,12 @@ beginDialog:
                 binding:
                   text: =Topic.Secondi
                   text_1: =Topic.DataOggi
-                  text_2: Secondi
+                  text_2: =Topic.CategoriaAttuale
+
                 text: =Topic.Secondi
                 text_1: =Topic.DataOggi
-                text_2: Secondi
+                text_2: =Topic.CategoriaAttuale
+
               output: {}
               flowId: 0c130643-6872-f111-ab0d-000d3a693112
 
@@ -107,6 +123,11 @@ beginDialog:
       variable: Topic.Pizze
       value: =Trim(First(Split(First(Split(Topic.RawPizze, Char(10)&Char(10))).Value, " [")).Value)
 
+    - kind: SetVariable
+      id: setCatPizze
+      variable: Topic.CategoriaAttuale
+      value: Pizze
+
     - kind: ConditionGroup
       id: checkPizze
       conditions:
@@ -119,10 +140,12 @@ beginDialog:
                 binding:
                   text: =Topic.Pizze
                   text_1: =Topic.DataOggi
-                  text_2: Pizze
+                  text_2: =Topic.CategoriaAttuale
+
                 text: =Topic.Pizze
                 text_1: =Topic.DataOggi
-                text_2: Pizze
+                text_2: =Topic.CategoriaAttuale
+
               output: {}
               flowId: 0c130643-6872-f111-ab0d-000d3a693112
 
@@ -140,6 +163,11 @@ beginDialog:
       variable: Topic.Insalate
       value: =Trim(First(Split(First(Split(Topic.RawInsalate, Char(10)&Char(10))).Value, " [")).Value)
 
+    - kind: SetVariable
+      id: setCatInsalate
+      variable: Topic.CategoriaAttuale
+      value: Insalate
+
     - kind: ConditionGroup
       id: checkInsalate
       conditions:
@@ -152,10 +180,12 @@ beginDialog:
                 binding:
                   text: =Topic.Insalate
                   text_1: =Topic.DataOggi
-                  text_2: Insalate
+                  text_2: =Topic.CategoriaAttuale
+
                 text: =Topic.Insalate
                 text_1: =Topic.DataOggi
-                text_2: Insalate
+                text_2: =Topic.CategoriaAttuale
+
               output: {}
               flowId: 0c130643-6872-f111-ab0d-000d3a693112
 
@@ -173,6 +203,11 @@ beginDialog:
       variable: Topic.Burger
       value: =Trim(First(Split(First(Split(Topic.RawBurger, Char(10)&Char(10))).Value, " [")).Value)
 
+    - kind: SetVariable
+      id: setCatBurger
+      variable: Topic.CategoriaAttuale
+      value: Burger
+
     - kind: ConditionGroup
       id: checkBurger
       conditions:
@@ -185,14 +220,15 @@ beginDialog:
                 binding:
                   text: =Topic.Burger
                   text_1: =Topic.DataOggi
-                  text_2: Burger
+                  text_2: =Topic.CategoriaAttuale
+
                 text: =Topic.Burger
                 text_1: =Topic.DataOggi
-                text_2: Burger
+                text_2: =Topic.CategoriaAttuale
+
               output: {}
               flowId: 0c130643-6872-f111-ab0d-000d3a693112
 
     - kind: SendActivity
       id: sendSuccess
       activity:
-        text: "✅ Menu FlacaMenu aggiornato per {Topic.DataOggi}"

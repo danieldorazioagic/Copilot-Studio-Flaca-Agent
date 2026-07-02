@@ -100,26 +100,6 @@
               "foreach": "@split(outputs('Pulisci_MenuCSV'), ',')",
               "actions": {
                 "Salta_Token_Vuoto": {
-                  "runAfter": {},
-                  "type": "If",
-                  "expression": {
-                    "and": [
-                      {
-                        "greater": [
-                          "@length(trim(items('Crea_Nuovi_Piatti')))",
-                          1
-                        ]
-                      },
-                      {
-                        "not": {
-                          "contains": [
-                            "@createArray('Antipasti','Fritti','Primi','Secondi','Pizze','Insalate','Burger','Dolci','Antipasto','Primo','Secondo','Pizza','Menu','Bevande','Vini')",
-                            "@trim(items('Crea_Nuovi_Piatti'))"
-                          ]
-                        }
-                      }
-                    ]
-                  },
                   "actions": {
                     "Crea_Voce_Menu": {
                       "runAfter": {},
@@ -145,9 +125,29 @@
                       }
                     }
                   },
-                  "else": {
-                    "actions": {}
-                  }
+                  "runAfter": {},
+                  "expression": {
+                    "and": [
+                      {
+                        "greater": [
+                          "@length(trim(items('Crea_Nuovi_Piatti')))",
+                          1
+                        ]
+                      },
+                      {
+                        "not": {
+                          "contains": [
+                            "@createArray('Antipasti','Fritti','Primi','Secondi','Pizze','Insalate','Burger','Dolci','Antipasto','Primo','Secondo','Pizza','Menu','Bevande','Vini')",
+                            "@trim(items('Crea_Nuovi_Piatti'))"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "e53d7499-247b-4c55-b613-087b62c1f837"
+                  },
+                  "type": "If"
                 }
               },
               "runAfter": {
@@ -178,7 +178,7 @@
       },
       "outputs": {}
     },
-    "templateName": null
+    "templateName": ""
   },
   "schemaVersion": "1.0.0.0"
 }

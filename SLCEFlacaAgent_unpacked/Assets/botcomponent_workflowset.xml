@@ -11,4 +11,7 @@
   <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.topic.PopolaMenuGiornaliero" workflowid.workflowid="0c130643-6872-f111-ab0d-000d3a693112">
     <iscustomizable>1</iscustomizable>
   </botcomponent_workflow>
+  <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.topic.PopolaMenuGiornaliero" workflowid.workflowid="af9651ee-3975-f111-ab0d-7c1e52357019">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_workflow>
 </botcomponent_workflowset>

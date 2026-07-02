@@ -15,13 +15,13 @@
       "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
       "contentVersion": "1.0.0.0",
       "parameters": {
-        "$authentication": {
-          "defaultValue": {},
-          "type": "SecureObject"
-        },
         "$connections": {
           "defaultValue": {},
           "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
         },
         "SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)": {
           "defaultValue": "https://agictechnology-my.sharepoint.com/personal/daniel_dorazio_agic_it",
@@ -33,6 +33,9 @@
       },
       "triggers": {
         "manual": {
+          "metadata": {
+            "operationMetadataId": "b8f61c18-7224-4f8a-9c5f-72fbce5df764"
+          },
           "type": "Request",
           "kind": "Skills",
           "inputs": {
@@ -51,25 +54,11 @@
                 "text"
               ]
             }
-          },
-          "metadata": {
-            "operationMetadataId": "b8f61c18-7224-4f8a-9c5f-72fbce5df764"
           }
         }
       },
       "actions": {
         "Respond_to_the_agent": {
-          "type": "Response",
-          "kind": "Skills",
-          "inputs": {
-            "schema": {
-              "type": "object",
-              "properties": {},
-              "additionalProperties": {}
-            },
-            "statusCode": 200,
-            "body": {}
-          },
           "runAfter": {
             "Cancella_Menu_Attuale": [
               "Succeeded"
@@ -77,6 +66,16 @@
           },
           "metadata": {
             "operationMetadataId": "81c94f73-dd52-465c-ad3b-a4686da63cc3"
+          },
+          "type": "Response",
+          "kind": "Skills",
+          "inputs": {
+            "statusCode": 200,
+            "body": {},
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         },
         "Leggi_Menu_Attuale": {
@@ -94,7 +93,6 @@
             "parameters": {
               "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
               "table": "31d4209d-dd46-4a61-854f-473fba67a501",
-              "$filter": "@{concat('DataMenu ge ''', formatDateTime(triggerBody()?['text'], 'yyyy-MM-dd'), 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(triggerBody()?['text'], 1), 'yyyy-MM-dd'), 'T00:00:00Z''')}",
               "$top": 100
             },
             "authentication": "@parameters('$authentication')"
@@ -135,10 +133,9 @@
           "type": "Foreach"
         }
       },
-      "outputs": {},
-      "description": "When an agent calls the flow and send back a response."
+      "outputs": {}
     },
-    "templateName": null
+    "templateName": ""
   },
   "schemaVersion": "1.0.0.0"
 }
