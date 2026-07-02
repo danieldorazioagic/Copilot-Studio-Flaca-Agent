@@ -117,21 +117,12 @@
           }
         },
         "Sezione_Primi": {
-          "runAfter": {
-            "Leggi_Primi": [
-              "Succeeded"
-            ]
-          },
-          "type": "If",
-          "expression": {
-            "greater": [
-              "@length(outputs('Leggi_Primi')?['body']?['value'])",
-              0
-            ]
-          },
           "actions": {
             "Header_Primi": {
               "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "f917cdba-1249-4f0b-b176-88a67a48bea7"
+              },
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
@@ -143,6 +134,9 @@
               "actions": {
                 "Inc_Primi": {
                   "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "5028e544-4c9c-42ba-86a8-1b40ee795649"
+                  },
                   "type": "IncrementVariable",
                   "inputs": {
                     "name": "contatore",
@@ -154,6 +148,9 @@
                     "Inc_Primi": [
                       "Succeeded"
                     ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "74a490ce-357e-49a2-9591-0c6b06b80082"
                   },
                   "type": "AppendToStringVariable",
                   "inputs": {
@@ -167,6 +164,9 @@
                   "Succeeded"
                 ]
               },
+              "metadata": {
+                "operationMetadataId": "c3d97d82-c022-4402-9252-6744e9ac319c"
+              },
               "type": "Foreach",
               "runtimeConfiguration": {
                 "concurrency": {
@@ -175,9 +175,21 @@
               }
             }
           },
-          "else": {
-            "actions": {}
-          }
+          "runAfter": {
+            "Leggi_Primi": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Primi')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f37d3046-9bfb-4301-9403-4a0b7491059b"
+          },
+          "type": "If"
         },
         "Leggi_Secondi": {
           "runAfter": {
@@ -206,21 +218,12 @@
           }
         },
         "Sezione_Secondi": {
-          "runAfter": {
-            "Leggi_Secondi": [
-              "Succeeded"
-            ]
-          },
-          "type": "If",
-          "expression": {
-            "greater": [
-              "@length(outputs('Leggi_Secondi')?['body']?['value'])",
-              0
-            ]
-          },
           "actions": {
             "Header_Secondi": {
               "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "1f0089b0-83e2-4cb3-b1b8-43aef41c9992"
+              },
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
@@ -232,6 +235,9 @@
               "actions": {
                 "Inc_Secondi": {
                   "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "f15571d8-6d1e-4c46-8fac-826095cd50af"
+                  },
                   "type": "IncrementVariable",
                   "inputs": {
                     "name": "contatore",
@@ -243,6 +249,9 @@
                     "Inc_Secondi": [
                       "Succeeded"
                     ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "f592866b-20a1-4999-8ef1-74dec55d3e0e"
                   },
                   "type": "AppendToStringVariable",
                   "inputs": {
@@ -256,6 +265,9 @@
                   "Succeeded"
                 ]
               },
+              "metadata": {
+                "operationMetadataId": "f03f2ed0-f657-4aa2-99c4-bdc7181960ae"
+              },
               "type": "Foreach",
               "runtimeConfiguration": {
                 "concurrency": {
@@ -264,9 +276,21 @@
               }
             }
           },
-          "else": {
-            "actions": {}
-          }
+          "runAfter": {
+            "Leggi_Secondi": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Secondi')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a7f66074-4bb2-4762-b04f-f6e398417cd3"
+          },
+          "type": "If"
         },
         "Leggi_Pizze": {
           "runAfter": {
@@ -295,21 +319,12 @@
           }
         },
         "Sezione_Pizze": {
-          "runAfter": {
-            "Leggi_Pizze": [
-              "Succeeded"
-            ]
-          },
-          "type": "If",
-          "expression": {
-            "greater": [
-              "@length(outputs('Leggi_Pizze')?['body']?['value'])",
-              0
-            ]
-          },
           "actions": {
             "Header_Pizze": {
               "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "8ef278af-d63a-4c35-ae34-24a1e23d08b6"
+              },
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
@@ -321,6 +336,9 @@
               "actions": {
                 "Inc_Pizze": {
                   "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "27169d51-856e-42c5-80ee-3981b3e76498"
+                  },
                   "type": "IncrementVariable",
                   "inputs": {
                     "name": "contatore",
@@ -332,6 +350,9 @@
                     "Inc_Pizze": [
                       "Succeeded"
                     ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "5163ba43-5b0a-458c-8c6e-520f37c53df7"
                   },
                   "type": "AppendToStringVariable",
                   "inputs": {
@@ -345,6 +366,9 @@
                   "Succeeded"
                 ]
               },
+              "metadata": {
+                "operationMetadataId": "52cfc567-3918-452b-8485-a5350c0f04ed"
+              },
               "type": "Foreach",
               "runtimeConfiguration": {
                 "concurrency": {
@@ -353,9 +377,21 @@
               }
             }
           },
-          "else": {
-            "actions": {}
-          }
+          "runAfter": {
+            "Leggi_Pizze": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Pizze')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c4b2370a-8e47-4931-9783-953e935a7220"
+          },
+          "type": "If"
         },
         "Leggi_Insalate": {
           "runAfter": {
@@ -384,21 +420,12 @@
           }
         },
         "Sezione_Insalate": {
-          "runAfter": {
-            "Leggi_Insalate": [
-              "Succeeded"
-            ]
-          },
-          "type": "If",
-          "expression": {
-            "greater": [
-              "@length(outputs('Leggi_Insalate')?['body']?['value'])",
-              0
-            ]
-          },
           "actions": {
             "Header_Insalate": {
               "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "dc087896-ae32-401d-98eb-8ef052668f73"
+              },
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
@@ -410,6 +437,9 @@
               "actions": {
                 "Inc_Insalate": {
                   "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "90d65d08-f4b8-48ba-9e99-b5fe38fadd21"
+                  },
                   "type": "IncrementVariable",
                   "inputs": {
                     "name": "contatore",
@@ -421,6 +451,9 @@
                     "Inc_Insalate": [
                       "Succeeded"
                     ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "95e94674-0161-4225-b82e-c6b99ad92c3a"
                   },
                   "type": "AppendToStringVariable",
                   "inputs": {
@@ -434,6 +467,9 @@
                   "Succeeded"
                 ]
               },
+              "metadata": {
+                "operationMetadataId": "1d470424-efb5-48d9-901e-e2d0f0dfccce"
+              },
               "type": "Foreach",
               "runtimeConfiguration": {
                 "concurrency": {
@@ -442,9 +478,21 @@
               }
             }
           },
-          "else": {
-            "actions": {}
-          }
+          "runAfter": {
+            "Leggi_Insalate": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Insalate')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "aea9317a-df86-42e6-9388-4980f8dff11c"
+          },
+          "type": "If"
         },
         "Leggi_Burger": {
           "runAfter": {
@@ -473,21 +521,12 @@
           }
         },
         "Sezione_Burger": {
-          "runAfter": {
-            "Leggi_Burger": [
-              "Succeeded"
-            ]
-          },
-          "type": "If",
-          "expression": {
-            "greater": [
-              "@length(outputs('Leggi_Burger')?['body']?['value'])",
-              0
-            ]
-          },
           "actions": {
             "Header_Burger": {
               "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "08b523f7-f13e-4a6e-9b5f-6ba51fe812e4"
+              },
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
@@ -499,6 +538,9 @@
               "actions": {
                 "Inc_Burger": {
                   "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "a54bc5d9-a18a-42e6-a920-4990dce37263"
+                  },
                   "type": "IncrementVariable",
                   "inputs": {
                     "name": "contatore",
@@ -510,6 +552,9 @@
                     "Inc_Burger": [
                       "Succeeded"
                     ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "6fe843df-2efa-4556-a469-63f2531a6684"
                   },
                   "type": "AppendToStringVariable",
                   "inputs": {
@@ -523,6 +568,9 @@
                   "Succeeded"
                 ]
               },
+              "metadata": {
+                "operationMetadataId": "ecb2deae-d7a6-4e44-90da-8180bb716e7f"
+              },
               "type": "Foreach",
               "runtimeConfiguration": {
                 "concurrency": {
@@ -531,9 +579,21 @@
               }
             }
           },
-          "else": {
-            "actions": {}
-          }
+          "runAfter": {
+            "Leggi_Burger": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Burger')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "7c49fae5-115f-4818-9408-4d243f5f1547"
+          },
+          "type": "If"
         },
         "Invia_Menu_Su_Teams": {
           "runAfter": {

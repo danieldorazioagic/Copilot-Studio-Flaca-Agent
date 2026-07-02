@@ -1,0 +1,273 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedsharepointonline_31146"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)": {
+          "defaultValue": "https://agictechnology-my.sharepoint.com/personal/daniel_dorazio_agic_it",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ddo_SLCEFlacaAgentUrlSharePoint"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "b8f61c18-7224-4f8a-9c5f-72fbce5df764"
+          },
+          "type": "Request",
+          "kind": "Skills",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "description": "(UPN)",
+                  "title": "utente",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_1": {
+                  "description": "(nome)",
+                  "title": "piatto",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "number": {
+                  "description": "(int)",
+                  "title": "numeroPiatto",
+                  "type": "number",
+                  "x-ms-content-hint": "NUMBER",
+                  "x-ms-dynamically-added": true
+                },
+                "date": {
+                  "description": "(date)",
+                  "format": "date",
+                  "title": "dataOrdine",
+                  "type": "string",
+                  "x-ms-content-hint": "DATE",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "number",
+                "date"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Inizializza_Esito": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "c1000001-0001-0001-0001-000000000001"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "Esito",
+                "type": "string",
+                "value": ""
+              }
+            ]
+          }
+        },
+        "Ambito": {
+          "actions": {
+            "Cerca_Ordine_Esistente": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "c1000003-0003-0003-0003-000000000003"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItems",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                  "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
+                  "$filter": "@{concat('Title eq ''', triggerBody()?['text'], ''' and DataOrdine eq ''', triggerBody()?['date'], 'T00:00:00Z''')}",
+                  "$top": 1
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Condizione_Ordine_Esistente": {
+              "actions": {
+                "Aggiorna_Ordine": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "c1000004-0004-0004-0004-000000000004"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "PatchItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                      "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
+                      "id": "@first(body('Cerca_Ordine_Esistente')?['value'])?['ID']",
+                      "item/Piatto": "@{triggerBody()?['text_1']}",
+                      "item/NumeroPiatto": "@{triggerBody()?['number']}",
+                      "item/StatoOrdine": "modificato",
+                      "item/TimestampModifica": "@{utcNow()}"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Set_Esito_Aggiornato": {
+                  "runAfter": {
+                    "Aggiorna_Ordine": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "c1000005-0005-0005-0005-000000000005"
+                  },
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "Esito",
+                    "value": "aggiornato"
+                  }
+                }
+              },
+              "runAfter": {
+                "Cerca_Ordine_Esistente": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Crea_Ordine": {
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "c1000006-0006-0006-0006-000000000006"
+                    },
+                    "type": "OpenApiConnection",
+                    "inputs": {
+                      "host": {
+                        "connectionName": "shared_sharepointonline_1",
+                        "operationId": "PostItem",
+                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                      },
+                      "parameters": {
+                        "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                        "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
+                        "item/Title": "@{triggerBody()?['text']}",
+                        "item/Piatto": "@{triggerBody()?['text_1']}",
+                        "item/NumeroPiatto": "@{triggerBody()?['number']}",
+                        "item/DataOrdine": "@{triggerBody()?['date']}",
+                        "item/StatoOrdine": "attivo",
+                        "item/TimestampModifica": "@{utcNow()}"
+                      },
+                      "authentication": "@parameters('$authentication')"
+                    }
+                  },
+                  "Set_Esito_Nuovo": {
+                    "runAfter": {
+                      "Crea_Ordine": [
+                        "Succeeded"
+                      ]
+                    },
+                    "metadata": {
+                      "operationMetadataId": "c1000007-0007-0007-0007-000000000007"
+                    },
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "Esito",
+                      "value": "nuovo"
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "greater": [
+                  "@length(body('Cerca_Ordine_Esistente')?['value'])",
+                  0
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "c1000008-0008-0008-0008-000000000008"
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {
+            "Inizializza_Esito": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c1000002-0002-0002-0002-000000000002"
+          },
+          "type": "Scope"
+        },
+        "Respond_to_the_agent": {
+          "runAfter": {
+            "Ambito": [
+              "Succeeded",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "81c94f73-dd52-465c-ad3b-a4686da63cc3"
+          },
+          "type": "Response",
+          "kind": "Skills",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "esito": "@{variables('Esito')}"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "esito": {
+                  "title": "esito",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

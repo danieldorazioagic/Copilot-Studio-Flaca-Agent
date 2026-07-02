@@ -2,7 +2,13 @@
   <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentCancellaMenuOggi" workflowid.workflowid="af9651ee-3975-f111-ab0d-7c1e52357019">
     <iscustomizable>1</iscustomizable>
   </botcomponent_workflow>
+  <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentRegistraOrdine" workflowid.workflowid="470a3e38-1b76-f111-ab0d-7c1e52357b26">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_workflow>
   <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentScriviMenuSuSharePoint" workflowid.workflowid="0c130643-6872-f111-ab0d-000d3a693112">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_workflow>
+  <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentValidaOrdine" workflowid.workflowid="cbbc79f7-2076-f111-ab0d-7c1e52357b26">
     <iscustomizable>1</iscustomizable>
   </botcomponent_workflow>
   <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.ExternalTriggerComponent.SLCE-FlacaAgentTrigg.0585699d-1f61-4233-ae52-f87c776d6b4" workflowid.workflowid="7ce25004-7071-f111-ab0c-7c1e52357019">

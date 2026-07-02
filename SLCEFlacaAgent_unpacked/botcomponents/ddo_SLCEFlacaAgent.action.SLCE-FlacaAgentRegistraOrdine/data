@@ -1,0 +1,31 @@
+kind: TaskDialog
+action:
+  kind: InvokeFlowTaskAction
+  flowId: 470a3e38-1b76-f111-ab0d-7c1e52357b26
+  connectionProperties:
+    $kind: ConnectionProperties
+    diagnostics:
+    mode: Invoker
+
+inputType:
+  properties:
+    text:
+      type: String
+      title: utente
+    text_1:
+      type: String
+      title: piatto
+    number:
+      type: Number
+      title: numeroPiatto
+    date:
+      type: String
+      title: dataOrdine
+
+outputType:
+  properties:
+    text:
+      type: String
+      title: esito
+
+outputMode: All

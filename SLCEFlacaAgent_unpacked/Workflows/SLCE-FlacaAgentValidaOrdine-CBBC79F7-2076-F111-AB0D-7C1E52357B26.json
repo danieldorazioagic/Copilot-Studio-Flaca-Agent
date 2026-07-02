@@ -1,0 +1,380 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedsharepointonline_31146"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)": {
+          "defaultValue": "https://agictechnology-my.sharepoint.com/personal/daniel_dorazio_agic_it",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ddo_SLCEFlacaAgentUrlSharePoint"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Skills",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "description": "Immetti l'input",
+                  "title": "piatto",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "date": {
+                  "description": "Immetti o seleziona una data (AAAA-MM-GG)",
+                  "format": "date",
+                  "title": "dataOrdine",
+                  "type": "string",
+                  "x-ms-content-hint": "DATE",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "text",
+                "date"
+              ]
+            }
+          },
+          "metadata": {
+            "operationMetadataId": "b8f61c18-7224-4f8a-9c5f-72fbce5df764"
+          }
+        }
+      },
+      "actions": {
+        "Inizializza_Trovato": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "Trovato",
+                "type": "string",
+                "value": "false"
+              }
+            ]
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "d1000001-0001-0001-0001-000000000001"
+          }
+        },
+        "Inizializza_NomePiatto": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "NomePiatto",
+                "type": "string",
+                "value": ""
+              }
+            ]
+          },
+          "runAfter": {
+            "Inizializza_Trovato": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d1000002-0002-0002-0002-000000000002"
+          }
+        },
+        "Inizializza_NumeroPiatto": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "NumeroPiatto",
+                "type": "string",
+                "value": "0"
+              }
+            ]
+          },
+          "runAfter": {
+            "Inizializza_NomePiatto": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d1000003-0003-0003-0003-000000000003"
+          }
+        },
+        "Condizione_Input_Numerico": {
+          "type": "If",
+          "runAfter": {
+            "Inizializza_NumeroPiatto": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "and": [
+              {
+                "not": {
+                  "equals": [
+                    "@trim(triggerBody()?['text'])",
+                    ""
+                  ]
+                }
+              },
+              {
+                "contains": [
+                  "0123456789",
+                  "@substring(trim(triggerBody()?['text']), 0, 1)"
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Cerca_Per_Indice": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItems",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                  "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                  "$filter": "@{concat('Indice eq ', trim(triggerBody()?['text']), ' and DataMenu ge ''', triggerBody()?['date'], 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(concat(triggerBody()?['date'], 'T12:00:00Z'), 1), 'yyyy-MM-dd'), 'T00:00:00Z''')}",
+                  "$top": 1
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "d1000004-0004-0004-0004-000000000004"
+              }
+            },
+            "Condizione_Trovato_Numero": {
+              "type": "If",
+              "runAfter": {
+                "Cerca_Per_Indice": [
+                  "Succeeded"
+                ]
+              },
+              "expression": {
+                "greater": [
+                  "@length(body('Cerca_Per_Indice')?['value'])",
+                  0
+                ]
+              },
+              "actions": {
+                "Set_Trovato_SI_Numero": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "Trovato",
+                    "value": "true"
+                  },
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "d1000005-0005-0005-0005-000000000005"
+                  }
+                },
+                "Set_NomePiatto_Numero": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "NomePiatto",
+                    "value": "@{first(body('Cerca_Per_Indice')?['value'])?['Title']}"
+                  },
+                  "runAfter": {
+                    "Set_Trovato_SI_Numero": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d1000006-0006-0006-0006-000000000006"
+                  }
+                },
+                "Set_NumeroPiatto_Numero": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "NumeroPiatto",
+                    "value": "@{trim(triggerBody()?['text'])}"
+                  },
+                  "runAfter": {
+                    "Set_NomePiatto_Numero": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "d1000007-0007-0007-0007-000000000007"
+                  }
+                }
+              },
+              "else": {
+                "actions": {}
+              },
+              "metadata": {
+                "operationMetadataId": "d1000008-0008-0008-0008-000000000008"
+              }
+            }
+          },
+          "else": {
+            "actions": {
+              "Cerca_Per_Nome": {
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_sharepointonline_1",
+                    "operationId": "GetItems",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                  },
+                  "parameters": {
+                    "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                    "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                    "$filter": "@{concat('Title eq ''', triggerBody()?['text'], ''' and DataMenu ge ''', triggerBody()?['date'], 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(concat(triggerBody()?['date'], 'T12:00:00Z'), 1), 'yyyy-MM-dd'), 'T00:00:00Z''')}",
+                    "$top": 1
+                  },
+                  "authentication": "@parameters('$authentication')"
+                },
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "d1000009-0009-0009-0009-000000000009"
+                }
+              },
+              "Condizione_Trovato_Nome": {
+                "type": "If",
+                "runAfter": {
+                  "Cerca_Per_Nome": [
+                    "Succeeded"
+                  ]
+                },
+                "expression": {
+                  "greater": [
+                    "@length(body('Cerca_Per_Nome')?['value'])",
+                    0
+                  ]
+                },
+                "actions": {
+                  "Set_Trovato_SI_Nome": {
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "Trovato",
+                      "value": "true"
+                    },
+                    "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "d100000a-000a-000a-000a-00000000000a"
+                    }
+                  },
+                  "Set_NomePiatto_Nome": {
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "NomePiatto",
+                      "value": "@{first(body('Cerca_Per_Nome')?['value'])?['Title']}"
+                    },
+                    "runAfter": {
+                      "Set_Trovato_SI_Nome": [
+                        "Succeeded"
+                      ]
+                    },
+                    "metadata": {
+                      "operationMetadataId": "d100000b-000b-000b-000b-00000000000b"
+                    }
+                  },
+                  "Set_NumeroPiatto_Nome": {
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "NumeroPiatto",
+                      "value": "@{string(first(body('Cerca_Per_Nome')?['value'])?['Indice'])}"
+                    },
+                    "runAfter": {
+                      "Set_NomePiatto_Nome": [
+                        "Succeeded"
+                      ]
+                    },
+                    "metadata": {
+                      "operationMetadataId": "d100000c-000c-000c-000c-00000000000c"
+                    }
+                  }
+                },
+                "else": {
+                  "actions": {}
+                },
+                "metadata": {
+                  "operationMetadataId": "d100000d-000d-000d-000d-00000000000d"
+                }
+              }
+            }
+          },
+          "metadata": {
+            "operationMetadataId": "d100000e-000e-000e-000e-00000000000e"
+          }
+        },
+        "Respond_to_the_agent": {
+          "type": "Response",
+          "kind": "Skills",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "text": "@{variables('Trovato')}",
+              "text_1": "@{variables('NomePiatto')}",
+              "text_2": "@{variables('NumeroPiatto')}"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "trovato",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_1": {
+                  "title": "nomePiatto",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_2": {
+                  "title": "numeroPiatto",
+                  "type": "string",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Condizione_Input_Numerico": [
+              "Succeeded",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "81c94f73-dd52-465c-ad3b-a4686da63cc3"
+          }
+        }
+      },
+      "outputs": {},
+      "description": "When an agent calls the flow and send back a response."
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

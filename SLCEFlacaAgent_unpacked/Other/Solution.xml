@@ -6,7 +6,7 @@
       <LocalizedName description="SL CE - Flaca Agent" languagecode="1040" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.0.20</Version>
+    <Version>1.0.0.22</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>DanielDorazio</UniqueName>
@@ -79,8 +79,10 @@
     </Publisher>
     <RootComponents>
       <RootComponent type="29" id="{0c130643-6872-f111-ab0d-000d3a693112}" behavior="0" />
+      <RootComponent type="29" id="{470a3e38-1b76-f111-ab0d-7c1e52357b26}" behavior="0" />
       <RootComponent type="29" id="{7ce25004-7071-f111-ab0c-7c1e52357019}" behavior="0" />
       <RootComponent type="29" id="{af9651ee-3975-f111-ab0d-7c1e52357019}" behavior="0" />
+      <RootComponent type="29" id="{cbbc79f7-2076-f111-ab0d-7c1e52357b26}" behavior="0" />
       <RootComponent type="29" id="{d7372fbf-b66b-f111-ab0c-7ced8d2c46cb}" behavior="0" />
     </RootComponents>
     <MissingDependencies>
