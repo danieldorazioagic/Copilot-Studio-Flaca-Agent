@@ -2,7 +2,121 @@ kind: AdaptiveDialog
 beginDialog:
   kind: OnRecognizedIntent
   id: main
-  intent: {}
+  intent:
+    displayName: Raccolta Ordini
+    triggerQueries:
+      - ordino
+      - voglio ordinare
+      - scelgo
+      - prendo
+      - vorrei
+      - mi segni
+
+  actions:
+    - kind: SetVariable
+      id: setInputOrdine
+      variable: Topic.InputOrdine
+      value: =Trim(System.LastMessage.Text)
+
+    - kind: SetVariable
+      id: setDataOggi
+      variable: Topic.DataOggi
+      value: =Text(Today(), "yyyy-MM-dd")
+
+    - kind: SetVariable
+      id: setUPN
+      variable: Topic.UtenteUPN
+      value: =System.User.PrincipalName
+
+    - kind: SetVariable
+      id: initNomePiatto
+      variable: Topic.NomePiatto
+      value: ""
+
+    - kind: SetVariable
+      id: initNumeroPiatto
+      variable: Topic.NumeroPiatto
+      value: "0"
+
+    - kind: SetVariable
+      id: initNumeroPiattoInt
+      variable: Topic.NumeroPiattoInt
+      value: =0
+
+    - kind: ConditionGroup
+      id: gateOrario
+      conditions:
+        - id: orarioValido
+          condition: =And(Hour(Now()) >= 10, Hour(Now()) < 12)
+          actions:
+            - kind: InvokeFlowAction
+              id: callValidaOrdine
+              input:
+                binding:
+                  text: =Topic.InputOrdine
+                  date: =Topic.DataOggi
+                text: =Topic.InputOrdine
+                date: =Topic.DataOggi
+              output:
+                binding:
+                  text_1: Topic.NomePiatto
+                  text_2: Topic.NumeroPiatto
+              flowId: cbbc79f7-2076-f111-ab0d-7c1e52357b26
+
+            - kind: ConditionGroup
+              id: checkTrovato
+              conditions:
+                - id: piattoTrovato
+                  condition: =Not(IsBlank(Topic.NomePiatto))
+                  actions:
+                    - kind: SetVariable
+                      id: setNumeroPiattoInt
+                      variable: Topic.NumeroPiattoInt
+                      value: =Value(Topic.NumeroPiatto)
+
+                    - kind: InvokeFlowAction
+                      id: callRegistraOrdine
+                      input:
+                        binding:
+                          text: =Topic.UtenteUPN
+                          text_1: =Topic.NomePiatto
+                          number: =Topic.NumeroPiattoInt
+                          date: =Topic.DataOggi
+                        text: =Topic.UtenteUPN
+                        text_1: =Topic.NomePiatto
+                        number: =Topic.NumeroPiattoInt
+                        date: =Topic.DataOggi
+                      output: {}
+                      flowId: 470a3e38-1b76-f111-ab0d-7c1e52357b26
+
+                    - kind: SendActivity
+                      id: msgConferma
+                      activity:
+                        text: Ordine confermato - {Topic.NomePiatto}. Buon appetito!
+
+                - id: piattoNonTrovato
+                  condition: =IsBlank(Topic.NomePiatto)
+                  actions:
+                    - kind: SendActivity
+                      id: msgPiattoNonTrovato
+                      activity:
+                        text: Il piatto indicato non e' presente nel menu di oggi. Scegli un piatto dalla lista.
+
+        - id: troppoPresto
+          condition: =Hour(Now()) < 10
+          actions:
+            - kind: SendActivity
+              id: msgTroppoPresto
+              activity:
+                text: Gli ordini aprono alle 10:00. Riprova piu' tardi!
+
+        - id: troppoTardi
+          condition: =Hour(Now()) >= 12
+          actions:
+            - kind: SendActivity
+              id: msgTroppoTardi
+              activity:
+                text: Gli ordini di oggi sono gia' chiusi. Ci vediamo domani!
 
 inputType: {}
 outputType: {}
