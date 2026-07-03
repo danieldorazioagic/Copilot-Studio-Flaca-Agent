@@ -11,16 +11,13 @@ inputType:
   properties:
     text:
       type: String
-      title: utente
+      title: utenteUPN
     text_1:
       type: String
-      title: piatto
+      title: nomePiatto
     number:
       type: Number
       title: numeroPiatto
-    date:
-      type: String
-      title: dataOrdine
 
 outputType:
   properties:

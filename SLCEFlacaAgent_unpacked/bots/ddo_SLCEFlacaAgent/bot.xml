@@ -6,35 +6,7 @@
   <language>1040</language>
   <name>SL CE - Flaca Agent</name>
   <runtimeprovider>0</runtimeprovider>
-  <synchronizationstatus>{
-  "$kind": "BotSynchronizationDetails",
-  "contentVersion": 2,
-  "lastFinishedPublishOperation": {
-    "$kind": "PublishResultDetails",
-    "userId": "34c6ef1e-a985-43ac-bc0a-ea1b8b12a6c4",
-    "operationStart": "2026-07-02T14:21:23.0813724Z",
-    "operationEnd": "2026-07-02T14:21:30.2711998Z",
-    "status": "Succeeded"
-  },
-  "lastPublishedDetails": {
-    "$kind": "SuccessfulPublishResultDetails",
-    "authenticationMode": "Integrated"
-  },
-  "lastPublishedUserId": "34c6ef1e-a985-43ac-bc0a-ea1b8b12a6c4",
-  "lastPublishedOnUtc": "2026-07-02T14:21:28.0404027",
-  "currentSynchronizationState": {
-    "$kind": "SynchronizationState",
-    "botRegistration": {
-      "$kind": "BotRegistrationDetails",
-      "botRegistrationIdConsumptionTime": "2026-06-26T09:36:11Z",
-      "applicationId": "d98e6d35-b74d-4601-bfcc-0ff50b3cb9b5",
-      "isAppAvailableInTenant": true
-    },
-    "provisioningStatus": "Provisioned",
-    "state": "Synchronized"
-  },
-  "lastSynchronizedOnUtc": "2026-07-02T14:21:35.3513173Z"
-}</synchronizationstatus>
+  <synchronizationstatus>{"lastFinishedPublishOperation":{"$kind":"PublishResultDetails","diagnosticDetails":[{"$kind":"ActionReferenceDiagnosticResult","diagnosticList":[{"$kind":"BindingKeyNotFoundError","bindingKey":"nomePiatto","errorCode":"InvalidBindingInvokeAction","errorMessage":"Binding 'nomePiatto' is not found, refresh this flow to get the latest bindings"},{"$kind":"BindingKeyNotFoundError","bindingKey":"numeroPiatto","errorCode":"InvalidBindingInvokeAction","errorMessage":"Binding 'numeroPiatto' is not found, refresh this flow to get the latest bindings"}],"componentId":"52a23c0d-3b19-43fe-bc30-df0a0a499139","reference":{"dialogId":"ddo_SLCEFlacaAgent.topic.RaccoltaOrdini","triggerId":"main","actionId":"callValidaOrdine"}}],"userId":"34c6ef1e-a985-43ac-bc0a-ea1b8b12a6c4","operationEnd":"2026-07-03T14:28:48.7849046Z","status":"Failed"},"contentVersion":2,"$kind":"BotSynchronizationDetails","lastPublishedDetails":{"$kind":"SuccessfulPublishResultDetails"},"lastPublishedUserId":"34c6ef1e-a985-43ac-bc0a-ea1b8b12a6c4","lastPublishedOnUtc":"2026-07-03T13:05:19.6468841","currentSynchronizationState":{"$kind":"SynchronizationState","botRegistration":{"$kind":"BotRegistrationDetails","botRegistrationIdConsumptionTime":"2026-06-26T09:36:11Z","applicationId":"d98e6d35-b74d-4601-bfcc-0ff50b3cb9b5","isAppAvailableInTenant":true},"provisioningStatus":"Provisioned","state":"Synchronizing"},"lastSynchronizedOnUtc":"2026-07-03T13:05:25.5590284Z"}</synchronizationstatus>
   <template>default-2.1.0</template>
   <timezoneruleversionnumber>4</timezoneruleversionnumber>
 </bot>

@@ -62,21 +62,12 @@
                   "type": "number",
                   "x-ms-content-hint": "NUMBER",
                   "x-ms-dynamically-added": true
-                },
-                "date": {
-                  "description": "(date)",
-                  "format": "date",
-                  "title": "dataOrdine",
-                  "type": "string",
-                  "x-ms-content-hint": "DATE",
-                  "x-ms-dynamically-added": true
                 }
               },
               "required": [
                 "text",
                 "text_1",
-                "number",
-                "date"
+                "number"
               ]
             }
           }
@@ -116,7 +107,7 @@
                 "parameters": {
                   "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
                   "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
-                  "$filter": "@{concat('Title eq ''', triggerBody()?['text'], ''' and DataOrdine eq ''', triggerBody()?['date'], 'T00:00:00Z''')}",
+                  "$filter": "@{concat('Title eq ''', triggerBody()?['text'], ''' and DataOrdine eq ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z''')}",
                   "$top": 1
                 },
                 "authentication": "@parameters('$authentication')"
@@ -189,7 +180,7 @@
                         "item/Title": "@{triggerBody()?['text']}",
                         "item/Piatto": "@{triggerBody()?['text_1']}",
                         "item/NumeroPiatto": "@{triggerBody()?['number']}",
-                        "item/DataOrdine": "@{triggerBody()?['date']}",
+                        "item/DataOrdine": "@{formatDateTime(utcNow(), 'yyyy-MM-dd')}",
                         "item/StatoOrdine": "attivo",
                         "item/TimestampModifica": "@{utcNow()}"
                       },

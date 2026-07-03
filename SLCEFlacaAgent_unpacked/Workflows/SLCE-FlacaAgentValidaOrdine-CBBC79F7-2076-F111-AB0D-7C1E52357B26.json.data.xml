@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{cbbc79f7-2076-f111-ab0d-7c1e52357b26}" Name="SL CE - Flaca Agent | ValidaOrdine" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{cbbc79f7-2076-f111-ab0d-7c1e52357b26}" Name="SL CE - Flaca Agent | ValidaOrdine" Description="When an agent calls the flow and send back a response." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <JsonFileName>/Workflows/SLCE-FlacaAgentValidaOrdine-CBBC79F7-2076-F111-AB0D-7C1E52357B26.json</JsonFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
@@ -24,4 +24,7 @@
   <LocalizedNames>
     <LocalizedName languagecode="1040" description="SL CE - Flaca Agent | ValidaOrdine" />
   </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1040" description="When an agent calls the flow and send back a response." />
+  </Descriptions>
 </Workflow>

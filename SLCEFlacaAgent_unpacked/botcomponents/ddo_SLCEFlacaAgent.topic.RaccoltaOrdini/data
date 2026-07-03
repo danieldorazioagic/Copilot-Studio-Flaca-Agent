@@ -14,11 +14,6 @@ beginDialog:
 
   actions:
     - kind: SetVariable
-      id: setInputOrdine
-      variable: Topic.InputOrdine
-      value: =Trim(System.LastMessage.Text)
-
-    - kind: SetVariable
       id: setDataOggi
       variable: Topic.DataOggi
       value: =Text(Today(), "yyyy-MM-dd")
@@ -29,9 +24,14 @@ beginDialog:
       value: =System.User.PrincipalName
 
     - kind: SetVariable
+      id: setOraLocale
+      variable: Topic.OraLocale
+      value: =Hour(DateAdd(Now(), 2, TimeUnit.Hours))
+
+    - kind: SetVariable
       id: initNomePiatto
       variable: Topic.NomePiatto
-      value: ""
+      value: =Text("")
 
     - kind: SetVariable
       id: initNumeroPiatto
@@ -44,9 +44,9 @@ beginDialog:
       value: =0
 
     - kind: SetVariable
-      id: setOraLocale
-      variable: Topic.OraLocale
-      value: =Hour(DateAdd(Now(), 2, TimeUnit.Hours))
+      id: initInputOrdine
+      variable: Topic.InputOrdine
+      value: =Text("")
 
     - kind: ConditionGroup
       id: gateOrario
@@ -54,25 +54,41 @@ beginDialog:
         - id: orarioValido
           condition: =And(Topic.OraLocale >= 10, Topic.OraLocale < 12)
           actions:
+            - kind: Question
+              id: askPiatto
+              alwaysPrompt: true
+              variable: Topic.InputOrdine
+              prompt:
+                activity:
+                  text: Scrivi il numero o il nome del piatto che vuoi ordinare.
+
+              entity: StringPrebuiltEntity
+
             - kind: InvokeFlowAction
               id: callValidaOrdine
               input:
                 binding:
                   text: =Topic.InputOrdine
-                  date: =Topic.DataOggi
+
                 text: =Topic.InputOrdine
-                date: =Topic.DataOggi
+
               output:
                 binding:
-                  text_1: Topic.NomePiatto
-                  text_2: Topic.NumeroPiatto
+                  text: Topic.NomePiatto
+                  text_1: Topic.NumeroPiatto
+
               flowId: cbbc79f7-2076-f111-ab0d-7c1e52357b26
+
+            - kind: SetVariable
+              id: normalizzaNomePiatto
+              variable: Topic.NomePiatto
+              value: =Concatenate(Topic.NomePiatto, "")
 
             - kind: ConditionGroup
               id: checkTrovato
               conditions:
                 - id: piattoTrovato
-                  condition: =Not(IsBlank(Topic.NomePiatto))
+                  condition: =!IsBlank(Topic.NomePiatto)
                   actions:
                     - kind: SetVariable
                       id: setNumeroPiattoInt
@@ -83,45 +99,41 @@ beginDialog:
                       id: callRegistraOrdine
                       input:
                         binding:
+                          number: =Topic.NumeroPiattoInt
                           text: =Topic.UtenteUPN
                           text_1: =Topic.NomePiatto
-                          number: =Topic.NumeroPiattoInt
-                          date: =Topic.DataOggi
+
+                        number: =Topic.NumeroPiattoInt
                         text: =Topic.UtenteUPN
                         text_1: =Topic.NomePiatto
-                        number: =Topic.NumeroPiattoInt
-                        date: =Topic.DataOggi
+
                       output: {}
                       flowId: 470a3e38-1b76-f111-ab0d-7c1e52357b26
 
                     - kind: SendActivity
                       id: msgConferma
-                      activity:
-                        text: Ordine confermato - {Topic.NomePiatto}. Buon appetito!
+                      activity: Registazione effettuata con successo
 
                 - id: piattoNonTrovato
                   condition: =IsBlank(Topic.NomePiatto)
                   actions:
                     - kind: SendActivity
                       id: msgPiattoNonTrovato
-                      activity:
-                        text: Il piatto indicato non e' presente nel menu di oggi. Scegli un piatto dalla lista.
+                      activity: Nome piatto non valorizzato
 
         - id: troppoPresto
           condition: =Topic.OraLocale < 10
           actions:
             - kind: SendActivity
               id: msgTroppoPresto
-              activity:
-                text: Gli ordini aprono alle 10:00. Riprova piu' tardi!
+              activity: Hai fame? è presto per ordinare, aspetta le 10
 
         - id: troppoTardi
           condition: =Topic.OraLocale >= 12
           actions:
             - kind: SendActivity
               id: msgTroppoTardi
-              activity:
-                text: Gli ordini di oggi sono gia' chiusi. Ci vediamo domani!
+              activity: "Mi dispiace ma se stato lento, ordina entro le 12 la prossima volta "
 
 inputType: {}
 outputType: {}

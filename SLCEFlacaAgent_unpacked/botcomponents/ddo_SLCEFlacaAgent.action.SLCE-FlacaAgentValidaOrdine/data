@@ -12,19 +12,13 @@ inputType:
     text:
       type: String
       title: piatto
-    date:
-      type: String
-      title: dataOrdine
 
 outputType:
   properties:
     text:
       type: String
-      title: trovato
-    text_1:
-      type: String
       title: nomePiatto
-    text_2:
+    text_1:
       type: String
       title: numeroPiatto
 
