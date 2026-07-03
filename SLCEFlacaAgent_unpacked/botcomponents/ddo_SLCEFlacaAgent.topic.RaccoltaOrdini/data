@@ -43,11 +43,16 @@ beginDialog:
       variable: Topic.NumeroPiattoInt
       value: =0
 
+    - kind: SetVariable
+      id: setOraLocale
+      variable: Topic.OraLocale
+      value: =Hour(DateAdd(Now(), 2, TimeUnit.Hours))
+
     - kind: ConditionGroup
       id: gateOrario
       conditions:
         - id: orarioValido
-          condition: =And(Hour(Now()) >= 10, Hour(Now()) < 12)
+          condition: =And(Topic.OraLocale >= 10, Topic.OraLocale < 12)
           actions:
             - kind: InvokeFlowAction
               id: callValidaOrdine
@@ -103,7 +108,7 @@ beginDialog:
                         text: Il piatto indicato non e' presente nel menu di oggi. Scegli un piatto dalla lista.
 
         - id: troppoPresto
-          condition: =Hour(Now()) < 10
+          condition: =Topic.OraLocale < 10
           actions:
             - kind: SendActivity
               id: msgTroppoPresto
@@ -111,7 +116,7 @@ beginDialog:
                 text: Gli ordini aprono alle 10:00. Riprova piu' tardi!
 
         - id: troppoTardi
-          condition: =Hour(Now()) >= 12
+          condition: =Topic.OraLocale >= 12
           actions:
             - kind: SendActivity
               id: msgTroppoTardi
