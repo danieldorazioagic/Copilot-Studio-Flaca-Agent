@@ -60,7 +60,7 @@
       "actions": {
         "Respond_to_the_agent": {
           "runAfter": {
-            "Cancella_Menu_Attuale": [
+            "Ambito_-_Pulizia_Ordine": [
               "Succeeded"
             ]
           },
@@ -78,59 +78,135 @@
             }
           }
         },
-        "Leggi_Menu_Attuale": {
-          "runAfter": {},
-          "metadata": {
-            "operationMetadataId": "aa000001-0001-0001-0001-000000000001"
-          },
-          "type": "OpenApiConnection",
-          "inputs": {
-            "host": {
-              "connectionName": "shared_sharepointonline_1",
-              "operationId": "GetItems",
-              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
-            },
-            "parameters": {
-              "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
-              "table": "31d4209d-dd46-4a61-854f-473fba67a501",
-              "$top": 100
-            },
-            "authentication": "@parameters('$authentication')"
-          }
-        },
-        "Cancella_Menu_Attuale": {
-          "foreach": "@outputs('Leggi_Menu_Attuale')?['body']?['value']",
+        "Ambito_-_Pulizia_Menu": {
           "actions": {
-            "Elimina_Voce": {
+            "Leggi_Menu_Attuale": {
               "runAfter": {},
               "metadata": {
-                "operationMetadataId": "aa000001-0001-0001-0001-000000000002"
+                "operationMetadataId": "aa000001-0001-0001-0001-000000000001"
               },
               "type": "OpenApiConnection",
               "inputs": {
                 "host": {
                   "connectionName": "shared_sharepointonline_1",
-                  "operationId": "DeleteItem",
+                  "operationId": "GetItems",
                   "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
                 },
                 "parameters": {
                   "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
                   "table": "31d4209d-dd46-4a61-854f-473fba67a501",
-                  "id": "@items('Cancella_Menu_Attuale')?['ID']"
+                  "$top": 100
                 },
                 "authentication": "@parameters('$authentication')"
               }
+            },
+            "Cancella_Menu_Attuale": {
+              "foreach": "@outputs('Leggi_Menu_Attuale')?['body/value']",
+              "actions": {
+                "Elimina_Voce": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "aa000001-0001-0001-0001-000000000002"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "DeleteItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                      "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                      "id": "@items('Cancella_Menu_Attuale')?['ID']"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Leggi_Menu_Attuale": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "aa000001-0001-0001-0001-000000000003"
+              },
+              "type": "Foreach"
+            }
+          },
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "975590fb-5367-427e-abcc-ab1ff7a86646"
+          },
+          "type": "Scope"
+        },
+        "Ambito_-_Pulizia_Ordine": {
+          "actions": {
+            "Leggi_Ordini": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "aa000001-0001-0001-0001-000000000001"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItems",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                  "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
+                  "$top": 100
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Cancella_Ordine_Attuale": {
+              "foreach": "@outputs('Leggi_Ordini')?['body/value']",
+              "actions": {
+                "Elimina_Ordine_Attuale": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "aa000001-0001-0001-0001-000000000002"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "DeleteItem",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                      "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
+                      "id": "@items('Cancella_Ordine_Attuale')?['ID']"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "runAfter": {
+                "Leggi_Ordini": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1d1396ec-bc21-4cdd-ab39-2994acd8240a"
+              },
+              "type": "Foreach"
             }
           },
           "runAfter": {
-            "Leggi_Menu_Attuale": [
+            "Ambito_-_Pulizia_Menu": [
               "Succeeded"
             ]
           },
           "metadata": {
-            "operationMetadataId": "aa000001-0001-0001-0001-000000000003"
+            "operationMetadataId": "996878db-c2af-4f68-a6ea-8c721a12f0aa"
           },
-          "type": "Foreach"
+          "type": "Scope"
         }
       },
       "outputs": {}
