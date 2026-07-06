@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<connectionreference connectionreferencelogicalname="ddo_shared_office365users">
+  <connectionreferencedisplayname>shared_office365users</connectionreferencedisplayname>
+  <connectorid>/providers/Microsoft.PowerApps/apis/shared_office365users</connectorid>
+  <iscustomizable>1</iscustomizable>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</connectionreference>

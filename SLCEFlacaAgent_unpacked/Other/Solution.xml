@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ImportExportXml version="9.2.26062.155" SolutionPackageVersion="9.2" languagecode="1040" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26062.155" OrganizationSchemaType="Full" CRMServerServiceabilityVersion="9.2.26062.00155">
   <SolutionManifest>
     <UniqueName>SLCEFlacaAgent</UniqueName>
@@ -6,7 +6,7 @@
       <LocalizedName description="SL CE - Flaca Agent" languagecode="1040" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.0.43</Version>
+    <Version>1.0.0.44</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>DanielDorazio</UniqueName>
@@ -78,6 +78,7 @@
       </Addresses>
     </Publisher>
     <RootComponents>
+      <RootComponent type="10229" schemaName="ddo_shared_office365users" behavior="0" />
       <RootComponent type="29" id="{0c130643-6872-f111-ab0d-000d3a693112}" behavior="0" />
       <RootComponent type="29" id="{470a3e38-1b76-f111-ab0d-7c1e52357b26}" behavior="0" />
       <RootComponent type="29" id="{7ce25004-7071-f111-ab0c-7c1e52357019}" behavior="0" />
@@ -86,6 +87,10 @@
       <RootComponent type="29" id="{d7372fbf-b66b-f111-ab0c-7ced8d2c46cb}" behavior="0" />
     </RootComponents>
     <MissingDependencies>
+      <MissingDependency>
+        <Required type="connectionreference" displayName="ddo_shared_office365users" solution="Active" id.connectionreferencelogicalname="ddo_shared_office365users" />
+        <Dependent type="29" displayName="SL CE - Flaca Agent | RegistraOrdine" id="{470a3e38-1b76-f111-ab0d-7c1e52357b26}" />
+      </MissingDependency>
       <MissingDependency>
         <Required type="connectionreference" displayName="ddo_sharedteams_ddd0e" solution="Active" id.connectionreferencelogicalname="ddo_sharedteams_ddd0e" />
         <Dependent type="29" displayName="SL CE - Flaca Agent | Trigger" id="{7ce25004-7071-f111-ab0c-7c1e52357019}" />
