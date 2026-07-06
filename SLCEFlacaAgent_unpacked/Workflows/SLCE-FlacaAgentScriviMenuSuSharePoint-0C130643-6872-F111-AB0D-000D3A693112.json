@@ -102,7 +102,11 @@
                 "Salta_Token_Vuoto": {
                   "actions": {
                     "Crea_Voce_Menu": {
-                      "runAfter": {},
+                      "runAfter": {
+                        "Incrementa_IndiceLocale": [
+                          "Succeeded"
+                        ]
+                      },
                       "metadata": {
                         "operationMetadataId": "d8bca371-bb34-47b6-aab1-b0b0565a29a6"
                       },
@@ -119,9 +123,21 @@
                           "item/Title": "@trim(items('Crea_Nuovi_Piatti'))",
                           "item/DataMenu": "@formatDateTime(triggerBody()?['text_1'], 'yyyy-MM-dd')",
                           "item/Attivo": true,
-                          "item/Categoria": "@trim(triggerBody()?['text_2'])"
+                          "item/Categoria": "@trim(triggerBody()?['text_2'])",
+                          "item/Indice": "@{add(variables('IndiceBase'), variables('IndiceLocale'))}"
                         },
                         "authentication": "@parameters('$authentication')"
+                      }
+                    },
+                    "Incrementa_IndiceLocale": {
+                      "runAfter": {},
+                      "type": "IncrementVariable",
+                      "inputs": {
+                        "name": "IndiceLocale",
+                        "value": 1
+                      },
+                      "metadata": {
+                        "operationMetadataId": "incrementa-indice-0001"
                       }
                     }
                   },
@@ -158,7 +174,12 @@
               "metadata": {
                 "operationMetadataId": "ced97960-a328-4d11-846f-7b789c4bb13c"
               },
-              "type": "Foreach"
+              "type": "Foreach",
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
+              }
             },
             "Pulisci_MenuCSV": {
               "runAfter": {},
@@ -169,11 +190,91 @@
               "inputs": "@trim(first(split(first(split(triggerBody()?['text'], decodeUriComponent('%0A%0A'))), '[')))"
             }
           },
-          "runAfter": {},
+          "runAfter": {
+            "Set_IndiceBase": [
+              "Succeeded"
+            ]
+          },
           "metadata": {
             "operationMetadataId": "41199ef5-5b66-4e6a-9be2-78c228fc2b07"
           },
           "type": "Scope"
+        },
+        "Inizializza_IndiceBase": {
+          "runAfter": {},
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "IndiceBase",
+                "type": "integer",
+                "value": 0
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "indice-base-0001"
+          }
+        },
+        "Inizializza_IndiceLocale": {
+          "runAfter": {
+            "Inizializza_IndiceBase": [
+              "Succeeded"
+            ]
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "IndiceLocale",
+                "type": "integer",
+                "value": 0
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "indice-locale-0001"
+          }
+        },
+        "Leggi_MaxIndice": {
+          "runAfter": {
+            "Inizializza_IndiceLocale": [
+              "Succeeded"
+            ]
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+              "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+              "$orderby": "Indice desc",
+              "$top": 1
+            },
+            "authentication": "@parameters('$authentication')"
+          },
+          "metadata": {
+            "operationMetadataId": "leggi-max-indice-0001"
+          }
+        },
+        "Set_IndiceBase": {
+          "runAfter": {
+            "Leggi_MaxIndice": [
+              "Succeeded"
+            ]
+          },
+          "type": "SetVariable",
+          "inputs": {
+            "name": "IndiceBase",
+            "value": "@if(greater(length(body('Leggi_MaxIndice')?['value']), 0), int(first(body('Leggi_MaxIndice')?['value'])?['Indice']), 0)"
+          },
+          "metadata": {
+            "operationMetadataId": "set-indice-base-0001"
+          }
         }
       },
       "outputs": {}

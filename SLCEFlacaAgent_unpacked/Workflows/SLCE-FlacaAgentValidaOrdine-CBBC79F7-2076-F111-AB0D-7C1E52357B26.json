@@ -151,7 +151,7 @@
                 "parameters": {
                   "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
                   "table": "31d4209d-dd46-4a61-854f-473fba67a501",
-                  "$filter": "@{concat('Indice eq ', trim(triggerBody()?['text']), ' and DataMenu ge ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(concat(formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T12:00:00Z'), 1), 'yyyy-MM-dd'), 'T00:00:00Z''')}",
+                  "$filter": "@{concat('Indice eq ', trim(triggerBody()?['text']))}",
                   "$top": 1
                 },
                 "authentication": "@parameters('$authentication')"
@@ -238,7 +238,7 @@
                   "parameters": {
                     "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
                     "table": "31d4209d-dd46-4a61-854f-473fba67a501",
-                    "$filter": "@{concat('Title eq ''', triggerBody()?['text'], ''' and DataMenu ge ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(concat(formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T12:00:00Z'), 1), 'yyyy-MM-dd'), 'T00:00:00Z''')}",
+                    "$filter": "@{concat('Title eq ''', triggerBody()?['text'], '''')}",
                     "$top": 1
                   },
                   "authentication": "@parameters('$authentication')"
