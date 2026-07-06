@@ -56,7 +56,11 @@
       },
       "actions": {
         "Init_Contatore": {
-          "runAfter": {},
+          "runAfter": {
+            "Controlla_Weekend": [
+              "Succeeded"
+            ]
+          },
           "metadata": {
             "operationMetadataId": "bcc0fbca-4432-4fc9-bdcf-fc1d91e77a08"
           },
@@ -72,7 +76,11 @@
           }
         },
         "Init_MessaggioMenu": {
-          "runAfter": {},
+          "runAfter": {
+            "Controlla_Weekend": [
+              "Succeeded"
+            ]
+          },
           "metadata": {
             "operationMetadataId": "4015b6f8-d0ed-4651-b65a-fdb7ee354a8c"
           },
@@ -743,6 +751,44 @@
               "body/messageBody": "<p>Ciao a tutti ??<br>\nEcco il menu di oggi per <strong>La Flaca</strong>:<br><br>\n@{variables('messaggioMenu')}<br>\nPer ordinare menzionate <strong>@FlacaAgent</strong> con il numero o il nome del piatto ?? Es: <em>@FlacaAgent 8</em> oppure <em>@FlacaAgent Carbonara</em><br>\nGli ordini chiudono alle <strong>12:00</strong> ?</p>"
             },
             "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Controlla_Weekend": {
+          "runAfter": {},
+          "type": "If",
+          "expression": {
+            "or": [
+              {
+                "greaterOrEquals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  6
+                ]
+              },
+              {
+                "equals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  0
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Termina_Weekend": {
+              "runAfter": {},
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Succeeded"
+              },
+              "metadata": {
+                "operationMetadataId": "weekend-terminate-002"
+              }
+            }
+          },
+          "else": {
+            "actions": {}
+          },
+          "metadata": {
+            "operationMetadataId": "weekend-check-002"
           }
         }
       }

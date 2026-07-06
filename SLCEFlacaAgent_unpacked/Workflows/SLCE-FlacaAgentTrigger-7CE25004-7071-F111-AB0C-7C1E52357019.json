@@ -68,9 +68,51 @@
               "connectionName": "shared_microsoftcopilotstudio"
             }
           },
-          "runAfter": {},
+          "runAfter": {
+            "Controlla_Weekend": [
+              "Succeeded"
+            ]
+          },
           "metadata": {
             "operationMetadataId": "d590d261-c124-439c-b967-076724a8c922"
+          }
+        },
+        "Controlla_Weekend": {
+          "runAfter": {},
+          "type": "If",
+          "expression": {
+            "or": [
+              {
+                "greaterOrEquals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  6
+                ]
+              },
+              {
+                "equals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  0
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Termina_Weekend": {
+              "runAfter": {},
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Succeeded"
+              },
+              "metadata": {
+                "operationMetadataId": "weekend-terminate-001"
+              }
+            }
+          },
+          "else": {
+            "actions": {}
+          },
+          "metadata": {
+            "operationMetadataId": "weekend-check-001"
           }
         }
       },
