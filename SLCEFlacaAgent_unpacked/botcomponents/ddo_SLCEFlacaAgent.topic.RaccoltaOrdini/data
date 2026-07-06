@@ -21,7 +21,7 @@ beginDialog:
     - kind: SetVariable
       id: setUPN
       variable: Topic.UtenteUPN
-      value: =System.User.DisplayName
+      value: =Concatenate(System.User.FirstName, " ", System.User.LastName)
 
     - kind: SetVariable
       id: setOraLocale
