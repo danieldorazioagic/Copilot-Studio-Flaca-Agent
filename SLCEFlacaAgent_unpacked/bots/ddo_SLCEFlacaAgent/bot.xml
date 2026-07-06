@@ -12,8 +12,8 @@
   "lastFinishedPublishOperation": {
     "$kind": "PublishResultDetails",
     "userId": "34c6ef1e-a985-43ac-bc0a-ea1b8b12a6c4",
-    "operationStart": "2026-07-03T14:37:48.3547501Z",
-    "operationEnd": "2026-07-03T14:38:06.4226297Z",
+    "operationStart": "2026-07-06T13:54:10.7591942Z",
+    "operationEnd": "2026-07-06T13:54:25.5941581Z",
     "status": "Succeeded"
   },
   "lastPublishedDetails": {
@@ -21,7 +21,7 @@
     "authenticationMode": "Integrated"
   },
   "lastPublishedUserId": "34c6ef1e-a985-43ac-bc0a-ea1b8b12a6c4",
-  "lastPublishedOnUtc": "2026-07-03T14:38:04.2568468",
+  "lastPublishedOnUtc": "2026-07-06T13:54:23.2572538",
   "currentSynchronizationState": {
     "$kind": "SynchronizationState",
     "botRegistration": {
@@ -33,7 +33,7 @@
     "provisioningStatus": "Provisioned",
     "state": "Synchronized"
   },
-  "lastSynchronizedOnUtc": "2026-07-03T14:38:09.1451915Z"
+  "lastSynchronizedOnUtc": "2026-07-06T13:54:53.5706823Z"
 }</synchronizationstatus>
   <template>default-2.1.0</template>
   <timezoneruleversionnumber>4</timezoneruleversionnumber>

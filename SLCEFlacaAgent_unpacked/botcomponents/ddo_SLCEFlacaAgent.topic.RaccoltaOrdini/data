@@ -21,7 +21,7 @@ beginDialog:
     - kind: SetVariable
       id: setUPN
       variable: Topic.UtenteUPN
-      value: =System.User.PrincipalName
+      value: =System.User.DisplayName
 
     - kind: SetVariable
       id: setOraLocale
@@ -78,11 +78,6 @@ beginDialog:
                   text_1: Topic.NumeroPiatto
 
               flowId: cbbc79f7-2076-f111-ab0d-7c1e52357b26
-
-            - kind: SetVariable
-              id: normalizzaNomePiatto
-              variable: Topic.NomePiatto
-              value: =Concatenate(Topic.NomePiatto, "")
 
             - kind: ConditionGroup
               id: checkTrovato
