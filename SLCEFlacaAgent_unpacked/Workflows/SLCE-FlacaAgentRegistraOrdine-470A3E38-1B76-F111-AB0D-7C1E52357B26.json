@@ -154,13 +154,13 @@
             "and": [
               {
                 "greaterOrEquals": [
-                  "@int(formatDateTime(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'), 'H'))",
+                  "@int(formatDateTime(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'), 'HH'))",
                   10
                 ]
               },
               {
                 "less": [
-                  "@int(formatDateTime(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'), 'H'))",
+                  "@int(formatDateTime(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'), 'HH'))",
                   12
                 ]
               }
