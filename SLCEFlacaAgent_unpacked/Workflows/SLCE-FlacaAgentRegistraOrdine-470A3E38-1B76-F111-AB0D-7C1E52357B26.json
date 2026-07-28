@@ -114,12 +114,12 @@
           "inputs": {
             "statusCode": 200,
             "body": {
-              "esito": "@{variables('Esito')}"
+              "text": "@{variables('Esito')}"
             },
             "schema": {
               "type": "object",
               "properties": {
-                "esito": {
+                "text": {
                   "title": "esito",
                   "x-ms-dynamically-added": true,
                   "type": "string"
@@ -129,6 +129,14 @@
           }
         },
         "Inizializza_DisplayName": {
+          "runAfter": {
+            "Inizializza_Esito": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c3000001-0001-0001-0001-000000000001"
+          },
           "type": "InitializeVariable",
           "inputs": {
             "variables": [
@@ -138,34 +146,9 @@
                 "value": ""
               }
             ]
-          },
-          "runAfter": {
-            "Inizializza_Esito": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "c3000001-0001-0001-0001-000000000001"
           }
         },
         "Controlla_Orario": {
-          "type": "If",
-          "expression": {
-            "and": [
-              {
-                "greaterOrEquals": [
-                  "@int(formatDateTime(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'), 'HH'))",
-                  10
-                ]
-              },
-              {
-                "less": [
-                  "@int(formatDateTime(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'), 'HH'))",
-                  12
-                ]
-              }
-            ]
-          },
           "actions": {
             "Ambito": {
               "actions": {
@@ -188,7 +171,7 @@
                     "parameters": {
                       "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
                       "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
-                      "$filter": "@{concat('Title eq ''', variables('DisplayName'), ''' and DataOrdine eq ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z''')}",
+                      "$filter": "@concat('Title eq ''', replace(variables('DisplayName'), '''', ''''''), '''')",
                       "$top": 1
                     },
                     "authentication": "@parameters('$authentication')"
@@ -298,23 +281,23 @@
                 },
                 "Cerca_Nome_Piatto": {
                   "runAfter": {},
-                  "inputs": {
-                    "host": {
-                      "operationId": "GetItems",
-                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
-                      "connectionName": "shared_sharepointonline_1"
-                    },
-                    "parameters": {
-                      "$filter": "@{concat('Indice eq ', string(int(triggerBody()?['number'])))}",
-                      "table": "31d4209d-dd46-4a61-854f-473fba67a501",
-                      "$top": 1,
-                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')"
-                    },
-                    "authentication": "@parameters('$authentication')"
-                  },
-                  "type": "OpenApiConnection",
                   "metadata": {
                     "operationMetadataId": "c2000001-0001-0001-0001-000000000001"
+                  },
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_sharepointonline_1",
+                      "operationId": "GetItems",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                    },
+                    "parameters": {
+                      "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                      "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                      "$filter": "@{concat('Indice eq ', string(int(triggerBody()?['number'])))}",
+                      "$top": 1
+                    },
+                    "authentication": "@parameters('$authentication')"
                   }
                 }
               },
@@ -325,31 +308,56 @@
               "type": "Scope"
             }
           },
-          "else": {
-            "actions": {
-              "Set_Esito_FuoriOrario": {
-                "type": "SetVariable",
-                "inputs": {
-                  "name": "Esito",
-                  "value": "fuori_orario"
-                },
-                "runAfter": {},
-                "metadata": {
-                  "operationMetadataId": "c3000005-0005-0005-0005-000000000005"
-                }
-              }
-            }
-          },
           "runAfter": {
             "Set_DisplayName": [
               "Succeeded"
             ]
           },
+          "else": {
+            "actions": {
+              "Set_Esito_FuoriOrario": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "c3000005-0005-0005-0005-000000000005"
+                },
+                "type": "SetVariable",
+                "inputs": {
+                  "name": "Esito",
+                  "value": "fuori_orario"
+                }
+              }
+            }
+          },
+          "expression": {
+            "and": [
+              {
+                "greaterOrEquals": [
+                  "@int(formatDateTime(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'), 'HH'))",
+                  10
+                ]
+              },
+              {
+                "less": [
+                  "@int(formatDateTime(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'), 'HH'))",
+                  18
+                ]
+              }
+            ]
+          },
           "metadata": {
             "operationMetadataId": "c3000004-0004-0004-0004-000000000004"
-          }
+          },
+          "type": "If"
         },
         "Get_Display_Name": {
+          "runAfter": {
+            "Inizializza_DisplayName": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c3000002-0002-0002-0002-000000000002"
+          },
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
@@ -361,22 +369,9 @@
               "id": "@{triggerBody()?['text']}"
             },
             "authentication": "@parameters('$authentication')"
-          },
-          "runAfter": {
-            "Inizializza_DisplayName": [
-              "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "c3000002-0002-0002-0002-000000000002"
           }
         },
         "Set_DisplayName": {
-          "type": "SetVariable",
-          "inputs": {
-            "name": "DisplayName",
-            "value": "@{coalesce(body('Get_Display_Name')?['displayName'], triggerBody()?['text'])}"
-          },
           "runAfter": {
             "Get_Display_Name": [
               "Succeeded",
@@ -385,6 +380,11 @@
           },
           "metadata": {
             "operationMetadataId": "c3000003-0003-0003-0003-000000000003"
+          },
+          "type": "SetVariable",
+          "inputs": {
+            "name": "DisplayName",
+            "value": "@{coalesce(body('Get_Display_Name')?['displayName'], triggerBody()?['text'])}"
           }
         }
       },

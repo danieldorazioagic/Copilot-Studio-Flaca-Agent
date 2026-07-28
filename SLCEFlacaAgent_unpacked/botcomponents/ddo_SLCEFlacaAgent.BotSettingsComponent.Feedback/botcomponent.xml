@@ -1,0 +1,9 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.BotSettingsComponent.Feedback">
+  <componenttype>18</componenttype>
+  <iscustomizable>0</iscustomizable>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

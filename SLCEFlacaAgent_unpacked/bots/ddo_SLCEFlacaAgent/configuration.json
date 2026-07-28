@@ -4,10 +4,12 @@
     "GenerativeActionsEnabled": true
   },
   "isAgentConnectable": true,
+  "publishOnImport": true,
   "gPTSettings": {
     "$kind": "GPTSettings",
     "defaultSchemaName": "ddo_SLCEFlacaAgent.gpt.default"
   },
+  "isLightweightBot": false,
   "aISettings": {
     "$kind": "AISettings",
     "useModelKnowledge": false,
@@ -18,5 +20,6 @@
   },
   "recognizer": {
     "$kind": "GenerativeAIRecognizer"
-  }
+  },
+  "deferredProvisioning": false
 }

@@ -1,6 +1,6 @@
 # SL CE - Flaca Agent — Stato Progetto
 
-> Aggiornato: 2026-07-07 | Versione live: **v1.0.0.44**
+> Aggiornato: 2026-07-08 | Versione live: **v1.0.0.50**
 
 ---
 
@@ -69,9 +69,16 @@ Archivio dati: **SharePoint Lists** (FlacaMenu, FlacaOrdini)
 - [x] Topic `RaccoltaOrdini` in Copilot Studio
 - [x] `ValidaOrdine`: cerca piatto per Indice o per Nome (senza filtro data)
 - [x] `RegistraOrdine`: crea/aggiorna ordine con deduplicazione per utente+data
-- [x] Check orario 10:00–12:00 nel flow PA (indipendente dall'orchestratore CS)
+- [x] Check orario delegato interamente al flow PA (`W. Europe Standard Time` — DST automatico)
 - [x] Fix piatto: letto da FlacaMenu via Indice (non da CS AI)
 - [x] Fix Titolo: DisplayName via O365 Users connector (non email/UPN)
+- [x] Fix binding output `RegistraOrdine`: response body key `text` (pattern CS)
+- [x] Fix OData filter: apostrofi nel DisplayName escapati con `replace()`
+- [x] Topic: rimosso check orario hardcoded, gestione esito `nuovo`/`aggiornato`/`fuori_orario`
+- [x] GPT Instructions: contesto gruppo Teams multi-utente esplicito
+- [x] `System.User.PrincipalName` per identificazione utente nel topic
+- [x] `System.Activity.Text` pre-popola input ordine (no domanda ridondante)
+- [ ] **Test v1.0.0.50 su Teams** — in corso
 
 ### Infrastruttura
 - [x] Connection reference SharePoint: `ddo_sharedsharepointonline_31146`
@@ -83,7 +90,13 @@ Archivio dati: **SharePoint Lists** (FlacaMenu, FlacaOrdini)
 
 ## ⏳ Da fare
 
-### Fase 3 — Chiusura ordini (12:00)
+### 🔴 In corso — Test v1.0.0.50
+- [ ] Testare su Teams: scrivi nome piatto → `✅ Ordine registrato con successo!`
+- [ ] Testare aggiornamento ordine → `✅ Ordine aggiornato con successo!`
+- [ ] Testare fuori orario (dopo le 18:00) → `⚠️ Gli ordini di oggi sono già chiusi.`
+- [ ] Verificare DisplayName corretto in SharePoint FlacaOrdini (niente email)
+
+### Fase 3 — Chiusura ordini (18:00 test / 12:00 prod)
 - [ ] Flow `ChiusuraOrdini` schedulato alle 12:00
   - Blocca nuovi inserimenti (stato giornata = "chiuso")
   - Legge tutti gli ordini del giorno da FlacaOrdini
@@ -104,9 +117,8 @@ Archivio dati: **SharePoint Lists** (FlacaMenu, FlacaOrdini)
 - [ ] Se non risponde: mantieni stato "in attesa conferma"
 
 ### Miglioramenti pendenti
-- [ ] Testare v1.0.0.44 su Teams: Titolo = DisplayName, blocco orario
-- [ ] Risposta agente su Teams quando ordine fuori orario (`esito = "fuori_orario"`)
-- [ ] Gestione risposta agente dopo RegistraOrdine (messaggio conferma/errore a utente)
+- [ ] Ripristinare orario chiusura a 12:00 (ora in 18:00 per test)
+- [ ] Risposta agente su Teams quando ordine fuori orario (gestita via esito `fuori_orario` ✅)
 
 ---
 
@@ -139,7 +151,12 @@ Archivio dati: **SharePoint Lists** (FlacaMenu, FlacaOrdini)
 | v1.0.0.39 | `833d97b` | Fix Indice: cast Float→Int con `int()` ✅ |
 | v1.0.0.42 | `38cb6c7` | Fix piatto: letto da FlacaMenu via Indice ✅ |
 | v1.0.0.43 | `80da2ef` | Tentativo FirstName+LastName (sostituito) |
-| v1.0.0.44 | `8407ea9` | Check orario + O365 Users DisplayName ⏳ test |
+| v1.0.0.44 | `8407ea9` | Check orario + O365 Users DisplayName |
+| v1.0.0.46 | — | Fix GPT Instructions Teams group + topic trigger queries + PrincipalName |
+| v1.0.0.47 | — | Fix binding output RegistraOrdine (rimosso) |
+| v1.0.0.48 | — | Orario chiusura spostato a 18:00 per test |
+| v1.0.0.49 | — | Check orario delegato solo a PA flow (DST auto) + binding esito ripristinato |
+| v1.0.0.50 | — | Fix OData filter apostrofo nel DisplayName ✅ |
 
 ---
 
