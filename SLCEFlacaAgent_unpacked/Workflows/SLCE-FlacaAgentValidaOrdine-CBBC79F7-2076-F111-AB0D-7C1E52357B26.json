@@ -114,30 +114,95 @@
             "operationMetadataId": "d1000003-0003-0003-0003-000000000003"
           }
         },
-        "Condizione_Input_Numerico": {
-          "type": "If",
+        "Inizializza_NumeroEstrattoStr": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "NumeroEstrattoStr",
+                "type": "string",
+                "value": ""
+              }
+            ]
+          },
           "runAfter": {
             "Inizializza_NumeroPiatto": [
               "Succeeded"
             ]
           },
-          "expression": {
-            "and": [
-              {
-                "not": {
-                  "equals": [
-                    "@trim(triggerBody()?['text'])",
-                    ""
-                  ]
+          "metadata": {
+            "operationMetadataId": "e1000001-0001-0001-0001-000000000001"
+          }
+        },
+        "Estrai_Numero_Da_Input": {
+          "type": "Foreach",
+          "foreach": "@split(triggerBody()?['text'], ' ')",
+          "actions": {
+            "Condizione_Parola_Numerica": {
+              "type": "If",
+              "expression": {
+                "and": [
+                  {
+                    "not": {
+                      "equals": [
+                        "@trim(item())",
+                        ""
+                      ]
+                    }
+                  },
+                  {
+                    "contains": [
+                      "0123456789",
+                      "@substring(trim(item()), 0, 1)"
+                    ]
+                  }
+                ]
+              },
+              "actions": {
+                "Set_NumeroEstrattoStr": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "NumeroEstrattoStr",
+                    "value": "@trim(item())"
+                  },
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "e1000002-0002-0002-0002-000000000002"
+                  }
                 }
               },
-              {
-                "contains": [
-                  "0123456789",
-                  "@substring(trim(triggerBody()?['text']), 0, 1)"
-                ]
+              "else": {
+                "actions": {}
+              },
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "e1000003-0003-0003-0003-000000000003"
               }
+            }
+          },
+          "runAfter": {
+            "Inizializza_NumeroEstrattoStr": [
+              "Succeeded"
             ]
+          },
+          "runtimeConfiguration": {
+            "concurrency": {
+              "repetitions": 1
+            }
+          },
+          "metadata": {
+            "operationMetadataId": "e1000004-0004-0004-0004-000000000004"
+          }
+        },
+        "Condizione_Numero_Estratto": {
+          "type": "If",
+          "expression": {
+            "not": {
+              "equals": [
+                "@variables('NumeroEstrattoStr')",
+                ""
+              ]
+            }
           },
           "actions": {
             "Cerca_Per_Indice": {
@@ -151,7 +216,7 @@
                 "parameters": {
                   "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
                   "table": "31d4209d-dd46-4a61-854f-473fba67a501",
-                  "$filter": "@{concat('Indice eq ', trim(triggerBody()?['text']))}",
+                  "$filter": "@{concat('Indice eq ', variables('NumeroEstrattoStr'))}",
                   "$top": 1
                 },
                 "authentication": "@parameters('$authentication')"
@@ -163,11 +228,6 @@
             },
             "Condizione_Trovato_Numero": {
               "type": "If",
-              "runAfter": {
-                "Cerca_Per_Indice": [
-                  "Succeeded"
-                ]
-              },
               "expression": {
                 "greater": [
                   "@length(body('Cerca_Per_Indice')?['value'])",
@@ -205,7 +265,7 @@
                   "type": "SetVariable",
                   "inputs": {
                     "name": "NumeroPiatto",
-                    "value": "@{trim(triggerBody()?['text'])}"
+                    "value": "@{variables('NumeroEstrattoStr')}"
                   },
                   "runAfter": {
                     "Set_NomePiatto_Numero": [
@@ -220,101 +280,157 @@
               "else": {
                 "actions": {}
               },
+              "runAfter": {
+                "Cerca_Per_Indice": [
+                  "Succeeded"
+                ]
+              },
               "metadata": {
                 "operationMetadataId": "d1000008-0008-0008-0008-000000000008"
               }
             }
           },
           "else": {
-            "actions": {
-              "Cerca_Per_Nome": {
-                "type": "OpenApiConnection",
-                "inputs": {
-                  "host": {
-                    "connectionName": "shared_sharepointonline_1",
-                    "operationId": "GetItems",
-                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
-                  },
-                  "parameters": {
-                    "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
-                    "table": "31d4209d-dd46-4a61-854f-473fba67a501",
-                    "$filter": "@{concat('Title eq ''', triggerBody()?['text'], '''')}",
-                    "$top": 1
-                  },
-                  "authentication": "@parameters('$authentication')"
+            "actions": {}
+          },
+          "runAfter": {
+            "Estrai_Numero_Da_Input": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e1000005-0005-0005-0005-000000000005"
+          }
+        },
+        "Condizione_Cerca_Per_Testo": {
+          "type": "If",
+          "expression": {
+            "equals": [
+              "@variables('Trovato')",
+              "false"
+            ]
+          },
+          "actions": {
+            "Ottieni_Tutti_Piatti": {
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetItems",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
                 },
-                "runAfter": {},
-                "metadata": {
-                  "operationMetadataId": "d1000009-0009-0009-0009-000000000009"
+                "parameters": {
+                  "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+                  "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+                  "$top": 50
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "e1000006-0006-0006-0006-000000000006"
+              }
+            },
+            "Cerca_Titolo_In_Input": {
+              "type": "Foreach",
+              "foreach": "@body('Ottieni_Tutti_Piatti')?['value']",
+              "actions": {
+                "Condizione_Titolo_Contenuto": {
+                  "type": "If",
+                  "expression": {
+                    "and": [
+                      {
+                        "equals": [
+                          "@variables('Trovato')",
+                          "false"
+                        ]
+                      },
+                      {
+                        "contains": [
+                          "@toLower(triggerBody()?['text'])",
+                          "@toLower(item()?['Title'])"
+                        ]
+                      }
+                    ]
+                  },
+                  "actions": {
+                    "Set_Trovato_SI_Testo": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "Trovato",
+                        "value": "true"
+                      },
+                      "runAfter": {},
+                      "metadata": {
+                        "operationMetadataId": "e1000007-0007-0007-0007-000000000007"
+                      }
+                    },
+                    "Set_NomePiatto_Testo": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "NomePiatto",
+                        "value": "@{item()?['Title']}"
+                      },
+                      "runAfter": {
+                        "Set_Trovato_SI_Testo": [
+                          "Succeeded"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "e1000008-0008-0008-0008-000000000008"
+                      }
+                    },
+                    "Set_NumeroPiatto_Testo": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "NumeroPiatto",
+                        "value": "@{string(item()?['Indice'])}"
+                      },
+                      "runAfter": {
+                        "Set_NomePiatto_Testo": [
+                          "Succeeded"
+                        ]
+                      },
+                      "metadata": {
+                        "operationMetadataId": "e1000009-0009-0009-0009-000000000009"
+                      }
+                    }
+                  },
+                  "else": {
+                    "actions": {}
+                  },
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "e100000a-000a-000a-000a-00000000000a"
+                  }
                 }
               },
-              "Condizione_Trovato_Nome": {
-                "type": "If",
-                "runAfter": {
-                  "Cerca_Per_Nome": [
-                    "Succeeded"
-                  ]
-                },
-                "expression": {
-                  "greater": [
-                    "@length(body('Cerca_Per_Nome')?['value'])",
-                    0
-                  ]
-                },
-                "actions": {
-                  "Set_Trovato_SI_Nome": {
-                    "type": "SetVariable",
-                    "inputs": {
-                      "name": "Trovato",
-                      "value": "true"
-                    },
-                    "runAfter": {},
-                    "metadata": {
-                      "operationMetadataId": "d100000a-000a-000a-000a-00000000000a"
-                    }
-                  },
-                  "Set_NomePiatto_Nome": {
-                    "type": "SetVariable",
-                    "inputs": {
-                      "name": "NomePiatto",
-                      "value": "@{first(body('Cerca_Per_Nome')?['value'])?['Title']}"
-                    },
-                    "runAfter": {
-                      "Set_Trovato_SI_Nome": [
-                        "Succeeded"
-                      ]
-                    },
-                    "metadata": {
-                      "operationMetadataId": "d100000b-000b-000b-000b-00000000000b"
-                    }
-                  },
-                  "Set_NumeroPiatto_Nome": {
-                    "type": "SetVariable",
-                    "inputs": {
-                      "name": "NumeroPiatto",
-                      "value": "@{string(first(body('Cerca_Per_Nome')?['value'])?['Indice'])}"
-                    },
-                    "runAfter": {
-                      "Set_NomePiatto_Nome": [
-                        "Succeeded"
-                      ]
-                    },
-                    "metadata": {
-                      "operationMetadataId": "d100000c-000c-000c-000c-00000000000c"
-                    }
-                  }
-                },
-                "else": {
-                  "actions": {}
-                },
-                "metadata": {
-                  "operationMetadataId": "d100000d-000d-000d-000d-00000000000d"
+              "runAfter": {
+                "Ottieni_Tutti_Piatti": [
+                  "Succeeded"
+                ]
+              },
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
                 }
+              },
+              "metadata": {
+                "operationMetadataId": "e100000b-000b-000b-000b-00000000000b"
               }
             }
           },
+          "else": {
+            "actions": {}
+          },
+          "runAfter": {
+            "Condizione_Numero_Estratto": [
+              "Succeeded",
+              "Failed"
+            ]
+          },
           "metadata": {
-            "operationMetadataId": "d100000e-000e-000e-000e-00000000000e"
+            "operationMetadataId": "e100000c-000c-000c-000c-00000000000c"
           }
         },
         "Respond_to_the_agent": {
@@ -345,9 +461,9 @@
             }
           },
           "runAfter": {
-            "Condizione_Input_Numerico": [
+            "Condizione_Cerca_Per_Testo": [
               "Succeeded",
-              "Failed"
+              "Skipped"
             ]
           },
           "metadata": {

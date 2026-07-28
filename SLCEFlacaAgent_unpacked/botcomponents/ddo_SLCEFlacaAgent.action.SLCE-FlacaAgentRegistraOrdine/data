@@ -1,5 +1,5 @@
 kind: TaskDialog
-description: Registra o aggiorna l'ordine del giorno per l'utente corrente. Gestisce deduplicazione e check orario (10:00-12:00). Risponde con esito: "nuovo" (primo ordine), "aggiornato" (modifica esistente) o "fuori_orario" (oltre le 12:00). Non chiamare direttamente: è gestita dal topic Raccolta Ordini.
+modelDescription: "Registra/aggiorna ordine. Gestisce dedup e orario. Risponde: nuovo/aggiornato/fuori_orario."
 action:
   kind: InvokeFlowTaskAction
   flowId: 470a3e38-1b76-f111-ab0d-7c1e52357b26
@@ -8,25 +8,27 @@ action:
     diagnostics:
     mode: Invoker
 
+outputMode: All
+description: "Registra o aggiorna l'ordine del giorno per l'utente corrente. Gestisce deduplicazione e check orario (10:00-12:00). Risponde con esito: \"nuovo\" (primo ordine), \"aggiornato\" (modifica esistente) o \"fuori_orario\" (oltre le 12:00). Non chiamare direttamente: è gestita dal topic Raccolta Ordini."
 inputType:
   properties:
-    text:
-      type: String
-      title: utenteUPN
-      description: UPN (email) dell'utente Teams che sta ordinando, ricavato da System.User.PrincipalName.
-    text_1:
-      type: String
-      title: nomePiatto
-      description: Nome esatto del piatto come restituito da ValidaOrdine (campo nomePiatto).
     number:
-      type: Number
-      title: numeroPiatto
       description: Numero indice del piatto come restituito da ValidaOrdine (campo numeroPiatto).
+      title: numeroPiatto
+      type: Number
+
+    text:
+      description: UPN (email) dell'utente Teams che sta ordinando, ricavato da System.User.PrincipalName.
+      title: utenteUPN
+      type: String
+
+    text_1:
+      description: Nome esatto del piatto come restituito da ValidaOrdine (campo nomePiatto).
+      title: nomePiatto
+      type: String
 
 outputType:
   properties:
     text:
-      type: String
       title: esito
-
-outputMode: All
+      type: String

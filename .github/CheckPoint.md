@@ -1,6 +1,6 @@
 # CheckPoint — SL CE - Flaca Agent
 
-> Aggiornato: 2026-07-28 | Versione live: **v1.0.0.51**
+> Aggiornato: 2026-07-28 | Versione live: **v1.0.0.56**
 
 ---
 
@@ -13,28 +13,27 @@
 
 ### Fase 2 — Raccolta ordini
 - Topic `RaccoltaOrdini` in Copilot Studio
-- Flow `ValidaOrdine`: cerca piatto per Indice o Nome su FlacaMenu
+- Flow `ValidaOrdine`: algoritmo free-text in 3 fasi (estrazione numero, cerca per Indice, contains su titoli)
 - Flow `RegistraOrdine`: crea/aggiorna ordine in FlacaOrdini con deduplicazione utente+data
-- Check orario (10:00–18:00 test / 12:00 prod) gestito nel flow PA con DST automatico
+- Check orario (10:00–18:00 test) gestito nel flow PA con DST automatico
 - DisplayName reale via O365 Users connector
-- Fix OData filter apostrofi nel DisplayName
-- Fix binding output `RegistraOrdine`: response key `text` allineata al botcomponent CS ✅ (v1.0.0.51)
+- Fix FlowActionException: response key `text` allineata al botcomponent CS
+
+### Copilot Studio — Strumenti
+- GPT instructions compatte (~550 char)
+- `modelDescription` corretta su tutti e 4 gli strumenti (campo AI routing)
+- `<description>` nei `botcomponent.xml` (campo UI Copilot Studio)
+- Descriptions sui parametri input di ogni action
 
 ### Infrastruttura
 - SharePoint Lists: `FlacaMenu`, `FlacaOrdini`
 - Connection references: SharePoint + O365 Users
-- Repository Git configurato e aggiornato
+- Repository Git aggiornato, CHANGELOG e CheckPoint presenti
 - ALM: pack/unpack/import con PAC CLI
 
 ---
 
 ## ⏳ Cosa manca ancora
-
-### 🔴 Priorità alta — Test v1.0.0.51
-- [ ] Testare su Teams: scrivi nome piatto → `✅ Ordine registrato con successo!`
-- [ ] Testare aggiornamento ordine → `✅ Ordine aggiornato con successo!`
-- [ ] Testare fuori orario → `⚠️ Gli ordini di oggi sono già chiusi.`
-- [ ] Verificare DisplayName corretto in FlacaOrdini
 
 ### Fase 3 — Chiusura ordini
 - [ ] Flow `ChiusuraOrdini` schedulato alle 12:00 (aggregazione + notifica Teams)
@@ -53,3 +52,4 @@
 
 - **WhatsApp connector**: da decidere quale servizio usare (Business API, Twilio, altro)
 - **Orario chiusura**: attualmente 18:00 per test — da riportare a 12:00 prima del go-live
+- **Test v1.0.0.56 su Teams**: verificare che il nuovo ValidaOrdine gestisca correttamente il testo libero

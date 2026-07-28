@@ -1,5 +1,26 @@
 # CHANGELOG — SL CE - Flaca Agent
 
+## [1.0.0.56] - 2026-07-28
+### Modifiche
+- Fix `modelDescription` ValidaOrdine: era erroneamente impostata con la descrizione di RegistraOrdine
+- Appreso e documentato pattern obbligatorio struttura file `data` action CS: `modelDescription` (AI routing) vs `description` (UI estesa)
+
+## [1.0.0.55] - 2026-07-28
+### Modifiche
+- Aggiunta `<description>` in tutti e 4 i `botcomponent.xml` delle action (ValidaOrdine, RegistraOrdine, CancellaMenuOggi, ScriviMenuSuSharePoint) — campo UI "Descrizione" in Copilot Studio
+- Acquisito da UI CS il campo `modelDescription` come campo corretto per routing AI orchestratore
+
+## [1.0.0.54] - 2026-07-28
+### Modifiche
+- Riscrittura completa flow `ValidaOrdine`: nuovo algoritmo free-text in 3 fasi (estrazione numero da parole, cerca per Indice, contains su tutti i piatti)
+- Gestisce input come "vorrei un 32" o "oggi voglio Fiori e alici"
+- Pulizia GPT instructions: rimossa sezione ESTRAZIONE INPUT ORDINE (inutile con fix al flow)
+- Corretta `description` parametro `piatto` di ValidaOrdine (ora accurata)
+
+## [1.0.0.53] - 2026-07-28
+### Modifiche
+- Tentativo fix estrazione input via GPT instructions + action description (approccio superato da v1.0.0.54)
+
 ## [1.0.0.52] - 2026-07-28
 ### Modifiche
 - GPT instructions: ridotte da ~3.500 a ~550 caratteri, rimosso dettaglio operativo ridondante
