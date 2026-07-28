@@ -1,4 +1,5 @@
 kind: TaskDialog
+description: Scrive i piatti del menu giornaliero su SharePoint (lista FlacaMenu). Usare solo per configurare il menu del giorno, mai durante la raccolta ordini degli utenti.
 action:
   kind: InvokeFlowTaskAction
   flowId: 0c130643-6872-f111-ab0d-000d3a693112
@@ -12,11 +13,14 @@ inputType:
     text:
       type: String
       title: piattiCSV
+      description: Lista dei piatti separati da virgola (es. "Pasta al pomodoro,Insalata di pollo,Cotoletta").
     text_1:
       type: String
       title: dataMenu
+      description: Data del menu nel formato yyyy-MM-dd (es. "2026-07-28").
     text_2:
       type: String
       title: categoria
+      description: Categoria dei piatti (es. "Primi", "Secondi", "Insalate", "Burger").
 
 outputMode: All

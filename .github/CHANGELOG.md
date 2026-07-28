@@ -1,5 +1,11 @@
 # CHANGELOG — SL CE - Flaca Agent
 
+## [1.0.0.52] - 2026-07-28
+### Modifiche
+- GPT instructions: ridotte da ~3.500 a ~550 caratteri, rimosso dettaglio operativo ridondante
+- Aggiunta `description` a tutte e 4 le action (ValidaOrdine, RegistraOrdine, CancellaMenuOggi, ScriviMenuSuSharePoint)
+- Aggiunta `description` a tutti i parametri input delle action per supporto orchestratore AI
+
 ## [1.0.0.51] - 2026-07-28
 ### Modifiche
 - Fix FlowActionException: rinominata chiave response `esito` → `text` nel nodo `Respond_to_the_agent` del flow `RegistraOrdine` per allineamento con botcomponent outputType CS

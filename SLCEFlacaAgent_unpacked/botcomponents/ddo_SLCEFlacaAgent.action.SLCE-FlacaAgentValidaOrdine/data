@@ -1,4 +1,5 @@
 kind: TaskDialog
+description: Cerca un piatto nel menu di oggi per numero indice o per nome. Restituisce nomePiatto e numeroPiatto se trovato, valori vuoti se non trovato. Non chiamare direttamente: è gestita dal topic Raccolta Ordini.
 action:
   kind: InvokeFlowTaskAction
   flowId: cbbc79f7-2076-f111-ab0d-7c1e52357b26
@@ -12,6 +13,7 @@ inputType:
     text:
       type: String
       title: piatto
+      description: Input dell'utente contenente il numero indice (es. "3") o il nome del piatto (es. "Pasta al pomodoro"). Passare il testo grezzo del messaggio.
 
 outputType:
   properties:

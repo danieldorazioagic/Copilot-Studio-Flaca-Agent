@@ -1,4 +1,5 @@
 kind: TaskDialog
+description: Registra o aggiorna l'ordine del giorno per l'utente corrente. Gestisce deduplicazione e check orario (10:00-12:00). Risponde con esito: "nuovo" (primo ordine), "aggiornato" (modifica esistente) o "fuori_orario" (oltre le 12:00). Non chiamare direttamente: è gestita dal topic Raccolta Ordini.
 action:
   kind: InvokeFlowTaskAction
   flowId: 470a3e38-1b76-f111-ab0d-7c1e52357b26
@@ -12,12 +13,15 @@ inputType:
     text:
       type: String
       title: utenteUPN
+      description: UPN (email) dell'utente Teams che sta ordinando, ricavato da System.User.PrincipalName.
     text_1:
       type: String
       title: nomePiatto
+      description: Nome esatto del piatto come restituito da ValidaOrdine (campo nomePiatto).
     number:
       type: Number
       title: numeroPiatto
+      description: Numero indice del piatto come restituito da ValidaOrdine (campo numeroPiatto).
 
 outputType:
   properties:

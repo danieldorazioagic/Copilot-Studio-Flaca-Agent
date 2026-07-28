@@ -1,4 +1,5 @@
 kind: TaskDialog
+description: Cancella il menu e tutti gli ordini di una data specifica da SharePoint. Usare solo per reset giornaliero o su richiesta esplicita di un amministratore. Non usare durante la normale raccolta ordini.
 action:
   kind: InvokeFlowTaskAction
   flowId: af9651ee-3975-f111-ab0d-7c1e52357019
@@ -12,5 +13,6 @@ inputType:
     text:
       type: String
       title: dataMenu
+      description: Data del menu da cancellare nel formato yyyy-MM-dd (es. "2026-07-28").
 
 outputMode: All
