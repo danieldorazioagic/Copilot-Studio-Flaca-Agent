@@ -1,5 +1,35 @@
 # CHANGELOG — SL CE - Flaca Agent
 
+## [1.0.0.60] - 2026-09-03
+### Modifiche
+- **Fix critico**: risolto mismatch case-sensitive delle variabili di output nei topic, introdotto dal re-salvataggio via UI Copilot Studio (necessario per riparare il riferimento CloudFlow di `TopicAnnullaOrdine`)
+  - `TopicRaccoltaOrdini`: l'azione `ValidaOrdine` scriveva in `Topic.nomePiatto`/`Topic.numeroPiatto` mentre il resto del topic leggeva `Topic.NomePiatto`/`Topic.NumeroPiatto` → **bloccava tutta la raccolta ordini** (ogni piatto risultava "non trovato")
+  - `TopicAnnullaOrdine`: l'azione `AnnullaOrdine` scriveva in `Topic.esito` mentre il `ConditionGroup` leggeva `Topic.Esito` → nessun messaggio di esito mostrato
+  - Allineati tutti i riferimenti al case effettivo del binding
+- Sincronizzata la cartella `SLCEFlacaAgent_unpacked_crm` con lo stato reale del CRM dopo il fix manuale in Copilot Studio Maker Portal (i flow sono stati rinominati con prefisso `Action` durante l'operazione)
+
+## [1.0.0.59] - 2026-09-03
+### Modifiche
+- **Fix**: aggiunte le action botcomponent mancanti `ActionAnnullaOrdine` e `ActionPubblicaTabellaOrdini` (disattivate, stesso pattern delle altre 4 action), necessarie perché Copilot Studio risolvesse correttamente i riferimenti CloudFlow nei topic (errore `InvalidReferenceError` / `CloudFlow ... not found` su `TopicAnnullaOrdine`)
+
+## [1.0.0.58] - 2026-09-03
+### Modifiche
+- Nuovo flow `AnnullaOrdine`: verifica orario, cerca ordine utente per DisplayName in FlacaOrdini, elimina la riga se presente. Esiti: `annullato` / `non_trovato` / `fuori_orario`
+- Nuovo flow `PubblicaTabellaOrdini`: legge tutti gli ordini del giorno da FlacaOrdini e pubblica su Teams una tabella testuale Utente → Piatto (o messaggio "nessun ordine" se vuota)
+- Nuovo topic `TopicAnnullaOrdine`: unico punto di ingresso per l'annullamento ordine, invoca il flow `AnnullaOrdine` e, in caso di successo, invoca `PubblicaTabellaOrdini`
+- Aggiornato `TopicRaccoltaOrdini`: dopo esito `nuovo`/`aggiornato`, invoca `PubblicaTabellaOrdini` per pubblicare il riepilogo aggiornato su Teams
+- Aggiornate GPT instructions: regola di routing per l'intento di annullamento ordine verso `TopicAnnullaOrdine`
+- Registrati in `Solution.xml` i 2 nuovi flow come RootComponent (type 29)
+
+## [1.0.0.57] - 2026-09-03
+### Modifiche
+- Rename friendly name solution: "SL CE - Flaca Agent" → "SLCEFlacaAgent" (allineato allo Unique Name)
+- Naming uniformato su tutti i componenti bot: convenzione `SL CE - Flaca Agent | <Tipo><Nome>` (es. `TopicRaccoltaOrdini`, `ActionValidaOrdine`)
+- Valorizzate tutte le description mancanti (es. `TopicRaccoltaOrdini`)
+- **Fix architetturale**: disattivate (statecode/statuscode) le 4 Action standalone (`ValidaOrdine`, `RegistraOrdine`, `ScriviMenuSuSharePoint`, `CancellaMenuOggi`) esposte come tool diretti all'orchestratore AI — causa nota di comportamento incoerente su Teams (bypass dei topic)
+- Aggiunto nuovo topic `TopicResetMenuGiornaliero`: wrapper con conferma di sicurezza per il flow `CancellaMenuOggi`, unico punto di ingresso per il reset admin (sostituisce l'esposizione diretta del tool)
+- Aggiornate GPT instructions: regola architetturale "solo topic" (mai invocare flow/tool direttamente), riferimenti aggiornati al nuovo naming dei topic
+
 ## [1.0.0.56] - 2026-07-28
 ### Modifiche
 - Fix `modelDescription` ValidaOrdine: era erroneamente impostata con la descrizione di RegistraOrdine

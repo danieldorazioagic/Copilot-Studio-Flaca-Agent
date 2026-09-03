@@ -1,0 +1,72 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Annulla Ordine
+    triggerQueries:
+      - annulla il mio ordine
+      - cancella il mio ordine
+      - rimuovi il mio ordine
+      - voglio annullare l'ordine
+      - elimina il mio ordine
+      - annulla ordine
+      - non voglio più ordinare
+      - togli il mio ordine
+      - disdici il mio ordine
+
+  actions:
+    - kind: SetVariable
+      id: setUPN
+      variable: Topic.UtenteUPN
+      value: =System.User.PrincipalName
+
+    - kind: SetVariable
+      id: initEsito
+      variable: Topic.esito
+      value: =Text("")
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_dX19Yy
+      input:
+        binding:
+          text: =Topic.UtenteUPN
+
+      output:
+        binding:
+          text: Topic.esito
+
+      flowId: 1a2b3c4d-5e6f-f111-ab0d-7c1e52357b27
+
+    - kind: ConditionGroup
+      id: checkEsito
+      conditions:
+        - id: esitoAnnullato
+          condition: =Topic.esito = "annullato"
+          actions:
+            - kind: SendActivity
+              id: msgAnnullato
+              activity: ✅ Ordine annullato con successo!
+
+            - kind: InvokeFlowAction
+              id: callPubblicaTabellaAnnulla
+              input: {}
+              output: {}
+              flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+        - id: esitoNonTrovato
+          condition: =Topic.esito = "non_trovato"
+          actions:
+            - kind: SendActivity
+              id: msgNonTrovato
+              activity: ⚠️ Non risulta nessun ordine attivo da annullare per oggi.
+
+        - id: esitoFuoriOrario
+          condition: =Topic.esito = "fuori_orario"
+          actions:
+            - kind: SendActivity
+              id: msgFuoriOrarioAnnulla
+              activity: ⚠️ Gli ordini di oggi sono già chiusi.
+
+inputType: {}
+outputType: {}

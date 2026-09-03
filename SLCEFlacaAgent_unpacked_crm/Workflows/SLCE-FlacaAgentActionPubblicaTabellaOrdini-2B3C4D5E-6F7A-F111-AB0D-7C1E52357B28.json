@@ -1,0 +1,222 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedsharepointonline_31146"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_teams_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedteams_ddd0e"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)": {
+          "defaultValue": "https://agictechnology-my.sharepoint.com/personal/daniel_dorazio_agic_it",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ddo_SLCEFlacaAgentUrlSharePoint"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "b8f61c18-7224-4f8a-9c5f-72fbce5df766"
+          },
+          "type": "Request",
+          "kind": "Skills",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          }
+        }
+      },
+      "actions": {
+        "Inizializza_MessaggioTabella": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "f3000001-0001-0001-0001-000000000001"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "MessaggioTabella",
+                "type": "string",
+                "value": "<p><strong>📋 Ordini di oggi:</strong><br>"
+              }
+            ]
+          }
+        },
+        "Leggi_Ordini_Oggi": {
+          "runAfter": {
+            "Inizializza_MessaggioTabella": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f3000002-0002-0002-0002-000000000002"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+              "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
+              "$filter": "@concat('DataOrdine ge ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z'' and DataOrdine lt ''', formatDateTime(addDays(utcNow(), 1), 'yyyy-MM-dd'), 'T00:00:00Z''')",
+              "$orderby": "Title asc",
+              "$top": 200
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Condizione_Ordini_Presenti": {
+          "actions": {
+            "Componi_Righe_Tabella": {
+              "foreach": "@body('Leggi_Ordini_Oggi')?['value']",
+              "actions": {
+                "Aggiungi_Riga": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "f3000003-0003-0003-0003-000000000003"
+                  },
+                  "type": "AppendToStringVariable",
+                  "inputs": {
+                    "name": "MessaggioTabella",
+                    "value": "@{items('Componi_Righe_Tabella')?['Title']} → @{items('Componi_Righe_Tabella')?['Piatto']}<br>"
+                  }
+                }
+              },
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "f3000004-0004-0004-0004-000000000004"
+              },
+              "type": "Foreach",
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Leggi_Ordini_Oggi": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Aggiungi_Riga_Vuota": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "f3000005-0005-0005-0005-000000000005"
+                },
+                "type": "AppendToStringVariable",
+                "inputs": {
+                  "name": "MessaggioTabella",
+                  "value": "Nessun ordine registrato per oggi.<br>"
+                }
+              }
+            }
+          },
+          "expression": {
+            "greater": [
+              "@length(body('Leggi_Ordini_Oggi')?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f3000006-0006-0006-0006-000000000006"
+          },
+          "type": "If"
+        },
+        "Invia_Tabella_Su_Teams": {
+          "runAfter": {
+            "Condizione_Ordini_Presenti": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f3000007-0007-0007-0007-000000000007"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_teams_1",
+              "operationId": "PostMessageToConversation",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+            },
+            "parameters": {
+              "poster": "Flow bot",
+              "location": "Group chat",
+              "body/recipient": "19:419f41383b41472c9d358157ede138e9@thread.v2",
+              "body/messageBody": "@{variables('MessaggioTabella')}"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Respond_to_the_agent": {
+          "runAfter": {
+            "Invia_Tabella_Su_Teams": [
+              "Succeeded",
+              "Failed"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "81c94f73-dd52-465c-ad3b-a4686da63cc5"
+          },
+          "type": "Response",
+          "kind": "Skills",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "esito": "ok"
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "esito": {
+                  "title": "esito",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "outputs": {}
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

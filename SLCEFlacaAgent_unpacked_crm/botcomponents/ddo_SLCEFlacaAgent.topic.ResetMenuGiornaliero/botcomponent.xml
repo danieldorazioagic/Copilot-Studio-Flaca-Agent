@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.ResetMenuGiornaliero">
+  <componenttype>9</componenttype>
+  <description>Topic amministrativo: su richiesta esplicita (es. "resetta il menu", "cancella ordini di oggi"), chiede conferma e poi cancella menu e ordini della data odierna da SharePoint tramite il flusso CancellaMenuOggi. Unico punto di ingresso per l'operazione di reset: il flow non è più esposto come tool autonomo all'orchestratore.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>SL CE - Flaca Agent | TopicResetMenuGiornaliero</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

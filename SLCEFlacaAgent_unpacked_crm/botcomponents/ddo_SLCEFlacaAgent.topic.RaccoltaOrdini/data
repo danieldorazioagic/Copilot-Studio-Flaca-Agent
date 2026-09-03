@@ -1,0 +1,137 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Raccolta Ordini
+    triggerQueries:
+      - ordino
+      - voglio ordinare
+      - scelgo
+      - prendo
+      - vorrei
+      - mi segni
+      - prendo il
+      - scelgo il numero
+      - il numero
+      - per me
+      - metto
+      - prenota per me
+      - il mio ordine
+      - mando l'ordine
+      - confermo
+
+  actions:
+    - kind: SetVariable
+      id: setUPN
+      variable: Topic.UtenteUPN
+      value: =System.User.PrincipalName
+
+    - kind: SetVariable
+      id: initNomePiatto
+      variable: Topic.nomePiatto
+      value: =Text("")
+
+    - kind: SetVariable
+      id: initNumeroPiatto
+      variable: Topic.numeroPiatto
+      value: "0"
+
+    - kind: SetVariable
+      id: initNumeroPiattoInt
+      variable: Topic.NumeroPiattoInt
+      value: =0
+
+    - kind: SetVariable
+      id: initInputOrdine
+      variable: Topic.InputOrdine
+      value: =System.Activity.Text
+
+    - kind: SetVariable
+      id: initEsito
+      variable: Topic.Esito
+      value: =Text("")
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_Ivu6ym
+      input:
+        binding:
+          text: =Topic.InputOrdine
+
+      output:
+        binding:
+          nomepiatto: Topic.nomePiatto
+          numeropiatto: Topic.numeroPiatto
+
+      flowId: cbbc79f7-2076-f111-ab0d-7c1e52357b26
+
+    - kind: ConditionGroup
+      id: checkTrovato
+      conditions:
+        - id: piattoTrovato
+          condition: =!IsBlank(Topic.nomePiatto)
+          actions:
+            - kind: SetVariable
+              id: setNumeroPiattoInt
+              variable: Topic.NumeroPiattoInt
+              value: =Value(Topic.numeroPiatto)
+
+            - kind: InvokeFlowAction
+              id: invokeFlowAction_d9l4iM
+              input:
+                binding:
+                  number: =Topic.NumeroPiattoInt
+                  text: =Topic.UtenteUPN
+                  text_1: =Topic.nomePiatto
+
+              output:
+                binding:
+                  esito: Topic.Esito
+
+              flowId: 470a3e38-1b76-f111-ab0d-7c1e52357b26
+
+            - kind: ConditionGroup
+              id: checkEsito
+              conditions:
+                - id: esitoNuovo
+                  condition: =Topic.Esito = "nuovo"
+                  actions:
+                    - kind: SendActivity
+                      id: msgNuovo
+                      activity: ✅ Ordine registrato con successo!
+
+                    - kind: InvokeFlowAction
+                      id: callPubblicaTabellaNuovo
+                      input: {}
+                      output: {}
+                      flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+                - id: esitoAggiornato
+                  condition: =Topic.Esito = "aggiornato"
+                  actions:
+                    - kind: SendActivity
+                      id: msgAggiornato
+                      activity: ✅ Ordine aggiornato con successo!
+
+                    - kind: InvokeFlowAction
+                      id: callPubblicaTabellaAggiornato
+                      input: {}
+                      output: {}
+                      flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+                - id: esitoFuoriOrario
+                  condition: =Topic.Esito = "fuori_orario"
+                  actions:
+                    - kind: SendActivity
+                      id: msgFuoriOrario
+                      activity: ⚠️ Gli ordini di oggi sono già chiusi.
+
+        - id: piattoNonTrovato
+          condition: =IsBlank(Topic.nomePiatto)
+          actions:
+            - kind: SendActivity
+              id: msgPiattoNonTrovato
+              activity: ⚠️ Il piatto indicato non è presente nel menu di oggi. Per favore scegli uno dei piatti disponibili.
+
+inputType: {}
+outputType: {}

@@ -1,0 +1,62 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Reset Menu Giornaliero
+    triggerQueries:
+      - resetta il menu
+      - resetta il menu di oggi
+      - cancella il menu di oggi
+      - cancella ordini di oggi
+      - cancella gli ordini di oggi
+      - reset giornaliero
+      - azzera gli ordini
+      - azzera il menu
+
+  actions:
+    - kind: SetVariable
+      id: setDataOggiReset
+      variable: Topic.DataResetMenu
+      value: =Text(Today(), "yyyy-MM-dd")
+
+    - kind: Question
+      id: askConfermaReset
+      alwaysPrompt: true
+      variable: Topic.ConfermaReset
+      prompt:
+        activity:
+          text: =Concatenate("⚠️ Confermi la cancellazione di menu e ordini del ", Topic.DataResetMenu, "? Rispondi CONFERMA per procedere.")
+
+      entity: StringPrebuiltEntity
+
+    - kind: ConditionGroup
+      id: checkConferma
+      conditions:
+        - id: resetConfermato
+          condition: =Lower(Trim(Topic.ConfermaReset)) = "conferma"
+          actions:
+            - kind: InvokeFlowAction
+              id: callCancellaMenuOggi
+              input:
+                binding:
+                  text: =Topic.DataResetMenu
+
+                text: =Topic.DataResetMenu
+
+              output: {}
+              flowId: af9651ee-3975-f111-ab0d-7c1e52357019
+
+            - kind: SendActivity
+              id: msgResetOk
+              activity: "✅ Menu e ordini di oggi cancellati."
+
+        - id: resetAnnullato
+          condition: =Lower(Trim(Topic.ConfermaReset)) <> "conferma"
+          actions:
+            - kind: SendActivity
+              id: msgResetAnnullato
+              activity: "⏳ Operazione annullata, nessuna modifica effettuata."
+
+inputType: {}
+outputType: {}

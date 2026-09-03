@@ -1,0 +1,112 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_microsoftcopilotstudio": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedmicrosoftcopilotstudio_fd8d0"
+        },
+        "api": {
+          "name": "shared_microsoftcopilotstudio"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "Recurrence": {
+          "recurrence": {
+            "frequency": "Day",
+            "interval": 1,
+            "timeZone": "W. Europe Standard Time",
+            "schedule": {
+              "hours": [
+                "9"
+              ],
+              "minutes": [
+                0
+              ]
+            }
+          },
+          "metadata": {
+            "operationMetadataId": "edcdfaa1-c429-4d9f-87a4-80668e37d9e0"
+          },
+          "type": "Recurrence"
+        }
+      },
+      "actions": {
+        "Popola_menu_giornaliero": {
+          "runAfter": {
+            "Controlla_Weekend": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d590d261-c124-439c-b967-076724a8c922"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_microsoftcopilotstudio",
+              "operationId": "ExecuteCopilot",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_microsoftcopilotstudio"
+            },
+            "parameters": {
+              "Copilot": "ddo_SLCEFlacaAgent",
+              "body/message": "POPOLA_MENU_GIORNALIERO"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Controlla_Weekend": {
+          "actions": {
+            "Termina_Weekend": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "weekend-terminate-001"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Succeeded"
+              }
+            }
+          },
+          "runAfter": {},
+          "expression": {
+            "or": [
+              {
+                "greaterOrEquals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  6
+                ]
+              },
+              {
+                "equals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  0
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "weekend-check-001"
+          },
+          "type": "If"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

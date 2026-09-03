@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentScriviMenuSuSharePoint">
+  <componenttype>9</componenttype>
+  <description>Scrive i piatti del menu giornaliero su SharePoint (lista FlacaMenu). Usare solo per configurare il menu del giorno, mai durante la raccolta ordini degli utenti.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>SL CE - Flaca Agent | ActionScriviMenuSuSharePoint</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

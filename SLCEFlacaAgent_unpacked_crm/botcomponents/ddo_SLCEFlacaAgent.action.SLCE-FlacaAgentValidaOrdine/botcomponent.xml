@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentValidaOrdine">
+  <componenttype>9</componenttype>
+  <description>Cerca un piatto nel menu di oggi per numero indice o per nome. Restituisce il nome e il numero del piatto se trovato, valori vuoti se non trovato.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>SL CE - Flaca Agent | ActionValidaOrdine</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

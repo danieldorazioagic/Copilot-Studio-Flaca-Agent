@@ -1,0 +1,671 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedsharepointonline_31146"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_teams_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "ddo_sharedteams_ddd0e"
+        },
+        "api": {
+          "name": "shared_teams"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)": {
+          "defaultValue": "https://agictechnology-my.sharepoint.com/personal/daniel_dorazio_agic_it",
+          "type": "String",
+          "metadata": {
+            "schemaName": "ddo_SLCEFlacaAgentUrlSharePoint"
+          }
+        }
+      },
+      "triggers": {
+        "Recurrence": {
+          "recurrence": {
+            "frequency": "Day",
+            "interval": 1,
+            "timeZone": "W. Europe Standard Time",
+            "startTime": "2026-06-19T10:00:00"
+          },
+          "metadata": {
+            "operationMetadataId": "82f1151b-1485-4ad1-b18c-a1f535423bca"
+          },
+          "type": "Recurrence"
+        }
+      },
+      "actions": {
+        "Init_Contatore": {
+          "runAfter": {
+            "Controlla_Weekend": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "bcc0fbca-4432-4fc9-bdcf-fc1d91e77a08"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "contatore",
+                "type": "integer",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "Init_MessaggioMenu": {
+          "runAfter": {
+            "Controlla_Weekend": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "4015b6f8-d0ed-4651-b65a-fdb7ee354a8c"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "messaggioMenu",
+                "type": "string",
+                "value": ""
+              }
+            ]
+          }
+        },
+        "Leggi_Primi": {
+          "runAfter": {
+            "Init_Contatore": [
+              "Succeeded"
+            ],
+            "Init_MessaggioMenu": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "sec01-0001-0001-0001-000000000001"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+              "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+              "$filter": "@concat('Categoria eq ''Primi'' and DataMenu ge ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(utcNow(), 1), 'yyyy-MM-dd'), 'T00:00:00Z'' and Attivo eq 1')",
+              "$orderby": "ID asc",
+              "$top": 50
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Sezione_Primi": {
+          "actions": {
+            "Header_Primi": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "f917cdba-1249-4f0b-b176-88a67a48bea7"
+              },
+              "type": "AppendToStringVariable",
+              "inputs": {
+                "name": "messaggioMenu",
+                "value": "<strong>🍝 Primi</strong><br>"
+              }
+            },
+            "Componi_Primi": {
+              "foreach": "@outputs('Leggi_Primi')?['body']?['value']",
+              "actions": {
+                "Inc_Primi": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "5028e544-4c9c-42ba-86a8-1b40ee795649"
+                  },
+                  "type": "IncrementVariable",
+                  "inputs": {
+                    "name": "contatore",
+                    "value": 1
+                  }
+                },
+                "Add_Primo": {
+                  "runAfter": {
+                    "Inc_Primi": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "74a490ce-357e-49a2-9591-0c6b06b80082"
+                  },
+                  "type": "AppendToStringVariable",
+                  "inputs": {
+                    "name": "messaggioMenu",
+                    "value": "@{variables('contatore')}. @{items('Componi_Primi')?['Title']}<br>"
+                  }
+                }
+              },
+              "runAfter": {
+                "Header_Primi": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "c3d97d82-c022-4402-9252-6744e9ac319c"
+              },
+              "type": "Foreach",
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Leggi_Primi": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Primi')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f37d3046-9bfb-4301-9403-4a0b7491059b"
+          },
+          "type": "If"
+        },
+        "Leggi_Secondi": {
+          "runAfter": {
+            "Sezione_Primi": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "sec01-0001-0001-0001-000000000002"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+              "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+              "$filter": "@concat('Categoria eq ''Secondi'' and DataMenu ge ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(utcNow(), 1), 'yyyy-MM-dd'), 'T00:00:00Z'' and Attivo eq 1')",
+              "$orderby": "ID asc",
+              "$top": 50
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Sezione_Secondi": {
+          "actions": {
+            "Header_Secondi": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "1f0089b0-83e2-4cb3-b1b8-43aef41c9992"
+              },
+              "type": "AppendToStringVariable",
+              "inputs": {
+                "name": "messaggioMenu",
+                "value": "<br><strong>🥩 Secondi</strong><br>"
+              }
+            },
+            "Componi_Secondi": {
+              "foreach": "@outputs('Leggi_Secondi')?['body']?['value']",
+              "actions": {
+                "Inc_Secondi": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "f15571d8-6d1e-4c46-8fac-826095cd50af"
+                  },
+                  "type": "IncrementVariable",
+                  "inputs": {
+                    "name": "contatore",
+                    "value": 1
+                  }
+                },
+                "Add_Secondo": {
+                  "runAfter": {
+                    "Inc_Secondi": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "f592866b-20a1-4999-8ef1-74dec55d3e0e"
+                  },
+                  "type": "AppendToStringVariable",
+                  "inputs": {
+                    "name": "messaggioMenu",
+                    "value": "@{variables('contatore')}. @{items('Componi_Secondi')?['Title']}<br>"
+                  }
+                }
+              },
+              "runAfter": {
+                "Header_Secondi": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "f03f2ed0-f657-4aa2-99c4-bdc7181960ae"
+              },
+              "type": "Foreach",
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Leggi_Secondi": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Secondi')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a7f66074-4bb2-4762-b04f-f6e398417cd3"
+          },
+          "type": "If"
+        },
+        "Leggi_Pizze": {
+          "runAfter": {
+            "Sezione_Secondi": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "sec01-0001-0001-0001-000000000003"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+              "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+              "$filter": "@concat('Categoria eq ''Pizze'' and DataMenu ge ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(utcNow(), 1), 'yyyy-MM-dd'), 'T00:00:00Z'' and Attivo eq 1')",
+              "$orderby": "ID asc",
+              "$top": 50
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Sezione_Pizze": {
+          "actions": {
+            "Header_Pizze": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "8ef278af-d63a-4c35-ae34-24a1e23d08b6"
+              },
+              "type": "AppendToStringVariable",
+              "inputs": {
+                "name": "messaggioMenu",
+                "value": "<br><strong>🍕 Pizze</strong><br>"
+              }
+            },
+            "Componi_Pizze": {
+              "foreach": "@outputs('Leggi_Pizze')?['body']?['value']",
+              "actions": {
+                "Inc_Pizze": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "27169d51-856e-42c5-80ee-3981b3e76498"
+                  },
+                  "type": "IncrementVariable",
+                  "inputs": {
+                    "name": "contatore",
+                    "value": 1
+                  }
+                },
+                "Add_Pizza": {
+                  "runAfter": {
+                    "Inc_Pizze": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "5163ba43-5b0a-458c-8c6e-520f37c53df7"
+                  },
+                  "type": "AppendToStringVariable",
+                  "inputs": {
+                    "name": "messaggioMenu",
+                    "value": "@{variables('contatore')}. @{items('Componi_Pizze')?['Title']}<br>"
+                  }
+                }
+              },
+              "runAfter": {
+                "Header_Pizze": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "52cfc567-3918-452b-8485-a5350c0f04ed"
+              },
+              "type": "Foreach",
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Leggi_Pizze": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Pizze')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c4b2370a-8e47-4931-9783-953e935a7220"
+          },
+          "type": "If"
+        },
+        "Leggi_Insalate": {
+          "runAfter": {
+            "Sezione_Pizze": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "sec01-0001-0001-0001-000000000004"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+              "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+              "$filter": "@concat('Categoria eq ''Insalate'' and DataMenu ge ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(utcNow(), 1), 'yyyy-MM-dd'), 'T00:00:00Z'' and Attivo eq 1')",
+              "$orderby": "ID asc",
+              "$top": 50
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Sezione_Insalate": {
+          "actions": {
+            "Header_Insalate": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "dc087896-ae32-401d-98eb-8ef052668f73"
+              },
+              "type": "AppendToStringVariable",
+              "inputs": {
+                "name": "messaggioMenu",
+                "value": "<br><strong>🥗 Insalate</strong><br>"
+              }
+            },
+            "Componi_Insalate": {
+              "foreach": "@outputs('Leggi_Insalate')?['body']?['value']",
+              "actions": {
+                "Inc_Insalate": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "90d65d08-f4b8-48ba-9e99-b5fe38fadd21"
+                  },
+                  "type": "IncrementVariable",
+                  "inputs": {
+                    "name": "contatore",
+                    "value": 1
+                  }
+                },
+                "Add_Insalata": {
+                  "runAfter": {
+                    "Inc_Insalate": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "95e94674-0161-4225-b82e-c6b99ad92c3a"
+                  },
+                  "type": "AppendToStringVariable",
+                  "inputs": {
+                    "name": "messaggioMenu",
+                    "value": "@{variables('contatore')}. @{items('Componi_Insalate')?['Title']}<br>"
+                  }
+                }
+              },
+              "runAfter": {
+                "Header_Insalate": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "1d470424-efb5-48d9-901e-e2d0f0dfccce"
+              },
+              "type": "Foreach",
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Leggi_Insalate": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Insalate')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "aea9317a-df86-42e6-9388-4980f8dff11c"
+          },
+          "type": "If"
+        },
+        "Leggi_Burger": {
+          "runAfter": {
+            "Sezione_Insalate": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "sec01-0001-0001-0001-000000000005"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetItems",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
+              "table": "31d4209d-dd46-4a61-854f-473fba67a501",
+              "$filter": "@concat('Categoria eq ''Burger'' and DataMenu ge ''', formatDateTime(utcNow(), 'yyyy-MM-dd'), 'T00:00:00Z'' and DataMenu lt ''', formatDateTime(addDays(utcNow(), 1), 'yyyy-MM-dd'), 'T00:00:00Z'' and Attivo eq 1')",
+              "$orderby": "ID asc",
+              "$top": 50
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Sezione_Burger": {
+          "actions": {
+            "Header_Burger": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "08b523f7-f13e-4a6e-9b5f-6ba51fe812e4"
+              },
+              "type": "AppendToStringVariable",
+              "inputs": {
+                "name": "messaggioMenu",
+                "value": "<br><strong>🍔 Burger</strong><br>"
+              }
+            },
+            "Componi_Burger": {
+              "foreach": "@outputs('Leggi_Burger')?['body']?['value']",
+              "actions": {
+                "Inc_Burger": {
+                  "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "a54bc5d9-a18a-42e6-a920-4990dce37263"
+                  },
+                  "type": "IncrementVariable",
+                  "inputs": {
+                    "name": "contatore",
+                    "value": 1
+                  }
+                },
+                "Add_Burger": {
+                  "runAfter": {
+                    "Inc_Burger": [
+                      "Succeeded"
+                    ]
+                  },
+                  "metadata": {
+                    "operationMetadataId": "6fe843df-2efa-4556-a469-63f2531a6684"
+                  },
+                  "type": "AppendToStringVariable",
+                  "inputs": {
+                    "name": "messaggioMenu",
+                    "value": "@{variables('contatore')}. @{items('Componi_Burger')?['Title']}<br>"
+                  }
+                }
+              },
+              "runAfter": {
+                "Header_Burger": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "ecb2deae-d7a6-4e44-90da-8180bb716e7f"
+              },
+              "type": "Foreach",
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Leggi_Burger": [
+              "Succeeded"
+            ]
+          },
+          "expression": {
+            "greater": [
+              "@length(outputs('Leggi_Burger')?['body']?['value'])",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "7c49fae5-115f-4818-9408-4d243f5f1547"
+          },
+          "type": "If"
+        },
+        "Invia_Menu_Su_Teams": {
+          "runAfter": {
+            "Sezione_Burger": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "fe45c168-a866-4a19-bdca-726056836776"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_teams_1",
+              "operationId": "PostMessageToConversation",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+            },
+            "parameters": {
+              "poster": "Flow bot",
+              "location": "Group chat",
+              "body/recipient": "19:419f41383b41472c9d358157ede138e9@thread.v2",
+              "body/messageBody": "<p>Ciao a tutti ??<br>\nEcco il menu di oggi per <strong>La Flaca</strong>:<br><br>\n@{variables('messaggioMenu')}<br>\nPer ordinare menzionate <strong>@FlacaAgent</strong> con il numero o il nome del piatto ?? Es: <em>@FlacaAgent 8</em> oppure <em>@FlacaAgent Carbonara</em><br>\nGli ordini chiudono alle <strong>12:00</strong> ?</p>"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Controlla_Weekend": {
+          "actions": {
+            "Termina_Weekend": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "weekend-terminate-002"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Succeeded"
+              }
+            }
+          },
+          "runAfter": {},
+          "expression": {
+            "or": [
+              {
+                "greaterOrEquals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  6
+                ]
+              },
+              {
+                "equals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  0
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "weekend-check-002"
+          },
+          "type": "If"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

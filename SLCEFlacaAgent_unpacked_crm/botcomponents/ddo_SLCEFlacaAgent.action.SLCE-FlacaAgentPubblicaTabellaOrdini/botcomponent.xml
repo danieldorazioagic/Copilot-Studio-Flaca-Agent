@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentPubblicaTabellaOrdini">
+  <componenttype>9</componenttype>
+  <description>Legge tutti gli ordini del giorno da FlacaOrdini e pubblica su Teams una tabella Utente/Piatto. Nessun input richiesto.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>SL CE - Flaca Agent | ActionPubblicaTabellaOrdini</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

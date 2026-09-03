@@ -1,6 +1,6 @@
 # SL CE - Flaca Agent — Stato Progetto
 
-> Aggiornato: 2026-07-08 | Versione live: **v1.0.0.50**
+> Aggiornato: 2026-09-03 | Versione live: **v1.0.0.60**
 
 ---
 
@@ -25,13 +25,17 @@ Archivio dati: **SharePoint Lists** (FlacaMenu, FlacaOrdini)
 
 ### Flow Power Automate
 
+> ⚠️ **Nota naming**: dal fix manuale via UI Copilot Studio (v1.0.0.59→60), TUTTI i flow risultano rinominati lato CRM con prefisso `Action` (es. "SL CE - Flaca Agent | ActionRegistraOrdine"). I GUID (`flowId`) sono invariati: i topic continuano a invocarli via `flowId` diretto, non tramite le action botcomponent (disattivate — architettura "solo topic").
+
 | Flow | Trigger | Scopo |
 |---|---|---|
 | `Trigger` | Schedulato 09:00 (lun-ven) | Avvia flusso giornaliero |
 | `InvioMenuTeams` | Chiamato da Trigger | Invia menu su Teams |
 | `ScriviMenuSuSharePoint` | Chiamato da Trigger | Scrive piatti su FlacaMenu con Indice |
-| `ValidaOrdine` | CS Skill | Valida piatto per Indice o Nome |
-| `RegistraOrdine` | CS Skill | Crea/aggiorna ordine in FlacaOrdini |
+| `ValidaOrdine` | CS Skill (Topic RaccoltaOrdini) | Valida piatto per Indice o Nome |
+| `RegistraOrdine` | CS Skill (Topic RaccoltaOrdini) | Crea/aggiorna ordine in FlacaOrdini |
+| `AnnullaOrdine` | CS Skill (Topic AnnullaOrdine) | Verifica orario, cerca ed elimina ordine utente per DisplayName |
+| `PubblicaTabellaOrdini` | CS Skill (RaccoltaOrdini + AnnullaOrdine, dopo esiti positivi) | Legge tutti gli ordini del giorno e pubblica tabella riepilogativa su Teams |
 | `CancellaMenuOggi` | Manuale / schedulato | Reset FlacaMenu + FlacaOrdini |
 
 ### SharePoint Lists
@@ -78,7 +82,23 @@ Archivio dati: **SharePoint Lists** (FlacaMenu, FlacaOrdini)
 - [x] GPT Instructions: contesto gruppo Teams multi-utente esplicito
 - [x] `System.User.PrincipalName` per identificazione utente nel topic
 - [x] `System.Activity.Text` pre-popola input ordine (no domanda ridondante)
-- [ ] **Test v1.0.0.50 su Teams** — in corso
+- [x] **Test v1.0.0.50 su Teams** — superato, flusso stabile
+
+### Fase 2b — Annullamento ordine (v1.0.0.58-60)
+- [x] Nuovo Topic `TopicAnnullaOrdine` in Copilot Studio (trigger queries: "annulla il mio ordine", "cancella il mio ordine", ecc.)
+- [x] Nuovo Flow `AnnullaOrdine`: verifica orario chiusura, cerca ordine utente per DisplayName, elimina se presente
+- [x] Gestione esiti: `annullato` / `non_trovato` / `fuori_orario`
+- [x] GPT Instructions aggiornate per il routing dell'intento di annullamento
+
+### Fase 2c — Pubblicazione tabella ordini su Teams (v1.0.0.58-60)
+- [x] Nuovo Flow `PubblicaTabellaOrdini`: legge tutti gli ordini del giorno da FlacaOrdini e pubblica tabella (formato testo semplice) nel gruppo Teams
+- [x] Invocato da `TopicRaccoltaOrdini` dopo esito `nuovo`/`aggiornato`
+- [x] Invocato da `TopicAnnullaOrdine` dopo esito `annullato`
+
+### Fix critico case-sensitivity (v1.0.0.60)
+- [x] Diagnosticato e risolto bug introdotto dal re-salvataggio via UI Copilot Studio (necessario per riparare un `InvalidReferenceError` CloudFlow su `TopicAnnullaOrdine`): i nodi `InvokeFlowAction` rigenerati dalla UI scrivevano output in variabili con case diverso (`Topic.nomePiatto`/`Topic.numeroPiatto`/`Topic.esito`) rispetto a quelle usate nel resto dei topic (`Topic.NomePiatto`/`Topic.NumeroPiatto`/`Topic.Esito`), bloccando **tutta** la raccolta ordini (ogni piatto risultava "non trovato")
+- [x] Allineati tutti i riferimenti in `TopicRaccoltaOrdini` e `TopicAnnullaOrdine` al case effettivo del binding
+- [x] Importato e pubblicato con successo su `AGIC-CopilotStudio_Playground`
 
 ### Infrastruttura
 - [x] Connection reference SharePoint: `ddo_sharedsharepointonline_31146`
@@ -90,10 +110,12 @@ Archivio dati: **SharePoint Lists** (FlacaMenu, FlacaOrdini)
 
 ## ⏳ Da fare
 
-### 🔴 In corso — Test v1.0.0.50
-- [ ] Testare su Teams: scrivi nome piatto → `✅ Ordine registrato con successo!`
-- [ ] Testare aggiornamento ordine → `✅ Ordine aggiornato con successo!`
-- [ ] Testare fuori orario (dopo le 18:00) → `⚠️ Gli ordini di oggi sono già chiusi.`
+### 🔴 Da verificare — Test post fix v1.0.0.60
+- [ ] Ritestare su Teams: scrivi nome piatto → `✅ Ordine registrato con successo!` + tabella ordini pubblicata
+- [ ] Testare aggiornamento ordine → `✅ Ordine aggiornato con successo!` + tabella aggiornata
+- [ ] Testare annullamento ordine → `✅ Ordine annullato con successo!` + tabella aggiornata
+- [ ] Testare annullamento senza ordine attivo → `⚠️ Non risulta nessun ordine attivo da annullare per oggi.`
+- [ ] Testare fuori orario (ordine e annullamento) → `⚠️ Gli ordini di oggi sono già chiusi.`
 - [ ] Verificare DisplayName corretto in SharePoint FlacaOrdini (niente email)
 
 ### Fase 3 — Chiusura ordini (18:00 test / 12:00 prod)
@@ -139,6 +161,11 @@ Archivio dati: **SharePoint Lists** (FlacaMenu, FlacaOrdini)
 ### Pubblicazione dopo import
 > Dopo ogni `pac solution import`, il topic CS deve essere **pubblicato manualmente dalla UI di Copilot Studio** perché Teams usi la versione aggiornata.
 
+### ⚠️ Case-sensitivity variabili Power Fx dopo re-salvataggio UI
+> Quando Copilot Studio ri-salva un nodo `InvokeFlowAction` tramite la UI Maker Portal (es. per riparare un riferimento `CloudFlow` non trovato), **rigenera il binding di output usando il nome del campo schema esattamente come titolo** (case-sensitive: es. `nomePiatto`, `numeroPiatto`, `esito` — lowercase-first), ignorando eventuali variabili PascalCase (`Topic.NomePiatto`, `Topic.Esito`) usate manualmente nel resto del topic. Questo genera variabili "gemelle" mai riconciliate.
+> **Da fare dopo ogni fix manuale in UI**: rileggere l'intero topic (`data` YAML) e verificare che tutti i riferimenti alla stessa variabile logica abbiano case coerente, allineando al case effettivamente prodotto dal binding (non il contrario).
+> **Effetto collaterale osservato**: lo stesso salvataggio rinomina anche i Cloud Flow con prefisso `Action` lato Dataverse (non impatta il funzionamento, solo il display name).
+
 ---
 
 ## 📦 Versioni
@@ -157,6 +184,9 @@ Archivio dati: **SharePoint Lists** (FlacaMenu, FlacaOrdini)
 | v1.0.0.48 | — | Orario chiusura spostato a 18:00 per test |
 | v1.0.0.49 | — | Check orario delegato solo a PA flow (DST auto) + binding esito ripristinato |
 | v1.0.0.50 | — | Fix OData filter apostrofo nel DisplayName ✅ |
+| v1.0.0.58 | — | Nuovi flow `AnnullaOrdine` + `PubblicaTabellaOrdini`; nuovo topic `TopicAnnullaOrdine`; `TopicRaccoltaOrdini` invoca pubblicazione tabella dopo esito positivo |
+| v1.0.0.59 | — | Tentativo fix `InvalidReferenceError` CloudFlow su `TopicAnnullaOrdine` con action botcomponent (non risolutivo) |
+| v1.0.0.60 | — | Fix critico case-sensitivity variabili Power Fx (`nomePiatto`/`numeroPiatto`/`esito`) introdotto dal resave UI CS; sincronizzata struttura locale con CRM (rename flow `Action*`) ✅ |
 
 ---
 
@@ -181,4 +211,4 @@ pac connection list
 
 ---
 
-*Ultimo aggiornamento: 2026-07-07*
+*Ultimo aggiornamento: 2026-09-03*

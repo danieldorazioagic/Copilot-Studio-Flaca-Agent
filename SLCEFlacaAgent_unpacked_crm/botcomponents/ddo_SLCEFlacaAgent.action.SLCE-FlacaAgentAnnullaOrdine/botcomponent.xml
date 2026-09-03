@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentAnnullaOrdine">
+  <componenttype>9</componenttype>
+  <description>Annulla l'ordine del giorno per l'utente corrente. Gestisce check orario (10:00-18:00). Risponde con esito: annullato, non_trovato o fuori_orario.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>SL CE - Flaca Agent | ActionAnnullaOrdine</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

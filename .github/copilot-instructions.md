@@ -24,6 +24,8 @@ L’agente deve:
 - Mantenere una tabella ordini giornaliera
 - Evitare duplicazioni
 - Consentire aggiornamenti dell’ordine prima della chiusura
+- Consentire l'annullamento dell'ordine prima della chiusura
+- Pubblicare su Teams la tabella completa degli ordini dopo ogni operazione riuscita (nuovo ordine, aggiornamento, annullamento)
 - Bloccare nuovi inserimenti alle 12:00
 - Generare un riepilogo aggregato per piatto
 - Inviare l’ordine finale tramite WhatsApp
@@ -58,7 +60,8 @@ Regole:
 - Reset stato a inizio giornata
 - Nessuna duplicazione ordini per utente
 - Prima delle 12:00: aggiornare ordine utente esistente
-- Dopo le 12:00: rifiutare nuovi ordini e modifiche
+- Prima delle 12:00: consentire l'annullamento dell'ordine utente esistente
+- Dopo le 12:00: rifiutare nuovi ordini, modifiche e annullamenti
 
 ## Fase 1 - Invio menu giornaliero
 
@@ -90,6 +93,21 @@ Quando un utente risponde nel gruppo Teams:
 Messaggio errore standard:
 `⚠️ Il piatto indicato non è presente nel menu di oggi. Per favore scegli uno dei piatti disponibili.`
 
+## Fase 2b - Annullamento ordine
+
+Quando un utente chiede di annullare/cancellare/rimuovere il proprio ordine:
+1. Identificare automaticamente l'utente mittente
+2. Verificare l'orario (prima delle 12:00)
+3. Cercare l'ordine attivo dell'utente per la giornata corrente
+4. Se trovato: eliminarlo e confermare l'annullamento, poi pubblicare la tabella ordini aggiornata
+5. Se non trovato: notificare che non risulta nessun ordine attivo
+6. Se fuori orario: rifiutare con messaggio standard di chiusura
+
+Messaggi standard:
+- Annullamento riuscito: `✅ Ordine annullato con successo!`
+- Nessun ordine da annullare: `⚠️ Non risulta nessun ordine attivo da annullare per oggi.`
+- Fuori orario: `⚠️ Gli ordini di oggi sono già chiusi.`
+
 ## Fase 3 - Gestione tabella ordini Teams
 
 Se la tabella giornaliera non esiste, crearla con colonne:
@@ -99,7 +117,11 @@ Se la tabella giornaliera non esiste, crearla con colonne:
 Se esiste:
 - Aggiungere riga per utente nuovo
 - Aggiornare riga per utente già presente
+- Rimuovere riga in caso di annullamento
 - Mai duplicare righe utente
+
+Dopo ogni operazione riuscita (nuovo ordine, aggiornamento, annullamento):
+- Pubblicare nel gruppo Teams la tabella completa e aggiornata degli ordini della giornata (formato testo semplice, non Adaptive Card)
 
 ## Fase 4 - Chiusura ordini
 
@@ -150,6 +172,8 @@ Messaggi standard:
 - Input non valido: `⚠️ Scelta non valida. Per favore indica un piatto presente nel menu di oggi.`
 - Piatto non presente: `⚠️ Il piatto non è disponibile oggi.`
 - Ordine dopo chiusura: `⚠️ Gli ordini di oggi sono già chiusi.`
+- Annullamento dopo chiusura: `⚠️ Gli ordini di oggi sono già chiusi.`
+- Nessun ordine da annullare: `⚠️ Non risulta nessun ordine attivo da annullare per oggi.`
 - Invio WhatsApp fallito: `⚠️ Problema durante l’invio dell’ordine a La Flaca.`
 - Nessuna conferma: mantenere `in attesa conferma`
 
@@ -170,6 +194,8 @@ Messaggi standard:
 - Validazione scelta con menu del giorno
 - Gestione tabella ordini giornaliera
 - Aggiornamento ordine utente
+- Annullamento ordine utente
+- Pubblicazione tabella ordini su Teams dopo ogni operazione riuscita
 - Blocco modifiche dopo le 12:00
 - Aggregazione dinamica ordini
 - Invio riepilogo via WhatsApp
