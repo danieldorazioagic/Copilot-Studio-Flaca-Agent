@@ -6,7 +6,7 @@
       <LocalizedName description="SLCEFlacaAgent" languagecode="1040" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.0.60</Version>
+    <Version>1.0.0.64</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>DanielDorazio</UniqueName>

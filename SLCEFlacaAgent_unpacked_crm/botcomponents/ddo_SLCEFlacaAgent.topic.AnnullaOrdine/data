@@ -4,16 +4,6 @@ beginDialog:
   id: main
   intent:
     displayName: Annulla Ordine
-    triggerQueries:
-      - annulla il mio ordine
-      - cancella il mio ordine
-      - rimuovi il mio ordine
-      - voglio annullare l'ordine
-      - elimina il mio ordine
-      - annulla ordine
-      - non voglio più ordinare
-      - togli il mio ordine
-      - disdici il mio ordine
 
   actions:
     - kind: SetVariable

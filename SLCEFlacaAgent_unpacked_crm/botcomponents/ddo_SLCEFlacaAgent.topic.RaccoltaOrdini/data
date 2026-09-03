@@ -4,22 +4,6 @@ beginDialog:
   id: main
   intent:
     displayName: Raccolta Ordini
-    triggerQueries:
-      - ordino
-      - voglio ordinare
-      - scelgo
-      - prendo
-      - vorrei
-      - mi segni
-      - prendo il
-      - scelgo il numero
-      - il numero
-      - per me
-      - metto
-      - prenota per me
-      - il mio ordine
-      - mando l'ordine
-      - confermo
 
   actions:
     - kind: SetVariable
@@ -51,6 +35,16 @@ beginDialog:
       id: initEsito
       variable: Topic.Esito
       value: =Text("")
+
+    - kind: ConditionGroup
+      id: guardRispostaConferma
+      conditions:
+        - id: isRispostaConferma
+          condition: =Lower(Trim(Topic.InputOrdine)) = "si" Or Lower(Trim(Topic.InputOrdine)) = "sì" Or Lower(Trim(Topic.InputOrdine)) = "no"
+          actions:
+            - kind: EndDialog
+              id: endDialogRispostaConferma
+              clearTopicQueue: true
 
     - kind: InvokeFlowAction
       id: invokeFlowAction_Ivu6ym
@@ -129,9 +123,99 @@ beginDialog:
         - id: piattoNonTrovato
           condition: =IsBlank(Topic.nomePiatto)
           actions:
-            - kind: SendActivity
-              id: msgPiattoNonTrovato
-              activity: ⚠️ Il piatto indicato non è presente nel menu di oggi. Per favore scegli uno dei piatti disponibili.
+            - kind: Question
+              id: question_BQhqdl
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: Topic.ConfermaFuoriMenu
+              prompt:
+                text:
+                  - Il piatto {Topic.InputOrdine} non risulta nel menu di oggi. Vuoi ordinarlo comunque come piatto fuori menu?
+                attachments:
+                  - kind: AdaptiveCardTemplate
+                    cardContent: |-
+                      {
+                        "type": "AdaptiveCard",
+                        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                        "version": "1.0",
+                        "body": []
+                      }
+
+              entity:
+                kind: EmbeddedEntity
+                sensitivityLevel: None
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Si
+                      displayName: Si
+
+                    - id: No
+                      displayName: No
+
+            - kind: ConditionGroup
+              id: checkConfermaFuoriMenu
+              conditions:
+                - id: fuoriMenuConfermato
+                  condition: =Lower(Trim(Topic.ConfermaFuoriMenu)) = "si" Or Lower(Trim(Topic.ConfermaFuoriMenu)) = "sì"
+                  actions:
+                    - kind: InvokeFlowAction
+                      id: invokeFlowAction_fuoriMenu
+                      input:
+                        binding:
+                          number: 0
+                          text: =Topic.UtenteUPN
+                          text_1: =Topic.InputOrdine
+
+                      output:
+                        binding:
+                          esito: Topic.Esito
+
+                      flowId: 470a3e38-1b76-f111-ab0d-7c1e52357b26
+
+                    - kind: ConditionGroup
+                      id: checkEsitoFuoriMenu
+                      conditions:
+                        - id: esitoNuovoFuoriMenu
+                          condition: =Topic.Esito = "nuovo"
+                          actions:
+                            - kind: SendActivity
+                              id: msgNuovoFuoriMenu
+                              activity: ✅ Ordine registrato con successo!
+
+                            - kind: InvokeFlowAction
+                              id: callPubblicaTabellaNuovoFuoriMenu
+                              input: {}
+                              output: {}
+                              flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+                        - id: esitoAggiornatoFuoriMenu
+                          condition: =Topic.Esito = "aggiornato"
+                          actions:
+                            - kind: SendActivity
+                              id: msgAggiornatoFuoriMenu
+                              activity: ✅ Ordine aggiornato con successo!
+
+                            - kind: InvokeFlowAction
+                              id: callPubblicaTabellaAggiornatoFuoriMenu
+                              input: {}
+                              output: {}
+                              flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+                        - id: esitoFuoriOrarioFuoriMenu
+                          condition: =Topic.Esito = "fuori_orario"
+                          actions:
+                            - kind: SendActivity
+                              id: msgFuoriOrarioFuoriMenu
+                              activity: ⚠️ Gli ordini di oggi sono già chiusi.
+
+                - id: fuoriMenuNonConfermato
+                  condition: =Lower(Trim(Topic.ConfermaFuoriMenu)) <> "si" And Lower(Trim(Topic.ConfermaFuoriMenu)) <> "sì"
+                  actions:
+                    - kind: SendActivity
+                      id: msgPiattoNonTrovato
+                      activity: ⚠️ Il piatto indicato non è presente nel menu di oggi. Per favore scegli uno dei piatti disponibili.
 
 inputType: {}
 outputType: {}

@@ -93,6 +93,15 @@ Quando un utente risponde nel gruppo Teams:
 Messaggio errore standard:
 `⚠️ Il piatto indicato non è presente nel menu di oggi. Per favore scegli uno dei piatti disponibili.`
 
+## Fase 2a - Gestione piatto fuori menu
+
+Se il piatto indicato non corrisponde a nessuna voce del menu del giorno:
+1. Non rifiutare subito l'ordine: chiedere conferma all'utente se vuole registrarlo comunque come piatto "fuori menu"
+2. La domanda di conferma è presentata come opzione a pulsanti (Sì/No), non testo libero, per evitare che l'utente debba riscrivere la risposta
+3. Se confermato (Sì): registrare l'ordine con il testo libero digitato dall'utente (non un piatto del menu), gestendo gli stessi esiti del flusso standard (nuovo/aggiornato/fuori_orario) e pubblicando la tabella ordini aggiornata
+4. Se non confermato (No): restituire il messaggio di errore standard di piatto non presente
+5. L'orchestratore GPT non deve mai decidere autonomamente se il piatto esiste o no: instrada sempre al topic, che gestisce la validazione e l'eventuale caso fuori menu
+
 ## Fase 2b - Annullamento ordine
 
 Quando un utente chiede di annullare/cancellare/rimuovere il proprio ordine:
@@ -192,6 +201,7 @@ Messaggi standard:
 - Identificazione utente Microsoft Teams
 - Parsing testo libero
 - Validazione scelta con menu del giorno
+- Gestione piatto fuori menu con conferma a pulsanti (Sì/No)
 - Gestione tabella ordini giornaliera
 - Aggiornamento ordine utente
 - Annullamento ordine utente
@@ -296,3 +306,10 @@ L’agente deve poter generare:
 - Se richiesta ambigua, proporre soluzione semplice e coerente con l’architettura progetto
 - Non introdurre componenti non richiesti se non strettamente utili
 - Rispondere sempre in italiano, salvo richiesta diversa
+
+## Note architetturali e stato noto (v1.0.0.64)
+
+- Architettura "solo topic": i topic Copilot Studio invocano i flow Power Automate direttamente (`flowId`); le action botcomponent sono disattivate (solo riferimento UI).
+- Routing basato su istruzioni GPT esplicite (`gpt.default`) verso i topic dedicati (`TopicRaccoltaOrdini`, `TopicAnnullaOrdine`, `TopicResetMenuGiornaliero`); le `triggerQueries` classiche sono state rimosse dai topic per ridurre il rischio di doppio dispatch.
+- Il bot ha sia il `recognizer: GenerativeAIRecognizer` (a livello di bot, in `configuration.json`) sia `GenerativeActionsEnabled: true`: entrambi i meccanismi di orchestrazione risultano attivi contemporaneamente.
+- **Bug noto in monitoraggio**: in alcuni casi l'orchestratore GPT genera una risposta propria senza invocare il topic (bypass), oppure il topic produce due messaggi di esito per un solo ordine registrato. Mitigazioni applicate in v1.0.0.64 (istruzioni esplicite nel GPT: non decidere autonomamente sull'esistenza del piatto, non aggiungere messaggi dopo l'esecuzione del topic); il comportamento va ri-verificato nei test successivi.

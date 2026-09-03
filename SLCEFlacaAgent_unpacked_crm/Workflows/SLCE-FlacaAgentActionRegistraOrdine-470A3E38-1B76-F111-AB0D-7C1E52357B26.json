@@ -195,7 +195,7 @@
                           "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
                           "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
                           "id": "@first(body('Cerca_Ordine_Esistente')?['value'])?['ID']",
-                          "item/Piatto": "@{first(body('Cerca_Nome_Piatto')?['value'])?['Title']}",
+                          "item/Piatto": "@{if(equals(triggerBody()?['number'], 0), triggerBody()?['text_1'], first(body('Cerca_Nome_Piatto')?['value'])?['Title'])}",
                           "item/NumeroPiatto": "@{triggerBody()?['number']}",
                           "item/StatoOrdine": "modificato",
                           "item/TimestampModifica": "@{utcNow()}"
@@ -242,7 +242,7 @@
                             "dataset": "@parameters('SL CE - Flaca Agent | Url SharePoint (ddo_SLCEFlacaAgentUrlSharePoint)')",
                             "table": "38a33006-7b17-4a37-adfe-6f08299c1097",
                             "item/Title": "@{variables('DisplayName')}",
-                            "item/Piatto": "@{first(body('Cerca_Nome_Piatto')?['value'])?['Title']}",
+                            "item/Piatto": "@{if(equals(triggerBody()?['number'], 0), triggerBody()?['text_1'], first(body('Cerca_Nome_Piatto')?['value'])?['Title'])}",
                             "item/NumeroPiatto": "@{triggerBody()?['number']}",
                             "item/DataOrdine": "@{formatDateTime(utcNow(), 'yyyy-MM-dd')}",
                             "item/StatoOrdine": "attivo",
