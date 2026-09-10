@@ -1,5 +1,5 @@
 kind: TaskDialog
-modelDescription: Pubblica su Teams la tabella completa degli ordini di oggi. Nessun input.
+modelDescription: Legge tutti gli ordini di oggi da FlacaOrdini e restituisce il testo della tabella (Utente → Piatto) da pubblicare su Teams. Nessun input.
 action:
   kind: InvokeFlowTaskAction
   flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
@@ -9,7 +9,7 @@ action:
     mode: Invoker
 
 outputMode: All
-description: "Legge tutti gli ordini del giorno da FlacaOrdini e pubblica su Teams una tabella testuale Utente → Piatto. Non chiamare direttamente: è invocata automaticamente dai topic Raccolta Ordini e Annulla Ordine dopo un esito positivo."
+description: "Legge tutti gli ordini del giorno da FlacaOrdini e restituisce il testo della tabella Utente → Piatto come output 'tabella'. Non pubblica più direttamente su Teams: è il topic chiamante a pubblicarla con SendActivity dopo l'invocazione. Non chiamare direttamente: è invocata automaticamente dai topic Raccolta Ordini e Annulla Ordine dopo un esito positivo."
 inputType:
   properties: {}
 
@@ -17,4 +17,7 @@ outputType:
   properties:
     text:
       title: esito
+      type: String
+    text_1:
+      title: tabella
       type: String

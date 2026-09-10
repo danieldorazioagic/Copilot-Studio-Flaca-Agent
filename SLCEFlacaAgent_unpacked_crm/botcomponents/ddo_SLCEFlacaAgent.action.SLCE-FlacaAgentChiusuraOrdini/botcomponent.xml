@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentChiusuraOrdini">
+  <componenttype>9</componenttype>
+  <description>Chiude gli ordini del giorno: legge FlacaOrdini, aggrega per piatto e pubblica su Teams il riepilogo per La Flaca. Nessun input richiesto.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>SL CE - Flaca Agent | ActionChiusuraOrdini</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

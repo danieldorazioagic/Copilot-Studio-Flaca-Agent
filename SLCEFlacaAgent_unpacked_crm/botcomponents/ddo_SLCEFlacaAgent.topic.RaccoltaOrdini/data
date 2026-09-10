@@ -97,7 +97,10 @@ beginDialog:
                     - kind: InvokeFlowAction
                       id: callPubblicaTabellaNuovo
                       input: {}
-                      output: {}
+                      output:
+                        binding:
+                          tabella: Topic.TabellaOrdini
+
                       flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
 
                 - id: esitoAggiornato
@@ -110,7 +113,10 @@ beginDialog:
                     - kind: InvokeFlowAction
                       id: callPubblicaTabellaAggiornato
                       input: {}
-                      output: {}
+                      output:
+                        binding:
+                          tabella: Topic.TabellaOrdini
+
                       flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
 
                 - id: esitoFuoriOrario
@@ -129,19 +135,7 @@ beginDialog:
                 allowInterruption: true
 
               variable: Topic.ConfermaFuoriMenu
-              prompt:
-                text:
-                  - Il piatto {Topic.InputOrdine} non risulta nel menu di oggi. Vuoi ordinarlo comunque come piatto fuori menu?
-                attachments:
-                  - kind: AdaptiveCardTemplate
-                    cardContent: |-
-                      {
-                        "type": "AdaptiveCard",
-                        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                        "version": "1.0",
-                        "body": []
-                      }
-
+              prompt: Il piatto {Topic.InputOrdine} non risulta nel menu di oggi. Vuoi ordinarlo comunque come piatto fuori menu?
               entity:
                 kind: EmbeddedEntity
                 sensitivityLevel: None
@@ -187,7 +181,10 @@ beginDialog:
                             - kind: InvokeFlowAction
                               id: callPubblicaTabellaNuovoFuoriMenu
                               input: {}
-                              output: {}
+                              output:
+                                binding:
+                                  tabella: Topic.TabellaOrdini
+
                               flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
 
                         - id: esitoAggiornatoFuoriMenu
@@ -200,7 +197,10 @@ beginDialog:
                             - kind: InvokeFlowAction
                               id: callPubblicaTabellaAggiornatoFuoriMenu
                               input: {}
-                              output: {}
+                              output:
+                                binding:
+                                  tabella: Topic.TabellaOrdini
+
                               flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
 
                         - id: esitoFuoriOrarioFuoriMenu
@@ -216,6 +216,13 @@ beginDialog:
                     - kind: SendActivity
                       id: msgPiattoNonTrovato
                       activity: ⚠️ Il piatto indicato non è presente nel menu di oggi. Per favore scegli uno dei piatti disponibili.
+
+    - kind: SendActivity
+      id: sendActivity_CxefzB
+      activity: "{Topic.TabellaOrdini}"
+
+    - kind: EndConversation
+      id: VrgqNz
 
 inputType: {}
 outputType: {}

@@ -9,15 +9,6 @@
         "api": {
           "name": "shared_sharepointonline"
         }
-      },
-      "shared_teams_1": {
-        "runtimeSource": "embedded",
-        "connection": {
-          "connectionReferenceLogicalName": "ddo_sharedteams_ddd0e"
-        },
-        "api": {
-          "name": "shared_teams"
-        }
       }
     },
     "definition": {
@@ -68,7 +59,7 @@
               {
                 "name": "MessaggioTabella",
                 "type": "string",
-                "value": "<p><strong>📋 Ordini di oggi:</strong><br>"
+                "value": "**📋 Ordini di oggi:**\n\n"
               }
             ]
           }
@@ -112,7 +103,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "MessaggioTabella",
-                    "value": "@{items('Componi_Righe_Tabella')?['Title']} → @{items('Componi_Righe_Tabella')?['Piatto']}<br>"
+                    "value": "@{items('Componi_Righe_Tabella')?['Title']} → @{items('Componi_Righe_Tabella')?['Piatto']}\n\n"
                   }
                 }
               },
@@ -143,7 +134,7 @@
                 "type": "AppendToStringVariable",
                 "inputs": {
                   "name": "MessaggioTabella",
-                  "value": "Nessun ordine registrato per oggi.<br>"
+                  "value": "Nessun ordine registrato per oggi.\n"
                 }
               }
             }
@@ -159,36 +150,10 @@
           },
           "type": "If"
         },
-        "Invia_Tabella_Su_Teams": {
+        "Respond_to_the_agent": {
           "runAfter": {
             "Condizione_Ordini_Presenti": [
               "Succeeded"
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "f3000007-0007-0007-0007-000000000007"
-          },
-          "type": "OpenApiConnection",
-          "inputs": {
-            "host": {
-              "connectionName": "shared_teams_1",
-              "operationId": "PostMessageToConversation",
-              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
-            },
-            "parameters": {
-              "poster": "Flow bot",
-              "location": "Group chat",
-              "body/recipient": "19:419f41383b41472c9d358157ede138e9@thread.v2",
-              "body/messageBody": "@{variables('MessaggioTabella')}"
-            },
-            "authentication": "@parameters('$authentication')"
-          }
-        },
-        "Respond_to_the_agent": {
-          "runAfter": {
-            "Invia_Tabella_Su_Teams": [
-              "Succeeded",
-              "Failed"
             ]
           },
           "metadata": {
@@ -199,13 +164,19 @@
           "inputs": {
             "statusCode": 200,
             "body": {
-              "esito": "ok"
+              "esito": "ok",
+              "tabella": "@{variables('MessaggioTabella')}"
             },
             "schema": {
               "type": "object",
               "properties": {
                 "esito": {
                   "title": "esito",
+                  "x-ms-dynamically-added": true,
+                  "type": "string"
+                },
+                "tabella": {
+                  "title": "tabella",
                   "x-ms-dynamically-added": true,
                   "type": "string"
                 }

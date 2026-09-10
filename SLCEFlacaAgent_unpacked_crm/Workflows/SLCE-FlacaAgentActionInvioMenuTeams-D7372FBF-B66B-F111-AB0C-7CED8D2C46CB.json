@@ -46,7 +46,14 @@
             "frequency": "Day",
             "interval": 1,
             "timeZone": "W. Europe Standard Time",
-            "startTime": "2026-06-19T10:00:00"
+            "schedule": {
+              "hours": [
+                "14"
+              ],
+              "minutes": [
+                30
+              ]
+            }
           },
           "metadata": {
             "operationMetadataId": "82f1151b-1485-4ad1-b18c-a1f535423bca"
@@ -55,6 +62,41 @@
         }
       },
       "actions": {
+        "Controlla_Weekend": {
+          "actions": {
+            "Termina_Weekend": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "weekend-terminate-invmenuteams-001"
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Succeeded"
+              }
+            }
+          },
+          "runAfter": {},
+          "expression": {
+            "or": [
+              {
+                "greaterOrEquals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  6
+                ]
+              },
+              {
+                "equals": [
+                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
+                  0
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "weekend-check-invmenuteams-001"
+          },
+          "type": "If"
+        },
         "Init_Contatore": {
           "runAfter": {
             "Controlla_Weekend": [
@@ -76,11 +118,7 @@
           }
         },
         "Init_MessaggioMenu": {
-          "runAfter": {
-            "Controlla_Weekend": [
-              "Succeeded"
-            ]
-          },
+          "runAfter": {},
           "metadata": {
             "operationMetadataId": "4015b6f8-d0ed-4651-b65a-fdb7ee354a8c"
           },
@@ -134,7 +172,7 @@
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
-                "value": "<strong>🍝 Primi</strong><br>"
+                "value": "**🍝 Primi**\n\n"
               }
             },
             "Componi_Primi": {
@@ -163,7 +201,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Primi')?['Title']}<br>"
+                    "value": "@{variables('contatore')}. @{items('Componi_Primi')?['Title']}\n"
                   }
                 }
               },
@@ -235,7 +273,7 @@
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
-                "value": "<br><strong>🥩 Secondi</strong><br>"
+                "value": "\n**🥩 Secondi**\n\n"
               }
             },
             "Componi_Secondi": {
@@ -264,7 +302,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Secondi')?['Title']}<br>"
+                    "value": "@{variables('contatore')}. @{items('Componi_Secondi')?['Title']}\n"
                   }
                 }
               },
@@ -336,7 +374,7 @@
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
-                "value": "<br><strong>🍕 Pizze</strong><br>"
+                "value": "\n**🍕 Pizze**\n\n"
               }
             },
             "Componi_Pizze": {
@@ -365,7 +403,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Pizze')?['Title']}<br>"
+                    "value": "@{variables('contatore')}. @{items('Componi_Pizze')?['Title']}\n"
                   }
                 }
               },
@@ -437,7 +475,7 @@
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
-                "value": "<br><strong>🥗 Insalate</strong><br>"
+                "value": "\n**🥗 Insalate**\n\n"
               }
             },
             "Componi_Insalate": {
@@ -466,7 +504,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Insalate')?['Title']}<br>"
+                    "value": "@{variables('contatore')}. @{items('Componi_Insalate')?['Title']}\n"
                   }
                 }
               },
@@ -538,7 +576,7 @@
               "type": "AppendToStringVariable",
               "inputs": {
                 "name": "messaggioMenu",
-                "value": "<br><strong>🍔 Burger</strong><br>"
+                "value": "\n**🍔 Burger**\n\n"
               }
             },
             "Componi_Burger": {
@@ -567,7 +605,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Burger')?['Title']}<br>"
+                    "value": "@{variables('contatore')}. @{items('Componi_Burger')?['Title']}\n"
                   }
                 }
               },
@@ -623,45 +661,10 @@
               "poster": "Flow bot",
               "location": "Group chat",
               "body/recipient": "19:419f41383b41472c9d358157ede138e9@thread.v2",
-              "body/messageBody": "<p>Ciao a tutti ??<br>\nEcco il menu di oggi per <strong>La Flaca</strong>:<br><br>\n@{variables('messaggioMenu')}<br>\nPer ordinare menzionate <strong>@FlacaAgent</strong> con il numero o il nome del piatto ?? Es: <em>@FlacaAgent 8</em> oppure <em>@FlacaAgent Carbonara</em><br>\nGli ordini chiudono alle <strong>12:00</strong> ?</p>"
+              "body/messageBody": "@{concat('🍽️ MENU DEL GIORNO — La Flaca\n\n👋 Ciao a tutti!\n\nEcco il menu di oggi:\n\n', variables('messaggioMenu'), '\nPer ordinare menzionate @FlacaAgent con il numero o il nome del piatto 📝 Es: *@FlacaAgent 8* oppure *@FlacaAgent Carbonara*\n\nGli ordini chiudono alle 12:00 ⏰')}"
             },
             "authentication": "@parameters('$authentication')"
           }
-        },
-        "Controlla_Weekend": {
-          "actions": {
-            "Termina_Weekend": {
-              "runAfter": {},
-              "metadata": {
-                "operationMetadataId": "weekend-terminate-002"
-              },
-              "type": "Terminate",
-              "inputs": {
-                "runStatus": "Succeeded"
-              }
-            }
-          },
-          "runAfter": {},
-          "expression": {
-            "or": [
-              {
-                "greaterOrEquals": [
-                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
-                  6
-                ]
-              },
-              {
-                "equals": [
-                  "@dayOfWeek(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'))",
-                  0
-                ]
-              }
-            ]
-          },
-          "metadata": {
-            "operationMetadataId": "weekend-check-002"
-          },
-          "type": "If"
         }
       }
     },

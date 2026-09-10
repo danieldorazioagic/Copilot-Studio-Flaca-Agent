@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{22f1a345-187a-4a55-86fc-30fd4dea33f6}" Name="SL CE - Flaca Agent | ActionTriggerChiusuraOrdini" Description="Create a trigger to automatically call your copilot repeatedly" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <JsonFileName>/Workflows/SLCE-FlacaAgentActionTriggerChiusuraOrdini-22F1A345-187A-4A55-86FC-30FD4DEA33F6.json</JsonFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>5</Category>
+  <Mode>0</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.0.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ModernFlowType>0</ModernFlowType>
+  <PrimaryEntity>none</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1040" description="SL CE - Flaca Agent | ActionTriggerChiusuraOrdini" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1040" description="Create a trigger to automatically call your copilot repeatedly" />
+  </Descriptions>
+</Workflow>

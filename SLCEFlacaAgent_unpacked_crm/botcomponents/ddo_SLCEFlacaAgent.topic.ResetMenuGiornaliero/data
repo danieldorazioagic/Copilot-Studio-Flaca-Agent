@@ -25,6 +25,8 @@ beginDialog:
       alwaysPrompt: true
       variable: Topic.ConfermaReset
       prompt:
+        text:
+          - Confermi di voler cancelare il Registo degli ordini odierni ?
         activity:
           text: =Concatenate("⚠️ Confermi la cancellazione di menu e ordini del ", Topic.DataResetMenu, "? Rispondi CONFERMA per procedere.")
 
@@ -49,14 +51,14 @@ beginDialog:
 
             - kind: SendActivity
               id: msgResetOk
-              activity: "✅ Menu e ordini di oggi cancellati."
+              activity: ✅ Menu e ordini di oggi cancellati.
 
         - id: resetAnnullato
           condition: =Lower(Trim(Topic.ConfermaReset)) <> "conferma"
           actions:
             - kind: SendActivity
               id: msgResetAnnullato
-              activity: "⏳ Operazione annullata, nessuna modifica effettuata."
+              activity: ⏳ Operazione annullata, nessuna modifica effettuata.
 
 inputType: {}
 outputType: {}

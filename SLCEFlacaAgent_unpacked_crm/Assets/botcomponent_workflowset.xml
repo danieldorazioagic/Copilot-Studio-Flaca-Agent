@@ -23,6 +23,9 @@
   <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.topic.AnnullaOrdine" workflowid.workflowid="2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28">
     <iscustomizable>1</iscustomizable>
   </botcomponent_workflow>
+  <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.topic.ChiusuraOrdini" workflowid.workflowid="634ac2ff-518d-4065-8e17-4c581d30e2c6">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_workflow>
   <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.topic.PopolaMenuGiornaliero" workflowid.workflowid="0c130643-6872-f111-ab0d-000d3a693112">
     <iscustomizable>1</iscustomizable>
   </botcomponent_workflow>
@@ -36,6 +39,9 @@
     <iscustomizable>1</iscustomizable>
   </botcomponent_workflow>
   <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.topic.RaccoltaOrdini" workflowid.workflowid="cbbc79f7-2076-f111-ab0d-7c1e52357b26">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_workflow>
+  <botcomponent_workflow botcomponentid.schemaname="ddo_SLCEFlacaAgent.topic.ResetMenuGiornaliero" workflowid.workflowid="af9651ee-3975-f111-ab0d-7c1e52357019">
     <iscustomizable>1</iscustomizable>
   </botcomponent_workflow>
 </botcomponent_workflowset>

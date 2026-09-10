@@ -1,0 +1,31 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Chiusura Ordini Giornaliera
+    triggerQueries:
+      - CHIUDI_ORDINI_GIORNALIERI
+
+  actions:
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_8of1Da
+      input: {}
+      output:
+        binding:
+          esito: Topic.esito
+          messaggioChiusura: Topic.MessaggioChiusura
+          riepilogo: Topic.Riepilogo
+
+      flowId: 634ac2ff-518d-4065-8e17-4c581d30e2c6
+
+    - kind: SendActivity
+      id: msgChiusura
+      activity: "{Topic.MessaggioChiusura}"
+
+    - kind: SendActivity
+      id: msgRiepilogo
+      activity: "{Topic.Riepilogo}"
+
+inputType: {}
+outputType: {}

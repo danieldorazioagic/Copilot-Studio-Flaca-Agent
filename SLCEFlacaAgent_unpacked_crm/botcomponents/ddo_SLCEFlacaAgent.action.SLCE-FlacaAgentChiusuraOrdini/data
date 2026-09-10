@@ -1,0 +1,26 @@
+kind: TaskDialog
+modelDescription: "Chiude gli ordini della giornata: legge tutti gli ordini di oggi da FlacaOrdini, li aggrega per piatto (quantità totale) e restituisce sia il messaggio di chiusura sia il riepilogo aggregato, da pubblicare su Teams. Nessun input."
+action:
+  kind: InvokeFlowTaskAction
+  flowId: 634ac2ff-518d-4065-8e17-4c581d30e2c6
+  connectionProperties:
+    $kind: ConnectionProperties
+    diagnostics:
+    mode: Invoker
+
+outputMode: All
+description: "Legge tutti gli ordini del giorno da FlacaOrdini, li aggrega per piatto e restituisce il messaggio di chiusura (output 'messaggioChiusura') e il riepilogo aggregato (output 'riepilogo'). Non pubblica più direttamente su Teams: è il topic chiamante a pubblicarli con SendActivity dopo l'invocazione. Non chiamare direttamente: è invocata automaticamente dal topic Chiusura Ordini al trigger schedulato."
+inputType:
+  properties: {}
+
+outputType:
+  properties:
+    text:
+      title: esito
+      type: String
+    text_1:
+      title: messaggioChiusura
+      type: String
+    text_2:
+      title: riepilogo
+      type: String

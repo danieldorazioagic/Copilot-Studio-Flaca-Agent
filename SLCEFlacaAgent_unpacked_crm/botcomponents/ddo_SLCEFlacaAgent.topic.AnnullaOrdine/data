@@ -41,8 +41,15 @@ beginDialog:
             - kind: InvokeFlowAction
               id: callPubblicaTabellaAnnulla
               input: {}
-              output: {}
+              output:
+                binding:
+                  tabella: Topic.TabellaOrdini
+
               flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+            - kind: SendActivity
+              id: msgTabellaAnnulla
+              activity: "{Topic.TabellaOrdini}"
 
         - id: esitoNonTrovato
           condition: =Topic.esito = "non_trovato"
@@ -57,6 +64,9 @@ beginDialog:
             - kind: SendActivity
               id: msgFuoriOrarioAnnulla
               activity: ⚠️ Gli ordini di oggi sono già chiusi.
+
+    - kind: EndConversation
+      id: UQsbAn
 
 inputType: {}
 outputType: {}

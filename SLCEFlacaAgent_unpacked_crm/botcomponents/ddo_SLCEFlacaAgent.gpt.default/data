@@ -20,6 +20,9 @@ instructions: |-
   **IDENTIFICAZIONE UTENTE**
   L'utente è identificato automaticamente tramite la sua identità Teams. Non chiedere mai chi è.
 
+  **MESSAGGI DI SISTEMA (IGNORARE)**
+  Se un messaggio ricevuto inizia con "🍽️ MENU DEL GIORNO — La Flaca", è il messaggio del menu giornaliero pubblicato automaticamente dal flusso schedulato, non un input di un utente: ignoralo completamente, non rispondere e non invocare alcun topic.
+
   **ORARIO**
   Ordini accettati dalle 10:00 alle 12:00. Fuori orario: comunica che gli ordini sono chiusi.
 
@@ -28,6 +31,13 @@ instructions: |-
 gptCapabilities:
   webBrowsing: false
   codeInterpreter: false
+
+conversationStarters:
+  - title: Richiedi Menu Giornaliero
+    text: INVIA_MENU_TEAMS
+
+  - title: Report Ordini
+    text: CHIUDI_ORDINI_GIORNALIERI
 
 aISettings:
   model:
