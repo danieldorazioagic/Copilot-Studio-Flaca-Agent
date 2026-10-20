@@ -48,10 +48,10 @@
             "timeZone": "W. Europe Standard Time",
             "schedule": {
               "hours": [
-                "14"
+                "10"
               ],
               "minutes": [
-                30
+                0
               ]
             }
           },
@@ -661,7 +661,7 @@
               "poster": "Flow bot",
               "location": "Group chat",
               "body/recipient": "19:419f41383b41472c9d358157ede138e9@thread.v2",
-              "body/messageBody": "@{concat('🍽️ MENU DEL GIORNO — La Flaca\n\n👋 Ciao a tutti!\n\nEcco il menu di oggi:\n\n', variables('messaggioMenu'), '\nPer ordinare menzionate @FlacaAgent con il numero o il nome del piatto 📝 Es: *@FlacaAgent 8* oppure *@FlacaAgent Carbonara*\n\nGli ordini chiudono alle 12:00 ⏰')}"
+              "body/messageBody": "@{concat('🍽️ MENU DEL GIORNO — La Flaca\n\n👋 Ciao a tutti!\n\nEcco il menu di oggi:\n\n', variables('messaggioMenu'), '\nPer ordinare menzionate @FlacaAgent con il numero o il nome del piatto 📝 Es: *@FlacaAgent 8* oppure *@FlacaAgent Carbonara*\n\nGli ordini chiudono alle 13:00 ⏰')}"
             },
             "authentication": "@parameters('$authentication')"
           }

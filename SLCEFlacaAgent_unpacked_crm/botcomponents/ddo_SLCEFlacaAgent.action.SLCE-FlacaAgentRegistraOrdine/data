@@ -9,7 +9,7 @@ action:
     mode: Invoker
 
 outputMode: All
-description: "Registra o aggiorna l'ordine del giorno per l'utente corrente. Gestisce deduplicazione e check orario (10:00-12:00). Risponde con esito: \"nuovo\" (primo ordine), \"aggiornato\" (modifica esistente) o \"fuori_orario\" (oltre le 12:00). Non chiamare direttamente: è gestita dal topic Raccolta Ordini."
+description: "Registra o aggiorna l'ordine del giorno per l'utente corrente. Gestisce deduplicazione e check orario (10:00-13:00). Risponde con esito: \"nuovo\" (primo ordine), \"aggiornato\" (modifica esistente) o \"fuori_orario\" (oltre le 13:00). Non chiamare direttamente: è gestita dal topic Raccolta Ordini."
 inputType:
   properties:
     number:

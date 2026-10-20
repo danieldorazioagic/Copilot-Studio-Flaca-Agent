@@ -274,7 +274,7 @@
               {
                 "less": [
                   "@int(formatDateTime(convertTimeZone(utcNow(), 'UTC', 'W. Europe Standard Time'), 'HH'))",
-                  18
+                                    13
                 ]
               }
             ]

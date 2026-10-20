@@ -26,7 +26,7 @@ L’agente deve:
 - Consentire aggiornamenti dell’ordine prima della chiusura
 - Consentire l'annullamento dell'ordine prima della chiusura
 - Pubblicare su Teams la tabella completa degli ordini dopo ogni operazione riuscita (nuovo ordine, aggiornamento, annullamento)
-- Bloccare nuovi inserimenti alle 12:00
+- Bloccare nuovi inserimenti alle 13:00
 - Generare un riepilogo aggregato per piatto
 - Inviare l’ordine finale tramite WhatsApp
 - Attendere conferma dal ristorante
@@ -59,9 +59,9 @@ Regole:
 - Nessuno storico avanzato
 - Reset stato a inizio giornata
 - Nessuna duplicazione ordini per utente
-- Prima delle 12:00: aggiornare ordine utente esistente
-- Prima delle 12:00: consentire l'annullamento dell'ordine utente esistente
-- Dopo le 12:00: rifiutare nuovi ordini, modifiche e annullamenti
+- Prima delle 13:00: aggiornare ordine utente esistente
+- Prima delle 13:00: consentire l'annullamento dell'ordine utente esistente
+- Dopo le 13:00: rifiutare nuovi ordini, modifiche e annullamenti
 
 ## Fase 1 - Invio menu giornaliero
 
@@ -106,7 +106,7 @@ Se il piatto indicato non corrisponde a nessuna voce del menu del giorno:
 
 Quando un utente chiede di annullare/cancellare/rimuovere il proprio ordine:
 1. Identificare automaticamente l'utente mittente
-2. Verificare l'orario (prima delle 12:00)
+2. Verificare l'orario (prima delle 13:00)
 3. Cercare l'ordine attivo dell'utente per la giornata corrente
 4. Se trovato: eliminarlo e confermare l'annullamento, poi pubblicare la tabella ordini aggiornata
 5. Se non trovato: notificare che non risulta nessun ordine attivo
@@ -134,14 +134,14 @@ Dopo ogni operazione riuscita (nuovo ordine, aggiornamento, annullamento):
 
 ## Fase 4 - Chiusura ordini
 
-Alle 12:00:
+Alle 13:00:
 - Bloccare nuovi inserimenti
 - Bloccare modifiche
 - Impostare stato giornata = `chiuso`
 - Notificare nel gruppo Teams:
   - `⏱️ Ordini chiusi. Sto preparando il riepilogo per La Flaca.`
 
-Dopo le 12:00, risposta standard:
+Dopo le 13:00, risposta standard:
 - `⚠️ Gli ordini di oggi sono già chiusi.`
 
 ## Fase 5 - Generazione riepilogo aggregato
@@ -206,7 +206,7 @@ Messaggi standard:
 - Aggiornamento ordine utente
 - Annullamento ordine utente
 - Pubblicazione tabella ordini su Teams dopo ogni operazione riuscita
-- Blocco modifiche dopo le 12:00
+- Blocco modifiche dopo le 13:00
 - Aggregazione dinamica ordini
 - Invio riepilogo via WhatsApp
 - Gestione conferma ristorante

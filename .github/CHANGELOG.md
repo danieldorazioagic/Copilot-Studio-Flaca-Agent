@@ -1,5 +1,24 @@
 # CHANGELOG — SL CE - Flaca Agent
 
+## [1.0.0.73] - 2026-10-20
+### Modifiche
+- Importata sul Playground (`SLCEFlacaAgent_1_0_0_73.zip`) la sync CRM del 2026-10-20 (di seguito)
+
+## [1.0.0.72] - 2026-10-20 (sync CRM successivo, stessa versione)
+### Modifiche
+- Sync repo da modifiche manuali in CRM (nessun bump versione, solo allineamento file `SLCEFlacaAgent_unpacked_crm`):
+  - `ActionInvioMenuTeams`: orario invio menu da 14:30 a 10:00
+  - `ActionRegistraOrdine`: orario di chiusura ordini da 18:00 a 14:00 (finestra ordini 10:00-14:00)
+  - `Solution.xml` / `Customizations.xml`: aggiornamento metadati di versione piattaforma
+- **Allineamento chiusura ordini alle 13:00 (modifica locale, da importare)**:
+  - `ActionRegistraOrdine` e `ActionAnnullaOrdine`: finestra ordini 10:00-13:00 (Annulla era 18:00, Registra 14:00)
+  - `ActionTriggerChiusuraOrdini`: già alle 13:00 (invariato)
+  - Messaggio menu (`ActionInvioMenuTeams`), `gpt.default` e descrizione action `RegistraOrdine`: testi aggiornati da 12:00 a 13:00
+  - Chiusura ordini validata in test
+- **Nuovo topic `TopicOrdinaPerAltri`** (modifica locale, da importare): ordine a nome di un'altra persona
+  - Chiede nome beneficiario e piatto, valida con `ValidaOrdine`, registra con `RegistraOrdine` passando il nome libero come chiave utente (fallback già presente nel flow, nessuna modifica ai flow), pubblica la tabella con `PubblicaTabellaOrdini`; gestione fuori menu con conferma Si/No
+  - `gpt.default`: nuova regola di routing "ORDINE PER CONTO DI ALTRI" verso il nuovo topic; `TopicRaccoltaOrdini` invariato
+
 ## [1.0.0.72] - 2026-09-10
 ### Modifiche
 - **Fix critico**: risolto bug per cui il menu giornaliero non veniva mai pubblicato su Teams al trigger schedulato

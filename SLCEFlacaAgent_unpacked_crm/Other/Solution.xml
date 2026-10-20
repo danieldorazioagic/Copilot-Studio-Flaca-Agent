@@ -1,12 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.2.26082.157" SolutionPackageVersion="9.2" languagecode="1040" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26082.157" OrganizationSchemaType="Full" CRMServerServiceabilityVersion="9.2.26082.00157">
+<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.2.26092.157" SolutionPackageVersion="9.2" languagecode="1040" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26092.157" OrganizationSchemaType="Full" CRMServerServiceabilityVersion="9.2.26093.00160">
   <SolutionManifest>
     <UniqueName>SLCEFlacaAgent</UniqueName>
     <LocalizedNames>
       <LocalizedName description="SLCEFlacaAgent" languagecode="1040" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.0.72</Version>
+    <Version>1.0.0.73</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>DanielDorazio</UniqueName>

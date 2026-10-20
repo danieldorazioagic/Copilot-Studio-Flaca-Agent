@@ -1,0 +1,226 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Ordina Per Altri
+
+  actions:
+    - kind: SetVariable
+      id: initNomePiatto
+      variable: Topic.nomePiatto
+      value: =Text("")
+
+    - kind: SetVariable
+      id: initNumeroPiatto
+      variable: Topic.numeroPiatto
+      value: "0"
+
+    - kind: SetVariable
+      id: initNumeroPiattoInt
+      variable: Topic.NumeroPiattoInt
+      value: =0
+
+    - kind: SetVariable
+      id: initEsito
+      variable: Topic.Esito
+      value: =Text("")
+
+    - kind: Question
+      id: questionBeneficiario
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: Topic.NomeBeneficiario
+      prompt: Per chi è l'ordine? Scrivi nome e cognome della persona.
+      entity: StringPrebuiltEntity
+
+    - kind: Question
+      id: questionPiatto
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: Topic.InputOrdine
+      prompt: Cosa vuoi ordinare per {Topic.NomeBeneficiario}? Scrivi il numero o il nome del piatto.
+      entity: StringPrebuiltEntity
+
+    - kind: InvokeFlowAction
+      id: invokeValidaOrdine
+      input:
+        binding:
+          text: =Topic.InputOrdine
+
+      output:
+        binding:
+          nomepiatto: Topic.nomePiatto
+          numeropiatto: Topic.numeroPiatto
+
+      flowId: cbbc79f7-2076-f111-ab0d-7c1e52357b26
+
+    - kind: ConditionGroup
+      id: checkTrovato
+      conditions:
+        - id: piattoTrovato
+          condition: =!IsBlank(Topic.nomePiatto)
+          actions:
+            - kind: SetVariable
+              id: setNumeroPiattoInt
+              variable: Topic.NumeroPiattoInt
+              value: =Value(Topic.numeroPiatto)
+
+            - kind: InvokeFlowAction
+              id: invokeRegistraOrdine
+              input:
+                binding:
+                  number: =Topic.NumeroPiattoInt
+                  text: =Trim(Topic.NomeBeneficiario)
+                  text_1: =Topic.nomePiatto
+
+              output:
+                binding:
+                  esito: Topic.Esito
+
+              flowId: 470a3e38-1b76-f111-ab0d-7c1e52357b26
+
+            - kind: ConditionGroup
+              id: checkEsito
+              conditions:
+                - id: esitoNuovo
+                  condition: =Topic.Esito = "nuovo"
+                  actions:
+                    - kind: SendActivity
+                      id: msgNuovo
+                      activity: ✅ Ordine registrato per {Topic.NomeBeneficiario}!
+
+                    - kind: InvokeFlowAction
+                      id: callPubblicaTabellaNuovo
+                      input: {}
+                      output:
+                        binding:
+                          tabella: Topic.TabellaOrdini
+
+                      flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+                - id: esitoAggiornato
+                  condition: =Topic.Esito = "aggiornato"
+                  actions:
+                    - kind: SendActivity
+                      id: msgAggiornato
+                      activity: ✅ Ordine di {Topic.NomeBeneficiario} aggiornato!
+
+                    - kind: InvokeFlowAction
+                      id: callPubblicaTabellaAggiornato
+                      input: {}
+                      output:
+                        binding:
+                          tabella: Topic.TabellaOrdini
+
+                      flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+                - id: esitoFuoriOrario
+                  condition: =Topic.Esito = "fuori_orario"
+                  actions:
+                    - kind: SendActivity
+                      id: msgFuoriOrario
+                      activity: ⚠️ Gli ordini di oggi sono già chiusi.
+
+        - id: piattoNonTrovato
+          condition: =IsBlank(Topic.nomePiatto)
+          actions:
+            - kind: Question
+              id: questionConfermaFuoriMenu
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: Topic.ConfermaFuoriMenu
+              prompt: Il piatto {Topic.InputOrdine} non risulta nel menu di oggi. Vuoi ordinarlo comunque per {Topic.NomeBeneficiario} come piatto fuori menu?
+              entity:
+                kind: EmbeddedEntity
+                sensitivityLevel: None
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Si
+                      displayName: Si
+
+                    - id: No
+                      displayName: No
+
+            - kind: ConditionGroup
+              id: checkConfermaFuoriMenu
+              conditions:
+                - id: fuoriMenuConfermato
+                  condition: =Lower(Trim(Topic.ConfermaFuoriMenu)) = "si" Or Lower(Trim(Topic.ConfermaFuoriMenu)) = "sì"
+                  actions:
+                    - kind: InvokeFlowAction
+                      id: invokeRegistraFuoriMenu
+                      input:
+                        binding:
+                          number: 0
+                          text: =Trim(Topic.NomeBeneficiario)
+                          text_1: =Topic.InputOrdine
+
+                      output:
+                        binding:
+                          esito: Topic.Esito
+
+                      flowId: 470a3e38-1b76-f111-ab0d-7c1e52357b26
+
+                    - kind: ConditionGroup
+                      id: checkEsitoFuoriMenu
+                      conditions:
+                        - id: esitoNuovoFuoriMenu
+                          condition: =Topic.Esito = "nuovo"
+                          actions:
+                            - kind: SendActivity
+                              id: msgNuovoFuoriMenu
+                              activity: ✅ Ordine registrato per {Topic.NomeBeneficiario}!
+
+                            - kind: InvokeFlowAction
+                              id: callPubblicaTabellaNuovoFuoriMenu
+                              input: {}
+                              output:
+                                binding:
+                                  tabella: Topic.TabellaOrdini
+
+                              flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+                        - id: esitoAggiornatoFuoriMenu
+                          condition: =Topic.Esito = "aggiornato"
+                          actions:
+                            - kind: SendActivity
+                              id: msgAggiornatoFuoriMenu
+                              activity: ✅ Ordine di {Topic.NomeBeneficiario} aggiornato!
+
+                            - kind: InvokeFlowAction
+                              id: callPubblicaTabellaAggiornatoFuoriMenu
+                              input: {}
+                              output:
+                                binding:
+                                  tabella: Topic.TabellaOrdini
+
+                              flowId: 2b3c4d5e-6f7a-f111-ab0d-7c1e52357b28
+
+                        - id: esitoFuoriOrarioFuoriMenu
+                          condition: =Topic.Esito = "fuori_orario"
+                          actions:
+                            - kind: SendActivity
+                              id: msgFuoriOrarioFuoriMenu
+                              activity: ⚠️ Gli ordini di oggi sono già chiusi.
+
+                - id: fuoriMenuNonConfermato
+                  condition: =Lower(Trim(Topic.ConfermaFuoriMenu)) <> "si" And Lower(Trim(Topic.ConfermaFuoriMenu)) <> "sì"
+                  actions:
+                    - kind: SendActivity
+                      id: msgPiattoNonTrovato
+                      activity: ⚠️ Il piatto indicato non è presente nel menu di oggi. Per favore scegli uno dei piatti disponibili.
+
+    - kind: SendActivity
+      id: sendTabellaOrdini
+      activity: "{Topic.TabellaOrdini}"
+
+    - kind: EndConversation
+      id: endConversation
+
+inputType: {}
+outputType: {}

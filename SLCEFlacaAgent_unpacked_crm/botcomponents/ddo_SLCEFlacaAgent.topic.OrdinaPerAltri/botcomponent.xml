@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.OrdinaPerAltri">
+  <componenttype>9</componenttype>
+  <description>Topic per registrare un ordine a nome di un'altra persona: chiede il nome del beneficiario e il piatto, valida il piatto con il flusso ValidaOrdine, registra l'ordine con il nome libero del beneficiario tramite RegistraOrdine (stessa chiave utente = nome) e pubblica su Teams la tabella aggiornata tramite PubblicaTabellaOrdini. Gestisce anche il caso piatto fuori menu con conferma Si/No.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>SL CE - Flaca Agent | TopicOrdinaPerAltri</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>
