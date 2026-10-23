@@ -1,0 +1,28 @@
+kind: AdaptiveDialog
+modelDescription: Usalo quando l'utente chiede come funziona l'agente, aiuto, istruzioni, cosa può fare o come si ordina, si modifica o si annulla un ordine.
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Come Funziona
+
+  actions:
+    - kind: SendActivity
+      id: msgComeFunziona
+      activity: |-
+        **ℹ️ Come funziona — La Flaca**
+
+        📝 **Ordinare**: scrivi il numero o il nome del piatto (es. *8* oppure *Carbonara*)
+        👥 **Per un collega**: aggiungi il suo tag (es. *8 per @Nome*)
+        🔄 **Modificare**: invia un nuovo ordine, sostituisce il precedente
+        ❌ **Annullare**: scrivi *annulla il mio ordine* (o *annulla l'ordine di @Nome*)
+        📊 **Riepilogo**: scrivi *riepilogo* per vedere i piatti ordinati
+        🍝 **Fuori menu**: se il piatto non è nel menu ti chiedo conferma
+
+        ⏰ Ordini dalle 10:00 alle 13:00. Alle 13:00 chiudo gli ordini e preparo il riepilogo.
+
+    - kind: CancelAllDialogs
+      id: cancelAllComeFunziona
+
+inputType: {}
+outputType: {}

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{634ac2ff-518d-4065-8e17-4c581d30e2c6}" Name="SL CE - Flaca Agent | ActionChiusuraOrdini" Description="When an agent calls the flow and send back a response." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{634ac2ff-518d-4065-8e17-4c581d30e2c6}" Name="SL CE - Flaca Agent | ActionChiusuraOrdini" Description="Chiusura ordini: legge gli ordini di oggi da FlacaOrdini, li aggrega per piatto e restituisce messaggio di chiusura e riepilogo. Invocato da TopicChiusuraOrdini alle 13:00." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <JsonFileName>/Workflows/SLCE-FlacaAgentActionChiusuraOrdini-634AC2FF-518D-4065-8E17-4C581D30E2C6.json</JsonFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
@@ -24,6 +24,6 @@
     <LocalizedName languagecode="1040" description="SL CE - Flaca Agent | ActionChiusuraOrdini" />
   </LocalizedNames>
   <Descriptions>
-    <Description languagecode="1040" description="When an agent calls the flow and send back a response." />
+    <Description languagecode="1040" description="Chiusura ordini: legge gli ordini di oggi da FlacaOrdini, li aggrega per piatto e restituisce messaggio di chiusura e riepilogo. Invocato da TopicChiusuraOrdini alle 13:00." />
   </Descriptions>
 </Workflow>

@@ -60,5 +60,8 @@ beginDialog:
               id: msgResetAnnullato
               activity: ⏳ Operazione annullata, nessuna modifica effettuata.
 
+    - kind: CancelAllDialogs
+      id: DkYuEj
+
 inputType: {}
 outputType: {}

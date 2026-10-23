@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{7ce25004-7071-f111-ab0c-7c1e52357019}" Name="SL CE - Flaca Agent | ActionTrigger" Description="Create a trigger to automatically call your copilot repeatedly" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{7ce25004-7071-f111-ab0c-7c1e52357019}" Name="SL CE - Flaca Agent | ActionTrigger" Description="Trigger schedulato alle 9:00, dal lunedì al venerdì (Europe/Rome): invoca l'agente con il comando POPOLA_MENU_GIORNALIERO per aggiornare il menu da laflacaroma.it in FlacaMenu." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <JsonFileName>/Workflows/SLCE-FlacaAgentActionTrigger-7CE25004-7071-F111-AB0C-7C1E52357019.json</JsonFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
@@ -25,6 +25,6 @@
     <LocalizedName languagecode="1040" description="SL CE - Flaca Agent | ActionTrigger" />
   </LocalizedNames>
   <Descriptions>
-    <Description languagecode="1040" description="Create a trigger to automatically call your copilot repeatedly" />
+    <Description languagecode="1040" description="Trigger schedulato alle 9:00, dal lunedì al venerdì (Europe/Rome): invoca l'agente con il comando POPOLA_MENU_GIORNALIERO per aggiornare il menu da laflacaroma.it in FlacaMenu." />
   </Descriptions>
 </Workflow>

@@ -1,0 +1,26 @@
+kind: AdaptiveDialog
+modelDescription: Qualsiasi messaggio chieda il riepilogo, il totale o il conteggio degli ordini di oggi, raggruppati per piatto (es. "riepilogo", "dammi il riepilogo degli ordini", "quanti piatti per ogni tipo", "totale ordini")
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent: {}
+  actions:
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_Sg9PSl
+      input: {}
+      output:
+        binding:
+          esito: Topic.esito
+          riepilogo: Topic.riepilogo
+
+      flowId: 7d5a1c9e-3b24-4f6a-9c18-a2e4b6d80f13
+
+    - kind: SendActivity
+      id: sendActivity_ie0Lry
+      activity: "{Topic.riepilogo}"
+
+    - kind: CancelAllDialogs
+      id: cancelAllRiepiloga
+
+inputType: {}
+outputType: {}

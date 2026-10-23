@@ -1,6 +1,6 @@
 <botcomponent schemaname="ddo_SLCEFlacaAgent.topic.AnnullaOrdine">
   <componenttype>9</componenttype>
-  <description>Topic di annullamento ordine: identifica l'utente Teams, verifica l'esistenza dell'ordine del giorno tramite il flusso AnnullaOrdine ed elimina la riga corrispondente in FlacaOrdini se presente ed entro l'orario consentito. Dopo l'annullamento, pubblica su Teams la tabella aggiornata degli ordini tramite PubblicaTabellaOrdini.</description>
+  <description>Annulla l'ordine di oggi dell'utente, o di un collega taggato. Riconosce il soggetto con il prompt PromptRiconosciSogetto e usa il flusso AnnullaOrdine, che verifica la finestra 10:00-13:00 ed elimina la riga in FlacaOrdini. Esiti: annullato, nessun ordine trovato, ordini chiusi. Dopo l'annullamento pubblica la tabella ordini aggiornata.</description>
   <iscustomizable>0</iscustomizable>
   <name>SL CE - Flaca Agent | TopicAnnullaOrdine</name>
   <parentbotid>

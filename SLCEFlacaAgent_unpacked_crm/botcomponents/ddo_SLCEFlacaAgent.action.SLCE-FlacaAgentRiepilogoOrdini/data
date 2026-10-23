@@ -1,0 +1,23 @@
+kind: TaskDialog
+modelDescription: Restituisce il riepilogo degli ordini di oggi da FlacaOrdini, raggruppati per piatto con la quantita per ogni piatto e il totale. Sola consultazione, nessun input.
+action:
+  kind: InvokeFlowTaskAction
+  flowId: 7d5a1c9e-3b24-4f6a-9c18-a2e4b6d80f13
+  connectionProperties:
+    $kind: ConnectionProperties
+    diagnostics:
+    mode: Invoker
+
+outputMode: All
+description: Legge gli ordini del giorno da FlacaOrdini, li aggrega per piatto e restituisce il riepilogo (output 'riepilogo'). Non chiude gli ordini e non cambia stato. Non chiamare direttamente: e' invocata dal topic Riepilogo Ordini.
+inputType:
+  properties: {}
+
+outputType:
+  properties:
+    text:
+      title: esito
+      type: String
+    text_1:
+      title: riepilogo
+      type: String

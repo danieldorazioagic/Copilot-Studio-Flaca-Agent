@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{af9651ee-3975-f111-ab0d-7c1e52357019}" Name="SL CE - Flaca Agent | ActionCancellaMenuOggi" Description="When an agent calls the flow and send back a response." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{af9651ee-3975-f111-ab0d-7c1e52357019}" Name="SL CE - Flaca Agent | ActionCancellaMenuOggi" Description="Reset amministrativo: cancella menu e ordini della data odierna da FlacaMenu e FlacaOrdini. Invocato solo da TopicResetMenuGiornaliero dopo conferma." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <JsonFileName>/Workflows/SLCE-FlacaAgentActionCancellaMenuOggi-AF9651EE-3975-F111-AB0D-7C1E52357019.json</JsonFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
@@ -25,6 +25,6 @@
     <LocalizedName languagecode="1040" description="SL CE - Flaca Agent | ActionCancellaMenuOggi" />
   </LocalizedNames>
   <Descriptions>
-    <Description languagecode="1040" description="When an agent calls the flow and send back a response." />
+    <Description languagecode="1040" description="Reset amministrativo: cancella menu e ordini della data odierna da FlacaMenu e FlacaOrdini. Invocato solo da TopicResetMenuGiornaliero dopo conferma." />
   </Descriptions>
 </Workflow>

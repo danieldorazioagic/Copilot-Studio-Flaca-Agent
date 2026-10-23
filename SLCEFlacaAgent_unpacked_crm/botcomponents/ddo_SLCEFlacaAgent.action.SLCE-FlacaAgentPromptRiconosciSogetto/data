@@ -1,0 +1,14 @@
+kind: TaskDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: UserRequest
+    name: UserRequest
+
+modelDisplayName: SL CE - Flaca Agent | PromptRiconosciSogetto
+modelDescription: SL CE - Flaca Agent | PromptRiconosciSogetto
+action:
+  kind: InvokeAIBuilderModelTaskAction
+  aIModelId: 4c135db1-daab-472b-8f7f-c9f4d02b3975
+
+outputMode: All
+triggerCondition: false

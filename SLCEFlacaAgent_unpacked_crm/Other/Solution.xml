@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ImportExportXml version="9.2.26092.157" SolutionPackageVersion="9.2" languagecode="1040" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26092.157" OrganizationSchemaType="Full" CRMServerServiceabilityVersion="9.2.26093.00160">
   <SolutionManifest>
     <UniqueName>SLCEFlacaAgent</UniqueName>
@@ -6,7 +6,7 @@
       <LocalizedName description="SLCEFlacaAgent" languagecode="1040" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.0.73</Version>
+    <Version>1.0.0.78</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>DanielDorazio</UniqueName>
@@ -85,9 +85,12 @@
       <RootComponent type="29" id="{470a3e38-1b76-f111-ab0d-7c1e52357b26}" behavior="0" />
       <RootComponent type="29" id="{634ac2ff-518d-4065-8e17-4c581d30e2c6}" behavior="0" />
       <RootComponent type="29" id="{7ce25004-7071-f111-ab0c-7c1e52357019}" behavior="0" />
+      <RootComponent type="29" id="{7d5a1c9e-3b24-4f6a-9c18-a2e4b6d80f13}" behavior="0" />
       <RootComponent type="29" id="{af9651ee-3975-f111-ab0d-7c1e52357019}" behavior="0" />
       <RootComponent type="29" id="{cbbc79f7-2076-f111-ab0d-7c1e52357b26}" behavior="0" />
       <RootComponent type="29" id="{d7372fbf-b66b-f111-ab0c-7ced8d2c46cb}" behavior="0" />
+      <RootComponent type="29" id="{f39522a4-9512-4fae-bd76-34212b6b38b6}" behavior="0" />
+      <RootComponent type="401" id="{4c135db1-daab-472b-8f7f-c9f4d02b3975}" behavior="0" />
     </RootComponents>
     <MissingDependencies>
       <MissingDependency>

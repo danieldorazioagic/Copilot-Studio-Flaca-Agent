@@ -665,6 +665,31 @@
             },
             "authentication": "@parameters('$authentication')"
           }
+        },
+        "Invia_Istruzioni_Su_Teams": {
+          "runAfter": {
+            "Invia_Menu_Su_Teams": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "5c1e8a47-3d92-4b6f-a0e5-71f4c9d28b36"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_teams_1",
+              "operationId": "PostMessageToConversation",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+            },
+            "parameters": {
+              "poster": "Flow bot",
+              "location": "Group chat",
+              "body/recipient": "19:419f41383b41472c9d358157ede138e9@thread.v2",
+              "body/messageBody": "ℹ️ COME FUNZIONA — La Flaca\n\n📝 Ordinare: scrivi il numero o il nome del piatto (es. 8 oppure Carbonara)\n👥 Per un collega: aggiungi il suo tag (es. 8 per @Nome)\n🔄 Modificare: invia un nuovo ordine, sostituisce il precedente\n❌ Annullare: scrivi annulla il mio ordine (o annulla l ordine di @Nome)\n📊 Riepilogo: scrivi riepilogo per vedere i piatti ordinati\n🍝 Fuori menu: se il piatto non è nel menu ti chiedo conferma\n\n⏰ Ordini dalle 10:00 alle 13:00. Alle 13:00 chiudo gli ordini e preparo il riepilogo."
+            },
+            "authentication": "@parameters('$authentication')"
+          }
         }
       }
     },

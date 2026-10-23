@@ -1,6 +1,6 @@
 # CheckPoint — SL CE - Flaca Agent
 
-> Aggiornato: 2026-10-20 | Versione live: **v1.0.0.73** (ambiente: CopilotStudio_Playground)
+> Aggiornato: 2026-10-23 | Versione live: **v1.0.0.78** (ambiente: CopilotStudio_Playground)
 
 ---
 
@@ -26,10 +26,22 @@
 - Esiti gestiti: `annullato` / `non_trovato` / `fuori_orario`
 - Pubblicazione tabella ordini aggiornata dopo annullamento riuscito
 
-### Fase 2c — Ordine per conto di terzi (validata 20/10/2026)
-- Topic `TopicOrdinaPerAltri`: chiede nome beneficiario e piatto, valida con `ValidaOrdine`, registra con `RegistraOrdine` passando il nome libero come chiave utente (fallback già presente nei flow, nessuna modifica ai flow), pubblica la tabella; gestione fuori menu con conferma Sì/No
-- Routing in `gpt.default` ("ORDINE PER CONTO DI ALTRI"); `TopicRaccoltaOrdini` invariato
-- Limiti: solo ordini (non annullamento per terzi); se il nome libero non coincide col display name Teams della persona nasce una riga separata
+### Fase 2c — Ordine e annullamento per conto di terzi (v1.0.0.74, in uso)
+- `TopicOrdinaPerAltri` **rimosso**: il soggetto è riconosciuto da un prompt AI Builder (`PromptRiconosciSoggetto`, input `UserRequest`, output `ME` oppure il nome) invocato dentro `TopicRaccoltaOrdini` e `TopicAnnullaOrdine`
+- Il nome ottenuto valorizza `Topic.UtenteUPN`; i flow `RegistraOrdine` e `AnnullaOrdine` risolvono il nome via O365 con fallback sul testo libero (nessuna modifica ai flow)
+- Limiti: se il nome libero non coincide col display name Teams nasce una riga separata e l'annullamento non la trova
+
+### Fase 2d — Riepilogo ordini su richiesta (v1.0.0.75-77)
+- Flow `ActionRiepilogoOrdini` + `TopicRiepilogaOrdini` (creato da UI per generare l'associazione topic↔flow): quantità per piatto e totale, sola consultazione, nessun vincolo orario
+
+### Fase 1b — Menu su richiesta (v1.0.0.78)
+- Flow `ActionMostraMenu` (trigger agente, senza blocco weekend) + `TopicMostraMenu`: mostra il menu di oggi con la stessa numerazione del menu delle 10:00; messaggio ⚠️ se non disponibile
+- Regola MOSTRA MENU in `gpt.default`; se il messaggio contiene un piatto resta `TopicRaccoltaOrdini`
+- Sostituisce le Opzioni A/B analizzate in precedenza (flow dedicato, senza duplicare la logica nel flow schedulato)
+
+### Fase 1c — Come funziona (v1.0.0.77)
+- `TopicComeFunziona` su richiesta ("come funziona", "aiuto") e messaggio automatico `ℹ️ COME FUNZIONA — La Flaca` dopo il menu (azione `Invia_Istruzioni_Su_Teams` in `ActionInvioMenuTeams`), ignorato dal bot tramite guardia in `gpt.default`
+- Riscritte le descrizioni di tutti i topic e flow; `CancelAllDialogs` in coda ai topic
 
 ### Fase 3 — Chiusura ordini (validata 20/10/2026)
 - Flow `ActionChiusuraOrdini` + `ActionTriggerChiusuraOrdini` (Recurrence 13:00, tutti i giorni) + topic `TopicChiusuraOrdini`
@@ -38,7 +50,7 @@
 
 ### Architettura Copilot Studio
 - Recognizer bot-level: `GenerativeAIRecognizer` + `GenerativeActionsEnabled: true` (entrambi attivi contemporaneamente)
-- Routing basato su istruzioni esplicite in `gpt.default` verso i topic dedicati (`TopicRaccoltaOrdini`, `TopicAnnullaOrdine`, `TopicResetMenuGiornaliero`)
+- Routing basato su istruzioni esplicite in `gpt.default` verso i topic dedicati (`TopicRaccoltaOrdini`, `TopicAnnullaOrdine`, `TopicRiepilogaOrdini`, `TopicMostraMenu`, `TopicComeFunziona`, `TopicResetMenuGiornaliero`)
 - **Eccezione documentata**: `ActionInvioMenuTeams` non passa più dall'agente (vedi Fase 1) — per evitare che il messaggio menu (contenente nomi di piatti) venga reinterpretato come input utente e causi un loop, il messaggio è prefissato dal marcatore `🍽️ MENU DEL GIORNO — La Flaca` e `gpt.default` istruisce l'orchestratore a ignorarlo completamente se ricevuto in ingresso
 - Topic `TopicInvioMenuTeams` e flow `ActionTriggerInvioMenu` rimossi dal CRM (non più necessari col nuovo pattern)
 
@@ -52,14 +64,13 @@
 
 ## ⏳ Cosa manca ancora
 
-### Fase 1b — Richiesta menu su richiesta utente (TODO)
-- [ ] Quando l'utente chiede il menu, GPT deve triggerare il flusso di invio menu su Teams. Analisi fatta (20/10/2026): `ActionInvioMenuTeams` ha solo trigger `Recurrence` (non invocabile da topic, un flow ha un solo trigger) e termina nel weekend; `TopicInvioMenuTeams` non esiste più; in `gpt.default` c'è solo lo starter `INVIA_MENU_TEAMS` senza regola di routing
-- [ ] **Opzione A (consigliata)**: nuovo flow `ActionInvioMenuTeamsManuale` (copia con trigger agente, senza guardia weekend) + nuovo `TopicMenuGiornaliero` (conferma "✅ Menu inviato nel gruppo") + regola di routing in `gpt.default`. Flow schedulato invariato; svantaggio: logica menu duplicata
-- [ ] Opzione B: flow unico col trigger agente + scheduler sottile che lo chiama come child flow (nessuna duplicazione, ma compatibilità trigger agente/child flow da verificare e rischio sul menu delle 10:00)
-- [ ] Decisioni da prendere: A o B; richiesta manuale valida anche nel weekend; richiesta manuale accettata anche fuori dalla finestra 10:00-13:00 o rifiutata come "ordini chiusi"
+### Da testare in Teams (v1.0.0.78)
+- [ ] `TopicMostraMenu` ("menu", "cosa c'è oggi"): numeri coerenti col menu delle 10:00, "8" o "Carbonara" resta un ordine
+- [ ] Prompt soggetto: ordine/annullamento per sé e per un collega taggato (non testato a runtime in modo sistematico)
+- [ ] `TopicComeFunziona` e riepilogo funzionano (confermati dall'utente il 23/10)
 
-### Fase 2b — Annullamento per conto di terzi
-- [ ] Valutare `TopicAnnullaPerAltri` (stesso approccio: nome libero come chiave utente)
+### Pulizia
+- [ ] Componente `action.SLCE-FlacaAgentRiepilogoOrdini` inutilizzato ancora nel CRM e nel repo (richiede bump + import)
 
 ### Fase 4 — Invio ordine WhatsApp
 - [ ] Definire connettore WhatsApp (Business API o alternativa)
@@ -76,8 +87,8 @@
 ## 🚧 Blocchi / Decisioni aperte
 
 - **WhatsApp connector**: da decidere quale servizio usare (Business API, Twilio, altro)
-- **Richiesta menu da GPT**: scegliere Opzione A o B (vedi Fase 1b)
-- **Trigger chiusura nel weekend**: gira tutti i giorni (nessun blocco weekend, a differenza del menu); lasciato così per ora
+- **Trigger chiusura nel weekend**: il flow `ActionTriggerChiusuraOrdini` salta il weekend (lun-ven alle 13:00)
+- **Limite flow**: lettura massima di 200 ordini
 
 ---
 
@@ -89,4 +100,6 @@
 - **Mapping campi botcomponent**: `modelDescription` (AI routing) ≠ `description` (UI) ≠ `<description>` in XML
 - **`ExecuteCopilot` da Power Automate ≠ canale Teams**: una conversazione avviata da flow esterno tramite il connettore Copilot Studio è isolata/effimera e **non recapita automaticamente** i messaggi del topic nel canale Teams reale. Per flow schedulati che devono pubblicare su un canale Teams fisso, il pattern corretto è il post diretto (`shared_teams`), non l'invocazione dell'agente
 - **Rischio loop con post diretto su Teams**: qualunque messaggio postato da un flow con `shared_teams` viene ri-letto dal bot come nuovo input. Se il contenuto assomiglia a un ordine (contiene nomi di piatti, come il menu), va protetto con un marcatore riconoscibile e una guardia esplicita nelle istruzioni GPT che lo ignori
+- **Topic che invoca un flow**: serve la riga in `Assets/botcomponent_workflowset.xml` (senza, `CloudFlow NotFound`); un nuovo flow richiede JSON, `.json.data.xml` e `RootComponent type="29"` in `Solution.xml`
+- **Profilo pac**: verificare con `pac auth list` prima di ogni import (può passare a un altro ambiente)
 - **Recurrence + import**: i flow con trigger `Recurrence` vengono talvolta importati disattivati — verificare sempre lo stato ON dopo l'import

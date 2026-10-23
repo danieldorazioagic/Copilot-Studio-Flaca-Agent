@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{22f1a345-187a-4a55-86fc-30fd4dea33f6}" Name="SL CE - Flaca Agent | ActionTriggerChiusuraOrdini" Description="Create a trigger to automatically call your copilot repeatedly" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{22f1a345-187a-4a55-86fc-30fd4dea33f6}" Name="SL CE - Flaca Agent | ActionTriggerChiusuraOrdini" Description="Trigger schedulato alle 13:00, dal lunedì al venerdì (Europe/Rome): invoca l'agente con il comando CHIUDI_ORDINI_GIORNALIERI per chiudere gli ordini e pubblicare il riepilogo." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <JsonFileName>/Workflows/SLCE-FlacaAgentActionTriggerChiusuraOrdini-22F1A345-187A-4A55-86FC-30FD4DEA33F6.json</JsonFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
@@ -24,6 +24,6 @@
     <LocalizedName languagecode="1040" description="SL CE - Flaca Agent | ActionTriggerChiusuraOrdini" />
   </LocalizedNames>
   <Descriptions>
-    <Description languagecode="1040" description="Create a trigger to automatically call your copilot repeatedly" />
+    <Description languagecode="1040" description="Trigger schedulato alle 13:00, dal lunedì al venerdì (Europe/Rome): invoca l'agente con il comando CHIUDI_ORDINI_GIORNALIERI per chiudere gli ordini e pubblicare il riepilogo." />
   </Descriptions>
 </Workflow>

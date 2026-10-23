@@ -1,5 +1,38 @@
 # CHANGELOG — SL CE - Flaca Agent
 
+## [1.0.0.78] - 2026-10-23
+### Modifiche
+- Nuovo flow `ActionMostraMenu`: legge il menu di oggi da FlacaMenu per categoria (stessa numerazione del menu delle 10:00) e restituisce `esito` (ok / non_disponibile) e `menu`
+- Nuovo `TopicMostraMenu`: mostra il menu su richiesta, con messaggio ⚠️ se non disponibile; `CancelAllDialogs` finale
+- `gpt.default`: regola MOSTRA MENU (se il messaggio contiene un piatto da ordinare resta RaccoltaOrdini)
+- `botcomponent_workflowset.xml`: associazione topic↔flow per MostraMenu
+
+## [1.0.0.77] - 2026-10-23
+### Modifiche
+- Riscritte le descrizioni di topic e flow (11 flow, trigger inclusi); aggiunto `modelDescription` a RaccoltaOrdini e AnnullaOrdine
+- Nuovo `TopicComeFunziona` (spiegazione del funzionamento dell'agente) con `CancelAllDialogs` finale
+- `ActionInvioMenuTeams`: nuova azione `Invia_Istruzioni_Su_Teams` dopo il menu delle 10:00
+- `gpt.default`: regola COME FUNZIONA, marcatore "ℹ️ COME FUNZIONA" ignorato, riferimento corretto a `TopicRiepilogaOrdini`
+- `TopicRiepilogaOrdini`: `EndConversation` sostituito da `CancelAllDialogs`
+
+## [1.0.0.76] - 2026-10-23
+### Modifiche
+- Fix `TopicRiepilogoOrdini`: aggiunto il componente `action.SLCE-FlacaAgentRiepilogoOrdini` che registra il flow `ActionRiepilogoOrdini` sull'agente (errore `InvalidReferenceError` / CloudFlow NotFound)
+
+## [1.0.0.75] - 2026-10-23
+### Modifiche
+- Nuovo flow `ActionRiepilogoOrdini`: aggrega gli ordini di oggi per piatto (quantità per piatto + totale), sola consultazione, senza cambio di stato né vincolo orario
+- Nuovo `TopicRiepilogoOrdini` (routing in `gpt.default`, regola "RIEPILOGO ORDINI"; esclusa la chiusura ordini)
+- Aggiunto nodo "Termina tutti gli argomenti" (`CancelAllDialogs`) a `TopicRiepilogoOrdini` e `TopicChiusuraOrdini`
+- Sync repo da CRM: prompt `PromptRiconosciSogetto` riscritto (input `UserRequest`) e nodi prompt allineati nei topic `RaccoltaOrdini`/`AnnullaOrdine`
+
+## [1.0.0.74] - 2026-10-23
+### Modifiche
+- Nuovo prompt AI Builder `PromptRiconosciSogetto` (gpt-4.1-mini): restituisce `ME` oppure il nome della persona taggata
+- `TopicRaccoltaOrdini` e `TopicAnnullaOrdine`: nodo prompt che, per ordini/annullamenti per conto di altri, valorizza `Topic.UtenteUPN` con il nome del soggetto
+- Rimosso `TopicOrdinaPerAltri` dal repo (da eliminare manualmente nel CRM) e relativa regola da `gpt.default`; ordini/annullamenti per altri instradati ai topic standard
+- Sync repo da CRM (aggiornamenti minori a `ActionRegistraOrdine`, `ActionAnnullaOrdine`)
+
 ## [1.0.0.73] - 2026-10-20
 ### Modifiche
 - Importata sul Playground (`SLCEFlacaAgent_1_0_0_73.zip`) la sync CRM del 2026-10-20 (di seguito)

@@ -1,0 +1,41 @@
+kind: AdaptiveDialog
+modelDescription: Qualsiasi messaggio chieda di vedere il menu del giorno, i piatti disponibili o cosa c'è oggi da mangiare (es. "menu", "mostrami il menu", "cosa c'è oggi", "che piatti ci sono"), senza indicare un piatto da ordinare
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent: {}
+  actions:
+    - kind: InvokeFlowAction
+      id: invokeFlowMostraMenu
+      input: {}
+      output:
+        binding:
+          esito: Topic.esito
+          menu: Topic.menu
+
+      flowId: f39522a4-9512-4fae-bd76-34212b6b38b6
+
+    - kind: ConditionGroup
+      id: checkMenuDisponibile
+      conditions:
+        - id: menuOk
+          condition: =Topic.esito = "ok"
+          actions:
+            - kind: SendActivity
+              id: sendMenu
+              activity: |-
+                🍽️ Menu di oggi — La Flaca
+
+                {Topic.menu}
+                Per ordinare menziona @FlacaAgent con il numero o il nome del piatto 📝 Es: *@FlacaAgent 8* oppure *@FlacaAgent Carbonara*
+
+      elseActions:
+        - kind: SendActivity
+          id: sendMenuNonDisponibile
+          activity: ⚠️ Il menu di oggi non è ancora disponibile. Riprova più tardi.
+
+    - kind: CancelAllDialogs
+      id: cancelAllMostraMenu
+
+inputType: {}
+outputType: {}

@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.MostraMenu">
+  <componenttype>9</componenttype>
+  <description>Mostra su richiesta il menu del giorno (piatti per categoria con numerazione progressiva, la stessa usata per ordinare). Usa il flusso MostraMenu. Sola consultazione: non registra ordini. Se il menu di oggi non è ancora disponibile lo comunica.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>SL CE - Flaca Agent | TopicMostraMenu</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

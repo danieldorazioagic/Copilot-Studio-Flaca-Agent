@@ -27,5 +27,8 @@ beginDialog:
       id: msgRiepilogo
       activity: "{Topic.Riepilogo}"
 
+    - kind: CancelAllDialogs
+      id: cancelAllChiusura
+
 inputType: {}
 outputType: {}

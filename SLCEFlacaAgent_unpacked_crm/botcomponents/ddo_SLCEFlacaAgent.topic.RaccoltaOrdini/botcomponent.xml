@@ -1,6 +1,6 @@
 <botcomponent schemaname="ddo_SLCEFlacaAgent.topic.RaccoltaOrdini">
   <componenttype>9</componenttype>
-  <description>Topic principale di raccolta ordini: riconosce l'intenzione di ordinare, identifica utente Teams, valida il piatto tramite il flusso ValidaOrdine e registra/aggiorna l'ordine tramite il flusso RegistraOrdine. Dopo ogni registrazione/aggiornamento riuscito, pubblica su Teams la tabella aggiornata degli ordini tramite PubblicaTabellaOrdini. Unico punto di ingresso per gli ordini: i flow non sono esposti come tool autonomi all'orchestratore.</description>
+  <description>Registra o aggiorna l'ordine di un utente, o di un collega taggato. Riconosce per chi è l'ordine con il prompt PromptRiconosciSogetto, valida il piatto (numero o nome) con il flusso ValidaOrdine e lo registra con RegistraOrdine dalle 10:00 alle 13:00 senza duplicati. Se il piatto non è nel menu chiede conferma Sì/No per l'ordine fuori menu. Dopo ogni operazione riuscita pubblica la tabella ordini aggiornata.</description>
   <iscustomizable>0</iscustomizable>
   <name>SL CE - Flaca Agent | TopicRaccoltaOrdini</name>
   <parentbotid>

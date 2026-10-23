@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentRiepilogoOrdini">
+  <componenttype>9</componenttype>
+  <description>Riepilogo ordini di oggi raggruppati per piatto, con quantita per piatto e totale. Sola consultazione. Nessun input richiesto.</description>
+  <iscustomizable>0</iscustomizable>
+  <name>SL CE - Flaca Agent | ActionRiepilogoOrdini</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

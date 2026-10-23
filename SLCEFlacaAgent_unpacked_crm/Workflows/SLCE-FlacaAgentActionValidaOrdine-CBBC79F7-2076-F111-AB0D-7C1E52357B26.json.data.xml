@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{cbbc79f7-2076-f111-ab0d-7c1e52357b26}" Name="SL CE - Flaca Agent | ActionValidaOrdine" Description="When an agent calls the flow and send back a response." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{cbbc79f7-2076-f111-ab0d-7c1e52357b26}" Name="SL CE - Flaca Agent | ActionValidaOrdine" Description="Valida il testo dell'ordine contro il menu di oggi: estrae il numero, cerca per Indice e poi per titolo. Restituisce nome e numero del piatto, vuoti se non trovato." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <JsonFileName>/Workflows/SLCE-FlacaAgentActionValidaOrdine-CBBC79F7-2076-F111-AB0D-7C1E52357B26.json</JsonFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
@@ -25,6 +25,6 @@
     <LocalizedName languagecode="1040" description="SL CE - Flaca Agent | ActionValidaOrdine" />
   </LocalizedNames>
   <Descriptions>
-    <Description languagecode="1040" description="When an agent calls the flow and send back a response." />
+    <Description languagecode="1040" description="Valida il testo dell'ordine contro il menu di oggi: estrae il numero, cerca per Indice e poi per titolo. Restituisce nome e numero del piatto, vuoti se non trovato." />
   </Descriptions>
 </Workflow>

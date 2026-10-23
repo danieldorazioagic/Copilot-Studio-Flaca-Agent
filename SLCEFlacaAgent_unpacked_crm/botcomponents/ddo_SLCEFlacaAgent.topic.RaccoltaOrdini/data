@@ -1,4 +1,5 @@
 kind: AdaptiveDialog
+modelDescription: Usalo quando l'utente vuole ordinare un piatto (per nome o numero), anche per conto di un collega taggato, o modificare il proprio ordine di oggi.
 beginDialog:
   kind: OnRecognizedIntent
   id: main
@@ -45,6 +46,34 @@ beginDialog:
             - kind: EndDialog
               id: endDialogRispostaConferma
               clearTopicQueue: true
+
+    - kind: InvokeAIBuilderModelAction
+      id: promptRiconosciSoggetto
+      input:
+        binding:
+          UserRequest: =Topic.InputOrdine
+
+      output:
+        binding:
+          predictionOutput: Topic.SoggettoOutput
+
+      aIModelId: 4c135db1-daab-472b-8f7f-c9f4d02b3975
+
+    - kind: SetVariable
+      id: setSoggetto
+      variable: Topic.Soggetto
+      value: =Trim(Topic.SoggettoOutput.text)
+
+    - kind: ConditionGroup
+      id: checkSoggettoAltri
+      conditions:
+        - id: ordinePerAltri
+          condition: =!IsBlank(Topic.Soggetto) And Upper(Topic.Soggetto) <> "ME"
+          actions:
+            - kind: SetVariable
+              id: setUPNAltri
+              variable: Topic.UtenteUPN
+              value: =Topic.Soggetto
 
     - kind: InvokeFlowAction
       id: invokeFlowAction_Ivu6ym

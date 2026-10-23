@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{7d5a1c9e-3b24-4f6a-9c18-a2e4b6d80f13}" Name="SL CE - Flaca Agent | ActionRiepilogoOrdini" Description="Riepilogo su richiesta: legge gli ordini di oggi, li raggruppa per piatto e restituisce quantità per piatto e totale. Sola consultazione, senza cambio di stato né vincoli orari." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <JsonFileName>/Workflows/SLCE-FlacaAgentActionRiepilogoOrdini-7D5A1C9E-3B24-4F6A-9C18-A2E4B6D80F13.json</JsonFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>5</Category>
+  <Mode>0</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ModernFlowType>1</ModernFlowType>
+  <PrimaryEntity>none</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1040" description="SL CE - Flaca Agent | ActionRiepilogoOrdini" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1040" description="Riepilogo su richiesta: legge gli ordini di oggi, li raggruppa per piatto e restituisce quantità per piatto e totale. Sola consultazione, senza cambio di stato né vincoli orari." />
+  </Descriptions>
+</Workflow>

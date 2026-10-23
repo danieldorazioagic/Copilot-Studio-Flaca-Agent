@@ -1,0 +1,11 @@
+<botcomponent schemaname="ddo_SLCEFlacaAgent.topic.ComeFunziona">
+  <componenttype>9</componenttype>
+  <description>Spiega il funzionamento dell'agente: orari (ordini dalle 10:00 alle 13:00), come ordinare, modificare e annullare, come ordinare per un collega con il tag, riepilogo e chiusura. Sola informazione, nessun flusso invocato. Il testo coincide con il messaggio di istruzioni pubblicato dopo il menu delle 10:00.</description>
+  <iscustomizable>1</iscustomizable>
+  <name>SL CE - Flaca Agent | TopicComeFunziona</name>
+  <parentbotid>
+    <schemaname>ddo_SLCEFlacaAgent</schemaname>
+  </parentbotid>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+</botcomponent>

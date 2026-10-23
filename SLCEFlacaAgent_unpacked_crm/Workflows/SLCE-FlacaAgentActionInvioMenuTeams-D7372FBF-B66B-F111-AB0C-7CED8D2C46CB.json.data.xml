@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{d7372fbf-b66b-f111-ab0c-7ced8d2c46cb}" Name="SL CE - Flaca Agent | ActionInvioMenuTeams " Description="When an agent calls the flow and send back a response." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Workflow WorkflowId="{d7372fbf-b66b-f111-ab0c-7ced8d2c46cb}" Name="SL CE - Flaca Agent | ActionInvioMenuTeams " Description="Schedulato alle 10:00, dal lunedì al venerdì (Europe/Rome). Compone il menu del giorno da FlacaMenu per categoria e lo pubblica nel gruppo Teams, seguito dal messaggio Come funziona con le istruzioni." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <JsonFileName>/Workflows/SLCE-FlacaAgentActionInvioMenuTeams-D7372FBF-B66B-F111-AB0C-7CED8D2C46CB.json</JsonFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
@@ -25,6 +25,6 @@
     <LocalizedName languagecode="1040" description="SL CE - Flaca Agent | ActionInvioMenuTeams " />
   </LocalizedNames>
   <Descriptions>
-    <Description languagecode="1040" description="When an agent calls the flow and send back a response." />
+    <Description languagecode="1040" description="Schedulato alle 10:00, dal lunedì al venerdì (Europe/Rome). Compone il menu del giorno da FlacaMenu per categoria e lo pubblica nel gruppo Teams, seguito dal messaggio Come funziona con le istruzioni." />
   </Descriptions>
 </Workflow>

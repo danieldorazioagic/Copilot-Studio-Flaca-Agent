@@ -11,6 +11,54 @@
   <optionsets />
   <CustomControls />
   <EntityDataProviders />
+  <AIModels>
+    <AIModel>
+      <msdyn_aimodelid>{4c135db1-daab-472b-8f7f-c9f4d02b3975}</msdyn_aimodelid>
+      <msdyn_name>SL CE - Flaca Agent | PromptRiconosciSogetto</msdyn_name>
+      <msdyn_templateid>{edfdb190-3791-45d8-9a6c-8f90a37c278a}</msdyn_templateid>
+      <statecode>1</statecode>
+      <statuscode>1</statuscode>
+      <IsCustomizable>1</IsCustomizable>
+      <msdyn_activerunconfigurationid>{88c54a4b-f737-4e8e-a3a4-fa6bcf190f77}</msdyn_activerunconfigurationid>
+      <AIConfigurations>
+        <AIConfiguration>
+          <msdyn_aiconfigurationid>{88c54a4b-f737-4e8e-a3a4-fa6bcf190f77}</msdyn_aiconfigurationid>
+          <msdyn_customconfiguration>{"version":"GptDynamicPrompt-2","prompt":[{"type":"literal","text":"Sei un classificatore. Ricevi il messaggio di un utente in Microsoft Teams relativo a un ordine di piatti o all'annullamento di un ordine. Devi capire per CHI e' la richiesta .\n\nINPUT\nMessaggio utente:   "},{"type":"inputVariable","id":"UserRequest"},{"type":"literal","text":" \n\nRegole:\n- Se il messaggio contiene la menzione (tag Teams, es. &lt;at&gt;Mario Rossi&lt;/at&gt;) di un'altra persona, o un nome proprio indicato come beneficiario, restituisci SOLO il nome e cognome della persona, senza tag e senza punteggiatura.\n- Se non c'e' nessun beneficiario, oppure la richiesta e' per chi scrive (es. 'io prendo...', 'annulla il mio ordine', solo il nome del piatto), restituisci SOLO: ME\n- Non restituire mai altro testo, spiegazioni, virgolette o il nome del piatto.\n\nEsempi:\n'&lt;at&gt;Marco Bianchi&lt;/at&gt; prende la cotoletta' -&gt; Marco Bianchi\n'ordina pasta al pomodoro per &lt;at&gt;Anna Verdi&lt;/at&gt;' -&gt; Anna Verdi\n'annulla l'ordine di &lt;at&gt;Marco Bianchi&lt;/at&gt;' -&gt; Marco Bianchi\n'Pasta al pomodoro' -&gt; ME\n'annulla il mio ordine' -&gt; ME"}],"definitions":{"inputs":[{"id":"UserRequest","text":"UserRequest","type":"text"}],"formulas":[],"data":[],"output":{"formats":["text"]}},"modelParameters":{"modelType":"gpt-41-mini","gptParameters":{"temperature":0}},"settings":{"recordRetrievalLimit":30,"shouldPreserveRecordLinks":null,"runtime":null},"code":"","signature":""}</msdyn_customconfiguration>
+          <msdyn_majoriterationnumber>4</msdyn_majoriterationnumber>
+          <msdyn_minoriterationnumber>0</msdyn_minoriterationnumber>
+          <msdyn_name>4c135db1-daab-472b-8f7f-c9f4d02b3975_10/23/2026 9:49:59 AM</msdyn_name>
+          <msdyn_modelrundataspecification>H4sIAAAAAAAACpWQvQ6CQBCEX8VsfY2JsaDDHxIbSQDtT1n0Erg7b/cSCeHdBdFIxMZ6Zr+Z2QZSi+fIuEryER0poyGYC9hp6zkxhreaFdcQNLBRZEtZ72WFEAAICJmdOnlG6uUDoUvw5pF46h6LAmLLXY4sIShkSSggq23vSjuevkArQOa5GjxroxnvP5DhxDIGs/Mf7koSLhdvetvxY8//7vvdIhuCJwMKpRVdE5TUP/T7Knqqs5c8Oe8qPgD5dnNrmAEAAA==</msdyn_modelrundataspecification>
+          <msdyn_type>190690001</msdyn_type>
+          <msdyn_aimodelid>{4c135db1-daab-472b-8f7f-c9f4d02b3975}</msdyn_aimodelid>
+          <msdyn_trainedmodelaiconfigurationpareid>{6c8ca51c-c2ce-f111-a05a-7c1e52357019}</msdyn_trainedmodelaiconfigurationpareid>
+          <statecode>2</statecode>
+          <statuscode>7</statuscode>
+          <IsCustomizable>1</IsCustomizable>
+          <msdyn_templateversion>1</msdyn_templateversion>
+        </AIConfiguration>
+        <AIConfiguration>
+          <msdyn_aiconfigurationid>{6c8ca51c-c2ce-f111-a05a-7c1e52357019}</msdyn_aiconfigurationid>
+          <msdyn_majoriterationnumber>1</msdyn_majoriterationnumber>
+          <msdyn_minoriterationnumber>0</msdyn_minoriterationnumber>
+          <msdyn_modeldata>e8b6cfef-f7ac-4665-b335-8609f8e18dec</msdyn_modeldata>
+          <msdyn_name>4c135db1-daab-472b-8f7f-c9f4d02b3975_Training_10/23/2026 9:14:18 AM</msdyn_name>
+          <msdyn_modelrundataspecification>
+        {
+          "schemaVersion": 2,
+          "input": {},
+          "output": {}
+        }
+      </msdyn_modelrundataspecification>
+          <msdyn_type>190690000</msdyn_type>
+          <msdyn_aimodelid>{4c135db1-daab-472b-8f7f-c9f4d02b3975}</msdyn_aimodelid>
+          <statecode>2</statecode>
+          <statuscode>6</statuscode>
+          <IsCustomizable>1</IsCustomizable>
+          <msdyn_templateversion>1</msdyn_templateversion>
+        </AIConfiguration>
+      </AIConfigurations>
+    </AIModel>
+  </AIModels>
   <connectionreferences>
     <connectionreference connectionreferencelogicalname="ddo_shared_office365users">
       <connectionreferencedisplayname>shared_office365users</connectionreferencedisplayname>

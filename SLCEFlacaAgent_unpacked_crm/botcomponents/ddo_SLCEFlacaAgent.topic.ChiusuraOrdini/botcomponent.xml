@@ -1,6 +1,6 @@
 <botcomponent schemaname="ddo_SLCEFlacaAgent.topic.ChiusuraOrdini">
   <componenttype>9</componenttype>
-  <description>Topic interno: si attiva quando riceve il comando CHIUDI_ORDINI_GIORNALIERI dal trigger schedulato. Invoca il flusso ChiusuraOrdini che aggrega gli ordini del giorno per piatto e pubblica il riepilogo su Teams per La Flaca.</description>
+  <description>Topic interno di chiusura ordini, attivato alle 13:00 dal trigger schedulato con il comando CHIUDI_ORDINI_GIORNALIERI. Invoca il flusso ChiusuraOrdini, poi pubblica il messaggio di chiusura e il riepilogo degli ordini aggregato per piatto. Non è richiamabile dagli utenti.</description>
   <iscustomizable>1</iscustomizable>
   <name>SL CE - Flaca Agent | TopicChiusuraOrdini</name>
   <parentbotid>

@@ -1,0 +1,11 @@
+<botcomponent_msdyn_aimodelset>
+  <botcomponent_msdyn_aimodel botcomponentid.schemaname="ddo_SLCEFlacaAgent.action.SLCE-FlacaAgentPromptRiconosciSogetto" msdyn_aimodelid.msdyn_aimodelid="4c135db1-daab-472b-8f7f-c9f4d02b3975">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_msdyn_aimodel>
+  <botcomponent_msdyn_aimodel botcomponentid.schemaname="ddo_SLCEFlacaAgent.topic.AnnullaOrdine" msdyn_aimodelid.msdyn_aimodelid="4c135db1-daab-472b-8f7f-c9f4d02b3975">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_msdyn_aimodel>
+  <botcomponent_msdyn_aimodel botcomponentid.schemaname="ddo_SLCEFlacaAgent.topic.RaccoltaOrdini" msdyn_aimodelid.msdyn_aimodelid="4c135db1-daab-472b-8f7f-c9f4d02b3975">
+    <iscustomizable>1</iscustomizable>
+  </botcomponent_msdyn_aimodel>
+</botcomponent_msdyn_aimodelset>
