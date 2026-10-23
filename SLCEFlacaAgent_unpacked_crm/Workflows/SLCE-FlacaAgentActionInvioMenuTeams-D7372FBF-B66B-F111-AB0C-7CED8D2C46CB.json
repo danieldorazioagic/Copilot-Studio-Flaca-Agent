@@ -201,7 +201,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Primi')?['Title']}\n"
+                    "value": "**@{variables('contatore')}.** @{items('Componi_Primi')?['Title']}\n\n"
                   }
                 }
               },
@@ -302,7 +302,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Secondi')?['Title']}\n"
+                    "value": "**@{variables('contatore')}.** @{items('Componi_Secondi')?['Title']}\n\n"
                   }
                 }
               },
@@ -403,7 +403,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Pizze')?['Title']}\n"
+                    "value": "**@{variables('contatore')}.** @{items('Componi_Pizze')?['Title']}\n\n"
                   }
                 }
               },
@@ -504,7 +504,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Insalate')?['Title']}\n"
+                    "value": "**@{variables('contatore')}.** @{items('Componi_Insalate')?['Title']}\n\n"
                   }
                 }
               },
@@ -605,7 +605,7 @@
                   "type": "AppendToStringVariable",
                   "inputs": {
                     "name": "messaggioMenu",
-                    "value": "@{variables('contatore')}. @{items('Componi_Burger')?['Title']}\n"
+                    "value": "**@{variables('contatore')}.** @{items('Componi_Burger')?['Title']}\n\n"
                   }
                 }
               },

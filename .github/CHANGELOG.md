@@ -1,5 +1,17 @@
 # CHANGELOG — SL CE - Flaca Agent
 
+## [1.0.0.81] - 2026-10-23
+### Modifiche
+- `topic.Escalate`: nuovo messaggio personalizzato con il nome dell'utente (`System.User.DisplayName`), seguito dall'apertura di `TopicComeFunziona`
+
+## [1.0.0.80] - 2026-10-23
+### Modifiche
+- Menu (`ActionInvioMenuTeams`, `ActionMostraMenu`): a capo doppio dopo ogni piatto, perché senza sintassi di lista Markdown i piatti venivano uniti sulla stessa riga
+
+## [1.0.0.79] - 2026-10-23
+### Modifiche
+- Fix rendering da mobile (Teams): in `ActionInvioMenuTeams` e `ActionMostraMenu` il numero del piatto è in grassetto (`**8.** Titolo`) per evitare che le liste che non partono da 1 vengano mostrate una lettera per riga
+
 ## [1.0.0.78] - 2026-10-23
 ### Modifiche
 - Nuovo flow `ActionMostraMenu`: legge il menu di oggi da FlacaMenu per categoria (stessa numerazione del menu delle 10:00) e restituisce `esito` (ok / non_disponibile) e `menu`

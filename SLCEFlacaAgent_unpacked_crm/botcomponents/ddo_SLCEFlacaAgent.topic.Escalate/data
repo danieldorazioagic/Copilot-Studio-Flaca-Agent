@@ -88,7 +88,8 @@ beginDialog:
     - kind: SendActivity
       id: sendMessage_s39DCt
       conversationOutcome: Escalated
-      activity: |-
-        L'escalation a un rappresentante non è attualmente configurata per questo copilota, tuttavia qui l'agente può fornire informazioni su come entrare in contatto con qualcuno in un altro modo.
+      activity: Te che stai cercando di rompere le scatole, proprio te {System.User.DisplayName}, se vuoi ordina sennò lascia stare.
 
-        C'è altro che posso fare per te?
+    - kind: BeginDialog
+      id: beginDialogComeFunziona
+      dialog: ddo_SLCEFlacaAgent.topic.ComeFunziona

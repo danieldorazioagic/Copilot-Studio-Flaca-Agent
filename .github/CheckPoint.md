@@ -1,6 +1,6 @@
 # CheckPoint — SL CE - Flaca Agent
 
-> Aggiornato: 2026-10-23 | Versione live: **v1.0.0.78** (ambiente: CopilotStudio_Playground)
+> Aggiornato: 2026-10-23 | Versione live: **v1.0.0.81** (ambiente: CopilotStudio_Playground)
 
 ---
 
@@ -43,6 +43,10 @@
 - `TopicComeFunziona` su richiesta ("come funziona", "aiuto") e messaggio automatico `ℹ️ COME FUNZIONA — La Flaca` dopo il menu (azione `Invia_Istruzioni_Su_Teams` in `ActionInvioMenuTeams`), ignorato dal bot tramite guardia in `gpt.default`
 - Riscritte le descrizioni di tutti i topic e flow; `CancelAllDialogs` in coda ai topic
 
+### Fix e messaggi (v1.0.0.79-81)
+- Menu (`ActionInvioMenuTeams`, `ActionMostraMenu`): numero in grassetto (`**8.** Titolo`) e a capo doppio dopo ogni piatto. Le liste Markdown non partenti da 1 da mobile venivano mostrate una lettera per riga; un solo a capo univa i piatti (verificato da desktop e telefono)
+- `topic.Escalate`: messaggio personalizzato con `System.User.DisplayName` e apertura di `TopicComeFunziona`. Attenzione: `Fallback` e `EndofConversation` richiamano `Escalate`, quindi lo stesso messaggio compare anche dopo input non compresi
+
 ### Fase 3 — Chiusura ordini (validata 20/10/2026)
 - Flow `ActionChiusuraOrdini` + `ActionTriggerChiusuraOrdini` (Recurrence 13:00, tutti i giorni) + topic `TopicChiusuraOrdini`
 - Finestra ordini **10:00-13:00** allineata in `ActionRegistraOrdine`, `ActionAnnullaOrdine`, messaggio menu e `gpt.default`
@@ -64,10 +68,10 @@
 
 ## ⏳ Cosa manca ancora
 
-### Da testare in Teams (v1.0.0.78)
-- [ ] `TopicMostraMenu` ("menu", "cosa c'è oggi"): numeri coerenti col menu delle 10:00, "8" o "Carbonara" resta un ordine
+### Da testare in Teams (v1.0.0.81)
+- [x] `TopicMostraMenu`, `TopicComeFunziona`, riepilogo, `Escalate` confermati dall'utente il 23/10
+- [ ] Numero 9 mancante nel menu (visto in uno screenshot): controllare `FlacaMenu`
 - [ ] Prompt soggetto: ordine/annullamento per sé e per un collega taggato (non testato a runtime in modo sistematico)
-- [ ] `TopicComeFunziona` e riepilogo funzionano (confermati dall'utente il 23/10)
 
 ### Pulizia
 - [ ] Componente `action.SLCE-FlacaAgentRiepilogoOrdini` inutilizzato ancora nel CRM e nel repo (richiede bump + import)
